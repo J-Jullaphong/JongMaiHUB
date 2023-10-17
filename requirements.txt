@@ -1,0 +1,5 @@
+# requirements
+Django >= 4.2, < 5.0
+python-decouple >=3.8
+djangorestframework
+psycopg2-binary
