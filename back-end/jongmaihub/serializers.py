@@ -13,3 +13,18 @@ class ServiceProviderSerializer(serializers.ModelSerializer):
             'closing_time',
         )
         model = ServiceProvider
+
+
+class ServiceSerializer(serializers.ModelSerializer):
+    """Serializer for Service model."""
+    class Meta:
+        fields = (
+            'name',
+            'service_provider',
+            'type',
+            'duration',
+            'price',
+        )
+        model = Service
+
+
