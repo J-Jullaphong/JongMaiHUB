@@ -47,3 +47,10 @@ class Appointment(models.Model):
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
     staff = models.ForeignKey(Staff, on_delete=models.CASCADE)
     date_time = models.DateTimeField()
+
+
+class Rating(models.Model):
+    """Rating Model represents the rating of the services, it shows the satisfaction of the customer."""
+    appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE,
+                                    primary_key=True)
+    rating = models.DecimalField(decimal_places=1, max_digits=2)
