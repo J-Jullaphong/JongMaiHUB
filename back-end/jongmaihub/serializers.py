@@ -66,3 +66,13 @@ class AppointmentSerializer(serializers.ModelSerializer):
             'date_time',
         )
         model = Appointment
+
+
+class RatingSerializer(serializers.ModelSerializer):
+    """Serializer for Rating model."""
+    class Meta:
+        fields = (
+            'appointment',
+            'rating',
+        )
+        model = Rating
