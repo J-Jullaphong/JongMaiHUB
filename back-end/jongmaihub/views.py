@@ -48,3 +48,15 @@ class DetailCustomer(generics.RetrieveUpdateDestroyAPIView):
     """DetailCustomer displays details of a Customer."""
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
+
+
+class ListAppointment(generics.ListCreateAPIView):
+    """ListAppointment displays a list of all Appointment."""
+    queryset = Appointment.objects.all()
+    serializer_class = AppointmentSerializer
+
+
+class DetailAppointment(generics.RetrieveUpdateDestroyAPIView):
+    """DetailAppointment displays details of an Appointment."""
+    queryset = Appointment.objects.all()
+    serializer_class = AppointmentSerializer
