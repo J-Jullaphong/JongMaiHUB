@@ -8,3 +8,13 @@ class ServiceProvider(models.Model):
     location = models.CharField(max_length=500)
     opening_time = models.TimeField()
     closing_time = models.TimeField()
+
+
+class Service(models.Model):
+    """Service Model represents the service for reservations."""
+    name = models.CharField(max_length=100)
+    service_provider = models.ForeignKey(ServiceProvider,
+                                         on_delete=models.CASCADE)
+    type = models.CharField(max_length=100)
+    duration = models.DurationField()
+    price = models.DecimalField(decimal_places=2, max_digits=10)
