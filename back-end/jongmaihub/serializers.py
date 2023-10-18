@@ -28,3 +28,19 @@ class ServiceSerializer(serializers.ModelSerializer):
         model = Service
 
 
+class StaffSerializer(serializers.ModelSerializer):
+    """Serializer for Staff model."""
+    class Meta:
+        fields = (
+            'uid',
+            'name',
+            'service_provider',
+            'service',
+            'specialty',
+            'background',
+            'start_work_time',
+            'get_off_work_time',
+        )
+        model = Staff
+
+
