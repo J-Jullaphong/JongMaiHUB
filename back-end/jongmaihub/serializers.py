@@ -54,3 +54,15 @@ class CustomerSerializer(serializers.ModelSerializer):
             'email',
         )
         model = Customer
+
+
+class AppointmentSerializer(serializers.ModelSerializer):
+    """Serializer for Appointment model."""
+    class Meta:
+        fields = (
+            'customer',
+            'service',
+            'staff',
+            'date_time',
+        )
+        model = Appointment
