@@ -60,3 +60,15 @@ class DetailAppointment(generics.RetrieveUpdateDestroyAPIView):
     """DetailAppointment displays details of an Appointment."""
     queryset = Appointment.objects.all()
     serializer_class = AppointmentSerializer
+
+
+class ListRating(generics.ListCreateAPIView):
+    """ListRating displays a list of all Rating."""
+    queryset = Rating.objects.all()
+    serializer_class = RatingSerializer
+
+
+class DetailRating(generics.RetrieveUpdateDestroyAPIView):
+    """DetailRating displays details of a Rating."""
+    queryset = Rating.objects.all()
+    serializer_class = RatingSerializer
