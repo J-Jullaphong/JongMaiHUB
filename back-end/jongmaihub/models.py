@@ -31,3 +31,11 @@ class Staff(models.Model):
     background = models.CharField(max_length=500)
     start_work_time = models.TimeField()
     get_off_work_time = models.TimeField()
+
+
+class Customer(models.Model):
+    """Customer Model represents the customers, containing basic information."""
+    uid = models.CharField(max_length=28, primary_key=True)
+    name = models.CharField(max_length=100)
+    phone_number = models.CharField(max_length=10)
+    email = models.CharField(max_length=100)
