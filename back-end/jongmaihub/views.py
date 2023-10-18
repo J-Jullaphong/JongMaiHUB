@@ -36,3 +36,15 @@ class DetailStaff(generics.RetrieveUpdateDestroyAPIView):
     """DetailStaff displays details of a Staff."""
     queryset = Staff.objects.all()
     serializer_class = StaffSerializer
+
+
+class ListCustomer(generics.ListCreateAPIView):
+    """ListCustomer displays a list of all Customer."""
+    queryset = Customer.objects.all()
+    serializer_class = CustomerSerializer
+
+
+class DetailCustomer(generics.RetrieveUpdateDestroyAPIView):
+    """DetailCustomer displays details of a Customer."""
+    queryset = Customer.objects.all()
+    serializer_class = CustomerSerializer
