@@ -24,3 +24,15 @@ class DetailService(generics.RetrieveUpdateDestroyAPIView):
     """DetailService displays details of a Service."""
     queryset = Service.objects.all()
     serializer_class = ServiceSerializer
+
+
+class ListStaff(generics.ListCreateAPIView):
+    """ListStaff displays a list of all Staff."""
+    queryset = Staff.objects.all()
+    serializer_class = StaffSerializer
+
+
+class DetailStaff(generics.RetrieveUpdateDestroyAPIView):
+    """DetailStaff displays details of a Staff."""
+    queryset = Staff.objects.all()
+    serializer_class = StaffSerializer
