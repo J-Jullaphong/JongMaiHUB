@@ -44,3 +44,13 @@ class StaffSerializer(serializers.ModelSerializer):
         model = Staff
 
 
+class CustomerSerializer(serializers.ModelSerializer):
+    """Serializer for Customer model."""
+    class Meta:
+        fields = (
+            'uid',
+            'name',
+            'phone_number',
+            'email',
+        )
+        model = Customer
