@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
+import HubScreen from "./components/HubScreen";
 import NavBar from "./components/NavBar";
 import LoginScreen from "./components/LoginScreen";
 import "firebase/compat/auth";
@@ -12,6 +13,7 @@ class App extends Component {
                 <header className="app-header">
                     <NavBar />
                     <Routes>
+                        <Route path="/" element={<HubScreen />} />
                         <Route path="/login" element={<LoginScreen />} />
                     </Routes>
                 </header>

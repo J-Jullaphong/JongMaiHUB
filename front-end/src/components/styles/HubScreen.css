@@ -1,0 +1,13 @@
+.group {
+    width: 100vw;
+    padding: 1vw 5vw;
+}
+
+.popular-carousel {
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+.popular-carousel img {
+    object-fit: cover;
+}
