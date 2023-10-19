@@ -160,7 +160,7 @@ cython_debug/
 .idea/
 
 # dependencies
-/node_modules
+front-end/node_modules/
 /.pnp
 .pnp.js
 
