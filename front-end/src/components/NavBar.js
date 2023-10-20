@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { Avatar, Navbar, Nav, AutoComplete, InputGroup } from "rsuite";
+import { Avatar, Navbar, Nav } from "rsuite";
 import HomeIcon from "@rsuite/icons/legacy/Home";
-import SearchIcon from "@rsuite/icons/Search";
+import SearchBar from "./SearchBar";
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 
@@ -20,22 +20,17 @@ class NavBar extends Component {
         );
     }
 
-    searchBar = (
-        <InputGroup inside style={{ width: "30vw" }}>
-            <AutoComplete />
-            <InputGroup.Addon>
-                <SearchIcon />
-            </InputGroup.Addon>
-        </InputGroup>
-    );
-
     render() {
         if (!this.state.isAuthenticated) {
             return (
                 <Navbar appearance="subtle">
                     <Nav>
                         <Nav.Item href="../../../">
-                            <img src="images/jongmaihub-logo.png" width="150" />
+                            <img
+                                src="images/jongmaihub-logo.png"
+                                alt="JongMaiHUB"
+                                width="150"
+                            />
                         </Nav.Item>
                         <Nav.Item icon={<HomeIcon />} href="../../../">
                             HUB
@@ -48,7 +43,9 @@ class NavBar extends Component {
                         </Nav.Menu>
                     </Nav>
                     <Nav pullRight>
-                        <Nav.Item>{this.searchBar}</Nav.Item>
+                        <Nav.Item>
+                            <SearchBar />
+                        </Nav.Item>
                         <Nav.Item
                             href="/login"
                             style={{
@@ -66,7 +63,11 @@ class NavBar extends Component {
             <Navbar appearance="subtle">
                 <Nav>
                     <Nav.Item>
-                        <img src="images/jongmaihub-logo.png" width="150" />
+                        <img
+                            src="images/jongmaihub-logo.png"
+                            alt="JongMaiHUB"
+                            width="150"
+                        />
                     </Nav.Item>
                     <Nav.Item icon={<HomeIcon />} href="../../../">
                         HUB
@@ -79,13 +80,15 @@ class NavBar extends Component {
                     </Nav.Menu>
                 </Nav>
                 <Nav pullRight>
-                    <Nav.Item>{this.searchBar}</Nav.Item>
+                    <Nav.Item>
+                        <SearchBar />
+                    </Nav.Item>
                     <Nav.Item>{this.state.user.displayName}</Nav.Item>
                     <Nav.Menu
                         icon={<Avatar circle src={this.state.user.photoURL} />}
                     >
                         <Nav.Item>
-                            <a onClick={() => firebase.auth().signOut()}>
+                            <a onClick={() => firebase.auth().signOut()} style={{textDecoration: "none", color: "#F26030"}}>
                                 Sign Out
                             </a>
                         </Nav.Item>
