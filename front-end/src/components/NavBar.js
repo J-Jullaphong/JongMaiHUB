@@ -50,7 +50,7 @@ class NavBar extends Component {
                         </Nav.Item>
                         <Nav.Item>
                             <a
-                                href="/search?type=beauty%20clinic"
+                                href="/search?type=beauty+clinic"
                                 style={categoriesButtonStyle}
                             >
                                 Beauty Clinic
