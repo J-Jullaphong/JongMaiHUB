@@ -1,29 +1,40 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { AutoComplete, InputGroup } from "rsuite";
 import SearchIcon from "@rsuite/icons/Search";
+import { useNavigate } from "react-router-dom";
 
-class SearchBar extends Component {
-    state = {
-        searchQuery: "",
+const SearchBar = () => {
+    const [searchQuery, setSearchQuery] = useState("");
+    const navigate = useNavigate();
+
+    const handleSearch = () => {
+        if (searchQuery !== "") {
+            navigate("/search?name=" + searchQuery);
+        }
     };
 
-    handleSearchChange = (value) => {
-        this.setState({ searchQuery: value });
+    const handleSearchQueryChange = (value) => {
+        setSearchQuery(value);
     };
 
-    render() {
-        return (
-            <InputGroup inside style={{ width: "30vw" }}>
-                <AutoComplete
-                    onChange={this.handleSearchChange}
-                    value={this.state.searchQuery}
-                />
-                <InputGroup.Button>
-                    <SearchIcon />
-                </InputGroup.Button>
-            </InputGroup>
-        );
-    }
-}
+    const handleKeyPress = (event) => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            handleSearch();
+        }
+    };
+
+    return (
+        <InputGroup inside style={{ width: "30vw" }} onKeyDown={handleKeyPress}>
+            <AutoComplete
+                onChange={handleSearchQueryChange}
+                value={searchQuery}
+            />
+            <InputGroup.Button onClick={handleSearch}>
+                <SearchIcon />
+            </InputGroup.Button>
+        </InputGroup>
+    );
+};
 
 export default SearchBar;
