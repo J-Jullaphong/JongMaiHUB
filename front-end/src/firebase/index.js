@@ -1,8 +1,7 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
-import firebaseConfig from './config'
+import firebaseConfig from "./config";
 
+firebase.initializeApp(firebaseConfig);
 
-firebase.initializeApp(firebaseConfig)
-
-export default firebase.auth()
+export default firebase.auth();

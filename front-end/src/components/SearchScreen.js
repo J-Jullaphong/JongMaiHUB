@@ -8,12 +8,11 @@ const SearchScreen = () => {
 
     if (!searchResult || searchResult.length === 0) {
         return (
-            <div style={{display: "flex"}}>
-                <div style={{width: "25%"}}>
-                <Filter />
+            <div style={{ display: "flex" }}>
+                <div style={{ width: "25%" }}>
+                    <Filter />
                 </div>
                 <h1>SearchQuery = {searchQuery.get("name")}</h1>
-                
             </div>
         );
     }

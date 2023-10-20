@@ -1,10 +1,11 @@
 import React, { Component } from "react";
+import { Routes, Route } from "react-router-dom";
 import "./App.css";
+import "firebase/compat/auth";
+
 import HubScreen from "./components/HubScreen";
 import NavBar from "./components/NavBar";
 import LoginScreen from "./components/LoginScreen";
-import "firebase/compat/auth";
-import { Routes, Route } from "react-router-dom";
 import SearchScreen from "./components/SearchScreen";
 
 class App extends Component {

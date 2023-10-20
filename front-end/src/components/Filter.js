@@ -33,7 +33,7 @@ const Filter = () => {
         const updateSearchParams = new URLSearchParams();
         var nameParam = prevSearchParams.get("name");
         if (nameParam) {
-            updateSearchParams.set("name", prevSearchParams.get("name")) 
+            updateSearchParams.set("name", prevSearchParams.get("name"));
         }
         updateSearchParams.set("type", type);
         updateSearchParams.set("maxPrice", maxPrice);
@@ -81,10 +81,12 @@ const Filter = () => {
                 style={{ width: "80%" }}
             />
             <Divider style={{ width: "80%" }} />
-            <Button onClick={handleApplyFilter} appearance="primary">Apply Filter</Button>
-            <br/>
+            <Button onClick={handleApplyFilter} appearance="primary">
+                Apply Filter
+            </Button>
+            <br />
             <Button onClick={handleClearFilter}>Clear Filter</Button>
-            <br/>
+            <br />
         </Container>
     );
 };
