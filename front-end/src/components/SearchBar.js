@@ -18,9 +18,9 @@ class SearchBar extends Component {
                     onChange={this.handleSearchChange}
                     value={this.state.searchQuery}
                 />
-                <InputGroup.Addon>
+                <InputGroup.Button>
                     <SearchIcon />
-                </InputGroup.Addon>
+                </InputGroup.Button>
             </InputGroup>
         );
     }
