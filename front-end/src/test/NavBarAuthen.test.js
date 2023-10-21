@@ -35,4 +35,5 @@ describe("Navbar when user is logged in", () => {
         fireEvent.click(screen.getByText(/testerName/i));
         expect(screen.getByText(/sign out/i)).toBeInTheDocument();
     });
+
 });
