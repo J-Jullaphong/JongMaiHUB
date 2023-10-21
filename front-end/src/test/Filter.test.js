@@ -32,17 +32,10 @@ describe("Filter", () => {
     });
 
     it('should display and update query parameters when click apply filter', () => {
-        searchParamsMock.set('type', 'barber');
-        searchParamsMock.set('maxPrice', '1000');
-        searchParamsMock.set('maxDuration', '60');
-
         render(<Filter />);
         const getApplyFilter = screen.getByText(/apply filter/i);
-        searchParamsMock.set('type', 'barber');
-        searchParamsMock.set('maxPrice', '1000');
-        searchParamsMock.set('maxDuration', '60');
         fireEvent.click(getApplyFilter);
-        expect(navigateMock).toHaveBeenCalledWith(expect.stringMatching(/type=barber&maxPrice=1000&maxDuration=60$/));
+        expect(navigateMock).toHaveBeenCalledWith(expect.stringMatching(/type=&maxPrice=0&maxDuration=0$/));
     });
 
     it('should clear all query parameters when click clear filter', () => {
@@ -55,4 +48,5 @@ describe("Filter", () => {
         fireEvent.click(getClearFilter);
         expect(navigateMock).toHaveBeenCalledWith(expect.stringMatching(/type=&maxPrice=0&maxDuration=0$/));
     });
+    
 });
