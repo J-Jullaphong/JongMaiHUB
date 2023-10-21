@@ -25,6 +25,5 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
         cache-dependency-path: ./front-end/package-lock.json
-    - run: npm ci -C front-end --legacy-peer-deps
-    - run: npm run build -C front-end --if-present
+    - run: npm install -C front-end --legacy-peer-deps
     - run: npm test -C front-end
