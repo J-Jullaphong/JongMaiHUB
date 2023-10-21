@@ -75,7 +75,7 @@ class NavBar extends Component {
                     </Nav.Menu>
                 </Nav>
                 <Nav pullRight>
-                    <Nav.Item>
+                    <Nav.Item title='SearchBar'>
                         <SearchBar />
                     </Nav.Item>
                     {this.state.isAuthenticated ? (
