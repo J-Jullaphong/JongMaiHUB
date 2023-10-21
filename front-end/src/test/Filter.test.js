@@ -19,18 +19,30 @@ describe("Filter", () => {
 
     it('should display type, price, duration, apply and clear filter', () => {
         render(<Filter />);
-        expect(screen.getByText(/type:/i)).toBeInTheDocument();
-        expect(screen.getByText(/price/i)).toBeInTheDocument();
-        expect(screen.getByText(/duration/i)).toBeInTheDocument();
-        expect(screen.getByText(/apply filter/i)).toBeInTheDocument();
-        expect(screen.getByText(/clear filter/i)).toBeInTheDocument();
+        const getType = screen.getByText(/type:/i)
+        const getPrice = screen.getByText(/price/i)
+        const getDuration = screen.getByText(/duration/i)
+        const getApplyFilter = screen.getByText(/apply filter/i)
+        const getClearFilter = screen.getByText(/clear filter/i)
+        expect(getType).toBeInTheDocument();
+        expect(getPrice).toBeInTheDocument();
+        expect(getDuration).toBeInTheDocument();
+        expect(getApplyFilter).toBeInTheDocument();
+        expect(getClearFilter).toBeInTheDocument();
     });
 
     it('should display and update query parameters when click apply filter', () => {
+        searchParamsMock.set('type', 'barber');
+        searchParamsMock.set('maxPrice', '1000');
+        searchParamsMock.set('maxDuration', '60');
+
         render(<Filter />);
-        const applyFilterButton = screen.getByText(/apply filter/i);
-        fireEvent.click(applyFilterButton);
-        expect(navigateMock).toHaveBeenCalledWith(expect.stringMatching(/type=&maxPrice=0&maxDuration=0$/));
+        const getApplyFilter = screen.getByText(/apply filter/i);
+        searchParamsMock.set('type', 'barber');
+        searchParamsMock.set('maxPrice', '1000');
+        searchParamsMock.set('maxDuration', '60');
+        fireEvent.click(getApplyFilter);
+        expect(navigateMock).toHaveBeenCalledWith(expect.stringMatching(/type=barber&maxPrice=1000&maxDuration=60$/));
     });
 
     it('should clear all query parameters when click clear filter', () => {
@@ -39,8 +51,8 @@ describe("Filter", () => {
         searchParamsMock.set('maxDuration', '60');
 
         render(<Filter />);
-        const clearFilterButton = screen.getByText(/clear filter/i);
-        fireEvent.click(clearFilterButton);
+        const getClearFilter = screen.getByText(/clear filter/i);
+        fireEvent.click(getClearFilter);
         expect(navigateMock).toHaveBeenCalledWith(expect.stringMatching(/type=&maxPrice=0&maxDuration=0$/));
     });
 });
