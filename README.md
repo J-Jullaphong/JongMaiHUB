@@ -1,4 +1,6 @@
 # JongMaiHUB
+[![JongMaiHUB CI](https://github.com/J-Jullaphong/JongMaiHUB/actions/workflows/jongmaihub-ci.yml/badge.svg)](https://github.com/J-Jullaphong/JongMaiHUB/actions/workflows/jongmaihub-ci.yml)
+
 JongMaiHUB is an online service reservation web application. It provides a platform where customers can easily make appointments for various services. It also allows service providers to create service venues and add their services alongside their staff. 
 
 ## Installation
