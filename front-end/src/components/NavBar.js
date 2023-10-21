@@ -75,15 +75,15 @@ class NavBar extends Component {
                     </Nav.Menu>
                 </Nav>
                 <Nav pullRight>
-                    <Nav.Item title='SearchBar'>
+                    <Nav.Item title='searchbar'>
                         <SearchBar />
                     </Nav.Item>
                     {this.state.isAuthenticated ? (
                         <>
-                            <Nav.Item>{this.state.user.displayName}</Nav.Item>
+                            <Nav.Item title='username'>{this.state.user.displayName}</Nav.Item>
                             <Nav.Menu
                                 icon={
-                                    <Avatar
+                                    <Avatar title='userprofile'
                                         circle
                                         src={this.state.user.photoURL}
                                     />
