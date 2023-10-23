@@ -8,6 +8,8 @@ class ServiceProvider(models.Model):
     location = models.CharField(max_length=500)
     opening_time = models.TimeField()
     closing_time = models.TimeField()
+    profile_picture = models.TextField(default=None)
+    cover_picture = models.TextField(default=None)
 
 
 class Service(models.Model):
@@ -18,6 +20,7 @@ class Service(models.Model):
     type = models.CharField(max_length=100)
     duration = models.DurationField()
     price = models.DecimalField(decimal_places=2, max_digits=10)
+    service_picture = models.TextField(default=None)
 
 
 class Staff(models.Model):
@@ -31,14 +34,15 @@ class Staff(models.Model):
     background = models.CharField(max_length=500)
     start_work_time = models.TimeField()
     get_off_work_time = models.TimeField()
+    profile_picture = models.TextField(default=None)
 
 
 class Customer(models.Model):
     """Customer Model represents the customers, containing basic information."""
     uid = models.CharField(max_length=28, primary_key=True)
     name = models.CharField(max_length=100)
-    phone_number = models.CharField(max_length=10)
-    email = models.CharField(max_length=100)
+    phone_number = models.CharField(max_length=10, blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
 
 
 class Appointment(models.Model):

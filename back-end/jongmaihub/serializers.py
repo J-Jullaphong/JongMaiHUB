@@ -11,6 +11,8 @@ class ServiceProviderSerializer(serializers.ModelSerializer):
             'location',
             'opening_time',
             'closing_time',
+            'profile_picture',
+            'cover_picture',
         )
         model = ServiceProvider
 
@@ -24,6 +26,7 @@ class ServiceSerializer(serializers.ModelSerializer):
             'type',
             'duration',
             'price',
+            'service_picture',
         )
         model = Service
 
@@ -40,6 +43,7 @@ class StaffSerializer(serializers.ModelSerializer):
             'background',
             'start_work_time',
             'get_off_work_time',
+            'profile_picture',
         )
         model = Staff
 
