@@ -2,9 +2,13 @@ import { Component } from "react";
 import axios from "axios";
 
 class DataFetcher extends Component {
-    async fetchData(type) {
+    state = {
+        api: "http://localhost:8000/api/",
+    };
+
+    async fetchData(type, key = "") {
         return await axios
-            .get(`http://localhost:8000/api/${type}`)
+            .get(`${this.state.api}${type}/${key}`)
             .then((response) => {
                 return response.data;
             })
@@ -14,63 +18,27 @@ class DataFetcher extends Component {
             });
     }
 
-    async getServiceProviderData() {
-        return this.fetchData("service-provider");
-    }
-
-    async getServiceData() {
-        return this.fetchData("service");
-    }
-
-    async getStaffData() {
-        return this.fetchData("staff");
-    }
-
-    async getCustomerData() {
-        return this.fetchData("customer");
-    }
-
-    async getAppointmentData() {
-        return this.fetchData("appointment");
-    }
-
-    async getRatingData() {
-        return this.fetchData("rating");
-    }
-
-    async getSpecificData(type, key) {
-        return await axios
-            .get(`http://localhost:8000/api/${type}/${key}`)
-            .then((response) => {
-                return response.data;
-            })
-            .catch((error) => {
-                console.log(error);
-                throw error;
-            });
-    }
-
-    async getSpecificServiceProviderData(key) {
+    async getServiceProviderData(key = "") {
         return this.fetchData("service-provider", key);
     }
 
-    async getSpecificServiceData(key) {
+    async getServiceData(key = "") {
         return this.fetchData("service", key);
     }
 
-    async getSpecificStaffData(key) {
+    async getStaffData(key = "") {
         return this.fetchData("staff", key);
     }
 
-    async getSpecificCustomerData(key) {
+    async getCustomerData(key = "") {
         return this.fetchData("customer", key);
     }
 
-    async getSpecificAppointmentData(key) {
+    async getAppointmentData(key = "") {
         return this.fetchData("appointment", key);
     }
 
-    async getSpecificRatingData(key) {
+    async getRatingData(key = "") {
         return this.fetchData("rating", key);
     }
 }
