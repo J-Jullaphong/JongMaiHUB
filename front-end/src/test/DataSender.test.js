@@ -9,11 +9,28 @@ describe("DataSender", () => {
 
         const dom = new JSDOM();
         global.document = dom.window.document;
-        const formData = document.createElement('form');
-        formData.append('key1', 'value1');
+        const formData = document.createElement("form");
+        formData.append("key1", "value1");
         const dataSender = new DataSender();
         const result = await dataSender.submitData("testType", formData, "testKey");
 
         expect(result).toEqual({ data: "mockSuccess" });
     });
+
+    it("should submit data unsuccessfully", async () => {
+        axios.post = jest.fn().mockRejectedValue(new Error("mockUnsuccess"));
+
+        const dom = new JSDOM();
+        global.document = dom.window.document;
+        const formData = document.createElement("form");
+        formData.append("key1", "value1");
+        const dataSender = new DataSender();
+
+        try {
+            await dataSender.submitData("testType", formData, "testKey");
+        } catch (error) {
+            expect(error.message).toEqual("mockUnsuccess");
+        }
+    });
 });
+
