@@ -11,4 +11,16 @@ describe("DataFetcher", () => {
 
         expect(result).toEqual("mockSuccess");
     });
+
+    it("should fetches data unsuccessfully", async () => {
+        axios.get = jest.fn().mockRejectedValue(new Error("mockUnsuccess"));
+
+        const dataFetcher = new DataFetcher();
+
+        try {
+            await dataFetcher.fetchData("testType", "testKey");
+        } catch (error) {
+            expect(error.message).toEqual("mockUnsuccess");
+        }
+    });
 });
