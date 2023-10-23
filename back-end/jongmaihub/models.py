@@ -42,7 +42,7 @@ class Customer(models.Model):
     uid = models.CharField(max_length=28, primary_key=True)
     name = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=10)
-    email = models.CharField(max_length=100)
+    email = models.EmailField()
 
 
 class Appointment(models.Model):
