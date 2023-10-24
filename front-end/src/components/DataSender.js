@@ -20,10 +20,10 @@ class DataSender extends Component {
     }
 
     async convertImagesInForm(eventTarget) {
-        const formDataClone = new FormData(eventTarget);
-        for (const [key, value] of formDataClone.entries()) {
+        const formData = new FormData(eventTarget);
+        for (const [key, value] of formData.entries()) {
             if (value instanceof File) {
-                formDataClone.append(key, this.convertImageToBase64(value));
+                formData.append(key, this.convertImageToBase64(value));
             }
         }
         return formDataClone;
