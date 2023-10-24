@@ -6,20 +6,24 @@ class DataSender extends Component {
         api: "http://localhost:8000/api/",
     };
 
-    reader = new FileReader();
-
     convertImageToBase64(file) {
-        this.reader.onloadend = () => {
-            return this.reader.result.toString();
-        };
-        this.reader.readAsDataURL(file);
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                resolve(reader.result.toString());
+            };
+            reader.onerror = (error) => {
+                reject(error);
+            };
+            reader.readAsDataURL(file);
+        });
     }
 
-    async convertImagesInForm(formData) {
-        const formDataClone = new FormData(formData);
+    async convertImagesInForm(eventTarget) {
+        const formDataClone = new FormData(eventTarget);
         for (const [key, value] of formDataClone.entries()) {
             if (value instanceof File) {
-                formDataClone.append(key, await this.convertImageToBase64(value));
+                formDataClone.append(key, this.convertImageToBase64(value));
             }
         }
         return formDataClone;
@@ -27,7 +31,10 @@ class DataSender extends Component {
 
     async submitData(type, formData, key = "") {
         return await axios
-            .post(`${this.state.api}${type}/${key}`, this.convertImagesInForm(formData))
+            .post(
+                `${this.state.api}${type}/${key}`,
+                await this.convertImagesInForm(formData)
+            )
             .catch((error) => {
                 console.log(error);
                 throw error;
@@ -36,10 +43,6 @@ class DataSender extends Component {
 
     async submitServiceProviderData(formData, key = "") {
         return this.fetchData("service-provider", formData, key);
-    }
-
-    async submitServiceProviderData(formData, key = "") {
-        return this.submitData("service-provider", formData, key);
     }
 
     async submitServiceData(formData, key = "") {
