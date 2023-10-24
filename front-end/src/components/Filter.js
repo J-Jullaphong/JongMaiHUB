@@ -55,7 +55,7 @@ const Filter = () => {
             <h4 style={{ paddingBottom: "5%" }}>Type:</h4>
             <SelectPicker
                 label="Type"
-                style={{ width: "80%" }}
+                width="80%"
                 data={categories}
                 value={type}
                 onSelect={handleTypeSelect}
