@@ -2,6 +2,7 @@ import React from "react";
 import DataSender from "../components/DataSender";
 import axios from "axios";
 import { JSDOM } from 'jsdom';
+import fs from "fs";
 
 describe("DataSender", () => {
     it("should submit data successfully", async () => {
@@ -32,5 +33,15 @@ describe("DataSender", () => {
             expect(error.message).toEqual("mockUnsuccess");
         }
     });
-});
 
+    it("should convert image to base64", async () => {
+        const dataSender = new DataSender();
+
+        const data = fs.readFileSync(__dirname + '/img/testImage.jpeg');
+        const file = new File([data], "testImage.jpeg", { type: "image/jpeg" });
+        const base64 = await dataSender.convertImageToBase64(file);
+
+        expect(base64).not.toEqual("");
+        expect(base64).toMatch(/AGr2soKQxN0TJaivGsnrWVlYjmQt/);
+    });
+});
