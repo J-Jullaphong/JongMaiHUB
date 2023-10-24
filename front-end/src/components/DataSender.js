@@ -26,7 +26,7 @@ class DataSender extends Component {
                 formData.append(key, this.convertImageToBase64(value));
             }
         }
-        return formDataClone;
+        return formData;
     }
 
     async submitData(type, formData, key = "") {
