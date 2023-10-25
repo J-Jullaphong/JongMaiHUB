@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Container, Divider, SelectPicker, Slider } from "rsuite";
 import { useNavigate } from "react-router-dom";
 
@@ -13,17 +13,28 @@ const Filter = ({ serviceData, searchQuery }) => {
         return result;
     }, []);
 
-    const serviceMaxPrice = Math.max(
-        ...new Set(serviceData.map((service) => parseFloat(service.price)))
+    const servicePrice = new Set(
+        serviceData.map((service) => parseFloat(service.price))
     );
-    const serviceMaxDuration = Math.max(
-        ...new Set(serviceData.map((service) => parseInt(service.duration)))
+    const serviceMinPrice = Math.min(...servicePrice);
+    const serviceMaxPrice = Math.max(...servicePrice);
+
+    const serviceDuration = new Set(
+        serviceData.map((service) => parseInt(service.duration))
     );
+    const serviceMinDuration = Math.min(...serviceDuration);
+    const serviceMaxDuration = Math.max(...serviceDuration);
+
     const [type, setType] = useState("");
-    const [maxPrice, setMaxPrice] = useState(serviceMaxPrice);
+    const [maxPrice, setMaxPrice] = useState(serviceMaxDuration);
     const [maxDuration, setMaxDuration] = useState(serviceMaxDuration);
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        setMaxPrice(serviceMaxPrice);
+        setMaxDuration(serviceMaxDuration);
+    }, [serviceMaxPrice, serviceMaxDuration]);
 
     const handleTypeSelect = (selectedType) => {
         setType(selectedType);
@@ -42,7 +53,7 @@ const Filter = ({ serviceData, searchQuery }) => {
         if (searchQuery.has("name"))
             updateSearchParams.set("name", searchQuery.get("name"));
         if (type !== "") updateSearchParams.set("type", type);
-        if (maxPrice !== serviceMaxPrice)
+        if (maxPrice !== serviceMaxDuration)
             updateSearchParams.set("maxPrice", maxPrice);
         if (maxDuration !== serviceMaxDuration)
             updateSearchParams.set("maxDuration", maxDuration);
@@ -53,7 +64,7 @@ const Filter = ({ serviceData, searchQuery }) => {
 
     const handleClearFilter = () => {
         setType("");
-        setMaxPrice(serviceMaxPrice);
+        setMaxPrice(serviceMaxDuration);
         setMaxDuration(serviceMaxDuration);
         handleApplyFilter();
     };
@@ -70,31 +81,33 @@ const Filter = ({ serviceData, searchQuery }) => {
             />
 
             <Divider style={{ width: "80%" }} />
-            <h4 style={{ paddingBottom: "5%" }}>Price:</h4>
+            <h4 style={{ paddingBottom: "5%" }}>Max Price</h4>
+            <h6>{maxPrice} Baht</h6>
+            <br />
             <Slider
                 progress
+                min={serviceMinPrice}
                 max={serviceMaxPrice}
                 value={maxPrice}
                 onChange={handlePriceSelect}
-                handleTitle={maxPrice}
                 style={{ width: "80%" }}
                 onCreate={(slider) => slider.handleSet(maxPrice)}
             />
             <Divider style={{ width: "80%" }} />
-            <h4>Duration:</h4>
+            <h4>Max Duration</h4>
+            <h6>{maxDuration} Minutes</h6>
+            <br />
             <Slider
                 progress
+                min={serviceMinDuration}
                 max={serviceMaxDuration}
                 value={maxDuration}
                 onChange={handleDurationSelect}
-                handleTitle={maxDuration}
                 style={{ width: "80%" }}
                 onCreate={(slider) => slider.handleSet(maxDuration)}
             />
             <Divider style={{ width: "80%" }} />
-            <Button onClick={handleApplyFilter} appearance="primary">
-                Apply Filter
-            </Button>
+            <Button onClick={handleApplyFilter}>Apply Filter</Button>
             <br />
             <Button onClick={handleClearFilter}>Clear Filter</Button>
             <br />

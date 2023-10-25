@@ -9,6 +9,14 @@ const SearchScreen = ({ serviceData }) => {
     const [searchResult, setSearchResult] = useState([]);
     const [pageNumber, setPageNumber] = useState(1);
 
+    const filteredNameData = searchQuery.has("name")
+        ? serviceData.filter((service) =>
+              service.name
+                  .toLowerCase()
+                  .includes(searchQuery.get("name").toLowerCase())
+          )
+        : serviceData;
+
     useEffect(() => {
         const filterData = () => {
             const filteredData = serviceData.filter((service) => {
@@ -59,7 +67,7 @@ const SearchScreen = ({ serviceData }) => {
     return (
         <div style={{ display: "flex" }}>
             <div className="filter-box">
-                <Filter serviceData={searchResult} searchQuery={searchQuery}/>
+                <Filter serviceData={filteredNameData} searchQuery={searchQuery} />
             </div>
             <div>
                 {searchResult.length === 0 ? (
