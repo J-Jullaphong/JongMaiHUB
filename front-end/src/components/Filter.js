@@ -1,21 +1,29 @@
 import React, { useState } from "react";
 import { Button, Container, Divider, SelectPicker, Slider } from "rsuite";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const categories = [
-    { value: "barber", label: "Barber" },
-    { value: "beauty clinic", label: "Beauty Clinic" },
-    { value: "salon", label: "Salon" },
-    { value: "massage", label: "Massage" },
-];
+const Filter = ({ serviceData, searchQuery }) => {
+    const uniqueServiceTypesSet = new Set();
 
-const Filter = () => {
+    const uniqueServiceTypes = serviceData.reduce((result, service) => {
+        if (!uniqueServiceTypesSet.has(service.type)) {
+            uniqueServiceTypesSet.add(service.type);
+            result.push({ label: service.type, value: service.type });
+        }
+        return result;
+    }, []);
+
+    const serviceMaxPrice = Math.max(
+        ...new Set(serviceData.map((service) => parseFloat(service.price)))
+    );
+    const serviceMaxDuration = Math.max(
+        ...new Set(serviceData.map((service) => parseInt(service.duration)))
+    );
     const [type, setType] = useState("");
-    const [maxPrice, setMaxPrice] = useState(0);
-    const [maxDuration, setMaxDuration] = useState(0);
+    const [maxPrice, setMaxPrice] = useState(serviceMaxPrice);
+    const [maxDuration, setMaxDuration] = useState(serviceMaxDuration);
 
     const navigate = useNavigate();
-    const [prevSearchParams] = useSearchParams();
 
     const handleTypeSelect = (selectedType) => {
         setType(selectedType);
@@ -31,13 +39,13 @@ const Filter = () => {
 
     const handleApplyFilter = () => {
         const updateSearchParams = new URLSearchParams();
-        var nameParam = prevSearchParams.get("name");
-        if (nameParam) {
-            updateSearchParams.set("name", prevSearchParams.get("name"));
-        }
-        updateSearchParams.set("type", type);
-        updateSearchParams.set("maxPrice", maxPrice);
-        updateSearchParams.set("maxDuration", maxDuration);
+        if (searchQuery.has("name"))
+            updateSearchParams.set("name", searchQuery.get("name"));
+        if (type !== "") updateSearchParams.set("type", type);
+        if (maxPrice !== serviceMaxPrice)
+            updateSearchParams.set("maxPrice", maxPrice);
+        if (maxDuration !== serviceMaxDuration)
+            updateSearchParams.set("maxDuration", maxDuration);
         navigate(
             window.location.pathname + "?" + updateSearchParams.toString()
         );
@@ -45,8 +53,8 @@ const Filter = () => {
 
     const handleClearFilter = () => {
         setType("");
-        setMaxPrice(0);
-        setMaxDuration(0);
+        setMaxPrice(serviceMaxPrice);
+        setMaxDuration(serviceMaxDuration);
         handleApplyFilter();
     };
 
@@ -56,29 +64,32 @@ const Filter = () => {
             <SelectPicker
                 label="Type"
                 width="80%"
-                data={categories}
+                data={uniqueServiceTypes}
                 value={type}
                 onSelect={handleTypeSelect}
             />
+
             <Divider style={{ width: "80%" }} />
             <h4 style={{ paddingBottom: "5%" }}>Price:</h4>
             <Slider
                 progress
-                max={100}
+                max={serviceMaxPrice}
                 value={maxPrice}
                 onChange={handlePriceSelect}
                 handleTitle={maxPrice}
                 style={{ width: "80%" }}
+                onCreate={(slider) => slider.handleSet(maxPrice)}
             />
             <Divider style={{ width: "80%" }} />
             <h4>Duration:</h4>
             <Slider
                 progress
-                max={100}
+                max={serviceMaxDuration}
                 value={maxDuration}
                 onChange={handleDurationSelect}
                 handleTitle={maxDuration}
                 style={{ width: "80%" }}
+                onCreate={(slider) => slider.handleSet(maxDuration)}
             />
             <Divider style={{ width: "80%" }} />
             <Button onClick={handleApplyFilter} appearance="primary">

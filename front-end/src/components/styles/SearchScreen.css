@@ -14,9 +14,11 @@
 }
 
 .service img {
-    max-width: 200px;
+    width: 200px;
+    height: 150px;
+    object-fit: cover;
     border-radius: 25px;
-    padding-right: 20px;
+    margin-right: 20px;
 }
 
 .service .detail {
@@ -25,4 +27,3 @@
     flex-direction: column;
     justify-content: space-between;
 }
-

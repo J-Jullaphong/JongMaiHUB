@@ -1,72 +1,83 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import Filter from "./Filter";
-import DataFetcher from "./DataFetcher";
 import "./styles/SearchScreen.css";
+import { Button } from "rsuite";
 
-const SearchScreen = () => {
+const SearchScreen = ({ serviceData }) => {
     const [searchQuery] = useSearchParams();
-    const [serviceData, setServiceData] = useState([]);
     const [searchResult, setSearchResult] = useState([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const dataFetcher = new DataFetcher();
-            try {
-                const serviceData = await dataFetcher.getServiceData();
-                console.log("Received JSON data:", serviceData);
-                setServiceData(serviceData);
-                setLoading(false);
-            } catch (error) {
-                console.error(error);
-                setLoading(false);
-            }
-        };
-
-        fetchData();
-    }, []);
+    const [pageNumber, setPageNumber] = useState(1);
 
     useEffect(() => {
         const filterData = () => {
             const filteredData = serviceData.filter((service) => {
-                return service.name
-                    .toLowerCase()
-                    .includes(searchQuery.get("name").toLowerCase());
+                const isNameMatch = searchQuery.has("name")
+                    ? service.name
+                          .toLowerCase()
+                          .includes(searchQuery.get("name").toLowerCase())
+                    : true;
+                const isTypeMatch = searchQuery.has("type")
+                    ? service.type.includes(searchQuery.get("type"))
+                    : true;
+                const isMaxPrice = searchQuery.has("maxPrice")
+                    ? service.price <= parseFloat(searchQuery.get("maxPrice"))
+                    : true;
+                const isMaxDuration = searchQuery.has("maxDuration")
+                    ? service.duration <= searchQuery.get("maxDuration")
+                    : true;
+                return (
+                    isNameMatch && isTypeMatch && isMaxPrice && isMaxDuration
+                );
             });
             setSearchResult(filteredData);
+            setPageNumber(1);
         };
         filterData();
     }, [searchQuery, serviceData]);
 
-    const displayServices = searchResult.map((service) => {
-        return (
+    const displayServices = searchResult
+        .slice(0, pageNumber * 5)
+        .map((service) => (
             <div className="service" key={service.id}>
                 <img src={service.service_picture} alt={service.name} />
                 <div className="service-detail">
-                <h2>{service.name}</h2>
-                <br />
-                <p>
-                    {service.type} | {service.duration} Minutes |{" "}
-                    {service.price} Baht
-                </p>
+                    <h2>{service.name}</h2>
+                    <br />
+                    <p>
+                        {service.type} | {service.duration} Minutes |{" "}
+                        {service.price} Baht
+                    </p>
                 </div>
             </div>
-        );
-    });
+        ));
+
+    const handleLoadMoreClick = () => {
+        setPageNumber(pageNumber + 1);
+    };
 
     return (
         <div style={{ display: "flex" }}>
             <div className="filter-box">
-                <Filter />
+                <Filter serviceData={searchResult} searchQuery={searchQuery}/>
             </div>
             <div>
-                {loading ? (
-                    <p>Loading...</p>
-                ) : searchResult.length === 0 ? (
+                {searchResult.length === 0 ? (
                     <h1>No Matching Results for {searchQuery.get("name")}</h1>
                 ) : (
-                    displayServices
+                    <div>
+                        {displayServices}
+                        <div className="load-more">
+                            {searchResult.length > pageNumber * 5 && (
+                                <Button
+                                    appearance="ghost"
+                                    onClick={handleLoadMoreClick}
+                                >
+                                    Load More...
+                                </Button>
+                            )}
+                        </div>
+                    </div>
                 )}
             </div>
         </div>
