@@ -53,7 +53,7 @@ const Filter = ({ serviceData, searchQuery }) => {
         if (searchQuery.has("name"))
             updateSearchParams.set("name", searchQuery.get("name"));
         if (type !== "") updateSearchParams.set("type", type);
-        if (maxPrice !== serviceMaxDuration)
+        if (maxPrice !== serviceMaxPrice)
             updateSearchParams.set("maxPrice", maxPrice);
         if (maxDuration !== serviceMaxDuration)
             updateSearchParams.set("maxDuration", maxDuration);
@@ -64,7 +64,7 @@ const Filter = ({ serviceData, searchQuery }) => {
 
     const handleClearFilter = () => {
         setType("");
-        setMaxPrice(serviceMaxDuration);
+        setMaxPrice(serviceMaxPrice);
         setMaxDuration(serviceMaxDuration);
         handleApplyFilter();
     };

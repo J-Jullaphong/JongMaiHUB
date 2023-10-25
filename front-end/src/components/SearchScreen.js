@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import Filter from "./Filter";
 import "./styles/SearchScreen.css";
-import { Button } from "rsuite";
+import { Avatar, Button } from "rsuite";
+import { useNavigate } from "react-router-dom";
 
-const SearchScreen = ({ serviceData }) => {
+const SearchScreen = ({ serviceData, providerData }) => {
     const [searchQuery] = useSearchParams();
     const [searchResult, setSearchResult] = useState([]);
     const [pageNumber, setPageNumber] = useState(1);
+    const navigate = useNavigate();
 
     const filteredNameData = searchQuery.has("name")
         ? serviceData.filter((service) =>
@@ -16,6 +18,11 @@ const SearchScreen = ({ serviceData }) => {
                   .includes(searchQuery.get("name").toLowerCase())
           )
         : serviceData;
+
+    const providerLists = providerData.reduce((acc, provider) => {
+        acc[provider.uid] = [provider.name, provider.profile_picture];
+        return acc;
+    }, {});
 
     useEffect(() => {
         const filterData = () => {
@@ -44,18 +51,44 @@ const SearchScreen = ({ serviceData }) => {
         filterData();
     }, [searchQuery, serviceData]);
 
+    const handleDetailClick = (service) => {
+        const providerUrl =
+            service.service_provider +
+            "-" +
+            providerLists[service.service_provider][0]
+                .toLowerCase()
+                .replaceAll(" ", "-");
+        const serviceUrl = service.name.toLowerCase().replaceAll(" ", "-");
+        navigate(`/${providerUrl}/${serviceUrl}/`);
+    };
+
     const displayServices = searchResult
         .slice(0, pageNumber * 5)
         .map((service) => (
             <div className="service" key={service.id}>
                 <img src={service.service_picture} alt={service.name} />
                 <div className="service-detail">
-                    <h2>{service.name}</h2>
-                    <br />
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                        <Avatar
+                            circle
+                            title={providerLists[service.service_provider][0]}
+                            src={providerLists[service.service_provider][1]}
+                            style={{ paddingLeft: "20px", marginRight: "1vw" }}
+                        />
+                        <h2>
+                            {service.name} |{" "}
+                            {providerLists[service.service_provider][0]}
+                        </h2>
+                    </div>
                     <p>
                         {service.type} | {service.duration} Minutes |{" "}
                         {service.price} Baht
                     </p>
+                </div>
+                <div>
+                    <Button onClick={() => handleDetailClick(service)}>
+                        Details
+                    </Button>
                 </div>
             </div>
         ));
