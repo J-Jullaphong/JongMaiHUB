@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import "./App.css";
 import "firebase/compat/auth";
 
 import HubScreen from "./components/HubScreen";
