@@ -67,7 +67,10 @@ const SearchScreen = ({ serviceData }) => {
     return (
         <div style={{ display: "flex" }}>
             <div className="filter-box">
-                <Filter serviceData={filteredNameData} searchQuery={searchQuery} />
+                <Filter
+                    serviceData={filteredNameData}
+                    searchQuery={searchQuery}
+                />
             </div>
             <div>
                 {searchResult.length === 0 ? (
