@@ -18,7 +18,7 @@ class Service(models.Model):
     service_provider = models.ForeignKey(ServiceProvider,
                                          on_delete=models.CASCADE)
     type = models.CharField(max_length=100)
-    duration = models.DurationField()
+    duration = models.IntegerField()
     price = models.DecimalField(decimal_places=2, max_digits=10)
     service_picture = models.TextField(default=None)
 
