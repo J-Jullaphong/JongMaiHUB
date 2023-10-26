@@ -12,17 +12,23 @@ import ServiceDetail from "./components/ServiceDetail";
 const App = () => {
     const [serviceData, setServiceData] = useState([]);
     const [providerData, setProviderData] = useState([]);
+    const [staffData, setStaffData] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
             const dataFetcher = new DataFetcher();
             try {
-                const serviceData = await dataFetcher.getServiceData();
-                const providerData = await dataFetcher.getServiceProviderData();
-                console.log("Received JSON data:", serviceData);
-                console.log("Received JSON data:", providerData);
+                const [serviceData, providerData, staffData] = await Promise.all([
+                    dataFetcher.getServiceData(),
+                    dataFetcher.getServiceProviderData(),
+                    dataFetcher.getStaffData(),
+                ]);
+                console.log("Received Service JSON data:", serviceData);
+                console.log("Received Provider JSON data:", providerData);
+                console.log("Received Staff JSON data:", staffData);
                 setServiceData(serviceData);
                 setProviderData(providerData);
+                setStaffData(staffData)
             } catch (error) {
                 console.error(error);
             }
@@ -56,6 +62,7 @@ const App = () => {
                                 <ServiceDetail
                                     serviceData={serviceData}
                                     providerData={providerData}
+                                    staffData={staffData}
                                 />
                             }
                         />

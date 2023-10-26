@@ -2,16 +2,17 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import "./styles/ServiceDetail.css";
 
-const ServiceDetail = ({ serviceData, providerData }) => {
+const ServiceDetail = ({ serviceData, providerData, staffData }) => {
     const { providerUrl, serviceUrl } = useParams();
 
     const provider = providerData.find(
         (provider) => provider.uid === providerUrl.split("-")[0]
     );
     const service = serviceData.find(
-        (service) =>
-            service.name.toLowerCase().replaceAll(" ", "-") === serviceUrl
+        (service) => service.id.toString() === serviceUrl.split("-")[0]
     );
+
+    const staffs = staffData.filter((staff) => staff.service === service.id);
 
     return (
         <div className="detail">
@@ -31,6 +32,13 @@ const ServiceDetail = ({ serviceData, providerData }) => {
                 <h2>{service.name}</h2>
                 <p>Duration: {service.duration} Minutes</p>
                 <p>Price: {service.price} Baht</p>
+                <div className="staffs">
+                    {staffs.map((staff) => 
+                        <div className="staff-detail" key={staff.uid}>
+                        <img src={staff.profile_picture} alt={staff.name}/>
+                    </div>
+                    )}
+                </div>
             </div>
         </div>
     );

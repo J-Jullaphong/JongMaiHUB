@@ -58,7 +58,7 @@ const SearchScreen = ({ serviceData, providerData }) => {
             providerLists[service.service_provider][0]
                 .toLowerCase()
                 .replaceAll(" ", "-");
-        const serviceUrl = service.name.toLowerCase().replaceAll(" ", "-");
+        const serviceUrl = service.id + "-" + service.name.toLowerCase().replaceAll(" ", "-");
         navigate(`/${providerUrl}/${serviceUrl}/`);
     };
 
