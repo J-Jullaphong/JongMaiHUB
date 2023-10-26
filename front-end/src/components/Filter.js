@@ -70,7 +70,7 @@ const Filter = ({ serviceData, searchQuery }) => {
     };
 
     return (
-        <Container style={{ backgroundColor: "#D1E0F3", alignItems: "center" }}>
+        <Container style={{ backgroundColor: "#D1E0F3", alignItems: "center", borderRadius: "25px" }}>
             <h4 style={{ paddingBottom: "5%" }}>Type:</h4>
             <SelectPicker
                 label="Type"
@@ -107,7 +107,7 @@ const Filter = ({ serviceData, searchQuery }) => {
                 onCreate={(slider) => slider.handleSet(maxDuration)}
             />
             <Divider style={{ width: "80%" }} />
-            <Button onClick={handleApplyFilter}>Apply Filter</Button>
+            <Button onClick={handleApplyFilter} appearance="primary">Apply Filter</Button>
             <br />
             <Button onClick={handleClearFilter}>Clear Filter</Button>
             <br />
