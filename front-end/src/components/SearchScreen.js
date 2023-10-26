@@ -11,24 +11,31 @@ const SearchScreen = ({ serviceData, providerData }) => {
     const [pageNumber, setPageNumber] = useState(1);
     const navigate = useNavigate();
 
-    const filteredNameData = searchQuery.has("name")
-        ? serviceData.filter((service) =>
-              service.name
-                  .toLowerCase()
-                  .includes(searchQuery.get("name").toLowerCase())
-          )
-        : serviceData;
-
     const providerLists = providerData.reduce((acc, provider) => {
         acc[provider.uid] = [provider.name, provider.profile_picture];
         return acc;
     }, {});
+
+    const filteredNameData = searchQuery.has("name")
+        ? serviceData.filter(
+              (service) =>
+                  service.name
+                      .toLowerCase()
+                      .includes(searchQuery.get("name").toLowerCase()) ||
+                  providerLists[service.service_provider][0]
+                      .toLowerCase()
+                      .includes(searchQuery.get("name").toLowerCase())
+          )
+        : serviceData;
 
     useEffect(() => {
         const filterData = () => {
             const filteredData = serviceData.filter((service) => {
                 const isNameMatch = searchQuery.has("name")
                     ? service.name
+                          .toLowerCase()
+                          .includes(searchQuery.get("name").toLowerCase()) ||
+                      providerLists[service.service_provider][0]
                           .toLowerCase()
                           .includes(searchQuery.get("name").toLowerCase())
                     : true;
@@ -49,7 +56,7 @@ const SearchScreen = ({ serviceData, providerData }) => {
             setPageNumber(1);
         };
         filterData();
-    }, [searchQuery, serviceData]);
+    }, [searchQuery, serviceData, providerLists]);
 
     const handleDetailClick = (service) => {
         const providerUrl =
@@ -58,7 +65,8 @@ const SearchScreen = ({ serviceData, providerData }) => {
             providerLists[service.service_provider][0]
                 .toLowerCase()
                 .replaceAll(" ", "-");
-        const serviceUrl = service.id + "-" + service.name.toLowerCase().replaceAll(" ", "-");
+        const serviceUrl =
+            service.id + "-" + service.name.toLowerCase().replaceAll(" ", "-");
         navigate(`/${providerUrl}/${serviceUrl}/`);
     };
 
