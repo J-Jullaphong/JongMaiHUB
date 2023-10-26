@@ -26,7 +26,7 @@ const Filter = ({ serviceData, searchQuery }) => {
     const serviceMaxDuration = Math.max(...serviceDuration);
 
     const [type, setType] = useState("");
-    const [maxPrice, setMaxPrice] = useState(serviceMaxDuration);
+    const [maxPrice, setMaxPrice] = useState(serviceMaxPrice);
     const [maxDuration, setMaxDuration] = useState(serviceMaxDuration);
 
     const navigate = useNavigate();
@@ -75,47 +75,47 @@ const Filter = ({ serviceData, searchQuery }) => {
     };
 
     return (
-        <Container style={{ backgroundColor: "#D1E0F3", alignItems: "center", borderRadius: "25px" }}>
-            <h4 style={{ paddingBottom: "5%" }}>Type:</h4>
-            <SelectPicker
-                label="Type"
-                width="80%"
-                data={uniqueServiceTypes}
-                value={type}
-                onChange={handleTypeSelect}
-            />
+        <Container style={{ backgroundColor: "#F7F9FA", borderRadius: "25px", padding: "20px", boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)" }}>
+            <h4>
+                Type
+                <SelectPicker
+                    style={{ marginLeft: '10px', width: '60%' }}
+                    data={uniqueServiceTypes}
+                    placeholder="Select a service type"
+                    value={type}
+                    onChange={handleTypeSelect}
+                />
+            </h4>
 
             <Divider style={{ width: "80%" }} />
-            <h4 style={{ paddingBottom: "5%" }}>Max Price</h4>
+            <h4>Max Price</h4>
             <h6>{maxPrice} Baht</h6>
-            <br />
             <Slider
                 progress
+                step = {5}
                 min={serviceMinPrice}
                 max={serviceMaxPrice}
                 value={maxPrice}
                 onChange={handlePriceSelect}
                 style={{ width: "80%" }}
-                onCreate={(slider) => slider.handleSet(maxPrice)}
             />
+
             <Divider style={{ width: "80%" }} />
             <h4>Max Duration</h4>
             <h6>{maxDuration} Minutes</h6>
-            <br />
             <Slider
                 progress
+                step={5}
                 min={serviceMinDuration}
                 max={serviceMaxDuration}
                 value={maxDuration}
                 onChange={handleDurationSelect}
                 style={{ width: "80%" }}
-                onCreate={(slider) => slider.handleSet(maxDuration)}
             />
+
             <Divider style={{ width: "80%" }} />
             <Button onClick={handleApplyFilter} appearance="primary">Apply Filter</Button>
-            <br />
-            <Button onClick={handleClearFilter}>Clear Filter</Button>
-            <br />
+            <Button onClick={handleClearFilter} appearance="default">Clear Filter</Button>
         </Container>
     );
 };
