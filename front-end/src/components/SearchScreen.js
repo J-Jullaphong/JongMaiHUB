@@ -18,14 +18,14 @@ const SearchScreen = ({ serviceData, providerData }) => {
 
     const filteredNameData = searchQuery.has("name")
         ? serviceData.filter(
-              (service) =>
-                  service.name
-                      .toLowerCase()
-                      .includes(searchQuery.get("name").toLowerCase()) ||
-                  providerLists[service.service_provider][0]
-                      .toLowerCase()
-                      .includes(searchQuery.get("name").toLowerCase())
-          )
+            (service) =>
+                service.name
+                    .toLowerCase()
+                    .includes(searchQuery.get("name").toLowerCase()) ||
+                providerLists[service.service_provider][0]
+                    .toLowerCase()
+                    .includes(searchQuery.get("name").toLowerCase())
+        )
         : serviceData;
 
     useEffect(() => {
@@ -33,11 +33,11 @@ const SearchScreen = ({ serviceData, providerData }) => {
             const filteredData = serviceData.filter((service) => {
                 const isNameMatch = searchQuery.has("name")
                     ? service.name
-                          .toLowerCase()
-                          .includes(searchQuery.get("name").toLowerCase()) ||
-                      providerLists[service.service_provider][0]
-                          .toLowerCase()
-                          .includes(searchQuery.get("name").toLowerCase())
+                        .toLowerCase()
+                        .includes(searchQuery.get("name").toLowerCase()) ||
+                    providerLists[service.service_provider][0]
+                        .toLowerCase()
+                        .includes(searchQuery.get("name").toLowerCase())
                     : true;
                 const isTypeMatch = searchQuery.has("type")
                     ? service.type.includes(searchQuery.get("type"))
@@ -123,7 +123,7 @@ const SearchScreen = ({ serviceData, providerData }) => {
                                     appearance="ghost"
                                     onClick={handleLoadMoreClick}
                                 >
-                                    Load More...
+                                    Load More ({searchResult.length - pageNumber * 5} more available)
                                 </Button>
                             )}
                         </div>
