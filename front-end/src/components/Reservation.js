@@ -55,6 +55,17 @@ const Reservation = ({ service, staff }) => {
 
         return <Modal.Footer>{content}</Modal.Footer>;
     };
+    
+    const displayStateOne = () => {
+        return (
+            <div>
+                <h3>{staff.name}</h3>
+                <h4>Specialty: {staff.specialty}</h4>
+                <h4>Background: {staff.background}</h4>
+                {createFooter()}
+            </div>
+        );
+    };
 
 }
 export default Reservation;
