@@ -43,6 +43,13 @@ const Reservation = ({ service, staff }) => {
                     <Button onClick={handleConfirmClick} appearance="primary">
                         Continue
                     </Button>
+                    <br />
+                    <br />
+                    <Steps current={reservationState - 1} small>
+                        <Steps.Item />
+                        <Steps.Item />
+                        <Steps.Item />
+                    </Steps>
                 </>
             );
         } else if (reservationState === 2) {
@@ -55,6 +62,13 @@ const Reservation = ({ service, staff }) => {
                     >
                         Continue
                     </Button>
+                    <br />
+                    <br />
+                    <Steps current={reservationState - 1} small>
+                        <Steps.Item />
+                        <Steps.Item />
+                        <Steps.Item />
+                    </Steps>
                 </>
             );
         } else {
@@ -64,6 +78,13 @@ const Reservation = ({ service, staff }) => {
                     <Button onClick={handleConfirmClick} appearance="primary">
                         Confirm
                     </Button>
+                    <br />
+                    <br />
+                    <Steps current={reservationState - 1} small>
+                        <Steps.Item />
+                        <Steps.Item />
+                        <Steps.Item />
+                    </Steps>
                 </>
             );
         }
