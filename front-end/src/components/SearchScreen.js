@@ -56,7 +56,7 @@ const SearchScreen = ({ serviceData, providerData }) => {
             setPageNumber(1);
         };
         filterData();
-    }, [searchQuery, serviceData, providerLists]);
+    }, [searchQuery, serviceData]);
 
     const handleDetailClick = (service) => {
         const providerUrl =
