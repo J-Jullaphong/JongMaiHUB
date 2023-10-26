@@ -84,6 +84,11 @@ const Reservation = ({ service, staff }) => {
 
     const displayStateTwo = () => {
 
+        const isDateInPast = (date) => {
+            const today = new Date();
+            return date.getTime() < today.getTime()
+        };
+
         return (
             <div>
                 <Form layout="horizontal">
@@ -97,6 +102,7 @@ const Reservation = ({ service, staff }) => {
                             value={selectedDateTime}
                             cleanable={false}
                             limitEndYear={1}
+                            shouldDisableDate={isDateInPast}
                         />
                         <Form.HelpText>Required</Form.HelpText>
                     </Form.Group>
