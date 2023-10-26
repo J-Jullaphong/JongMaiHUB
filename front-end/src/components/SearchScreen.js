@@ -92,8 +92,6 @@ const SearchScreen = ({ serviceData, providerData }) => {
                         {service.type} | {service.duration} Minutes |{" "}
                         {service.price} Baht
                     </p>
-                </div>
-                <div>
                     <Button onClick={() => handleDetailClick(service)}>
                         Details
                     </Button>
