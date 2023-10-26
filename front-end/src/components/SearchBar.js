@@ -16,11 +16,15 @@ const SearchBar = () => {
     const handleSearchQueryChange = (value) => {
         setSearchQuery(value);
     };
-
+    
     const handleKeyPress = (event) => {
         if (event.key === "Enter") {
             event.preventDefault();
-            handleSearch();
+            if (searchQuery.trim() === "") {
+                navigate("/search");
+            } else {
+                handleSearch();
+            }
         }
     };
 
