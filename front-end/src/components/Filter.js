@@ -67,6 +67,12 @@ const Filter = ({ serviceData, searchQuery }) => {
         setMaxPrice(serviceMaxPrice);
         setMaxDuration(serviceMaxDuration);
         handleApplyFilter();
+        const updateSearchParams = new URLSearchParams(searchQuery.toString());
+        updateSearchParams.delete("name");
+        updateSearchParams.delete("type");
+        updateSearchParams.delete("maxPrice");
+        updateSearchParams.delete("maxDuration");
+        navigate(window.location.pathname + "?" + updateSearchParams.toString());
     };
 
     return (
@@ -75,7 +81,6 @@ const Filter = ({ serviceData, searchQuery }) => {
             <SelectPicker
                 label="Type"
                 width="80%"
-                placeholder="Select a service type"
                 data={uniqueServiceTypes}
                 value={type}
                 onChange={handleTypeSelect}
