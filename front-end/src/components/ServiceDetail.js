@@ -33,9 +33,11 @@ const ServiceDetail = ({ serviceData, providerData, staffData }) => {
                 <p>Duration: {service.duration} Minutes</p>
                 <p>Price: {service.price} Baht</p>
                 <div className="staffs">
+                    <h2>Available Staffs</h2>
                     {staffs.map((staff) => 
                         <div className="staff-detail" key={staff.uid}>
                         <img src={staff.profile_picture} alt={staff.name}/>
+                        <h3>{staff.name}</h3>
                     </div>
                     )}
                 </div>
