@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import { Panel } from "rsuite";
+import { Panel, Modal } from "rsuite";
+import Reservation from "./Reservation";
 import "./styles/ServiceDetail.css";
 
 const ServiceDetail = ({ serviceData, providerData, staffData }) => {
     const { providerUrl, serviceUrl } = useParams();
+    const [open, setOpen] = useState(false);
+    const [selectedStaff, setSelectedStaff] = useState("");
+    const handleOpen = (staff) => {
+        setSelectedStaff(staff)
+        setOpen(true);
+    }
+    const handleClose = () => setOpen(false);
 
     const provider = providerData.find(
         (provider) => provider.uid === providerUrl.split("-")[0]
@@ -14,6 +22,10 @@ const ServiceDetail = ({ serviceData, providerData, staffData }) => {
     );
 
     const staffs = staffData.filter((staff) => staff.service === service.id);
+
+    // const displayReservation = () => {
+    //     return
+    // }
 
     return (
         <div className="detail">
@@ -43,6 +55,11 @@ const ServiceDetail = ({ serviceData, providerData, staffData }) => {
                                     alt={staff.name}
                                 />
                                 <Panel header={staff.name} style={{backgroundColor: "white"}}>
+                                    <button onClick={() => handleOpen(staff)}>View</button>
+                                    <Modal open={open} onClose={handleClose}>
+                                    <Modal.Header>{service.name}</Modal.Header>
+                                    <Modal.Body>{<Reservation service={service} staff={selectedStaff} />}</Modal.Body>
+                                    </Modal>
                                     <p>
                                         <small>
                                             Specialty: {staff.specialty}

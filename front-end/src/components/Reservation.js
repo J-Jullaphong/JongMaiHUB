@@ -182,5 +182,5 @@ const Reservation = ({ service, staff }) => {
     return display();
 };
 
-}
+
 export default Reservation;
