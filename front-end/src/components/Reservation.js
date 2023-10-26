@@ -119,5 +119,29 @@ const Reservation = ({ service, staff }) => {
         );
     };
 
+    const displayStateThree = () => {
+        return (
+            <div>
+                <h3>{service.name}</h3>
+                <h4>Selected Staff: {staff.name}</h4>
+                <h4>
+                    Selected Date: {selectedDateTime.getDate()}{" "}
+                    {monthNames[selectedDateTime.getMonth()]}{" "}
+                    {selectedDateTime.getFullYear()}
+                </h4>
+                <h4>
+                    Selected Time: {selectedDateTime.getHours() < 10
+                        ? 0 + selectedDateTime.getHours().toString()
+                        : selectedDateTime.getHours()}:
+                    {selectedDateTime.getMinutes() < 10
+                        ? 0 + selectedDateTime.getMinutes().toString()
+                        : selectedDateTime.getMinutes()}
+                </h4>
+                {createFooter()}
+            </div>
+        );
+    };
+
+
 }
 export default Reservation;
