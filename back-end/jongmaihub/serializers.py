@@ -21,6 +21,7 @@ class ServiceSerializer(serializers.ModelSerializer):
     """Serializer for Service model."""
     class Meta:
         fields = (
+            'id',
             'name',
             'service_provider',
             'type',
@@ -64,6 +65,7 @@ class AppointmentSerializer(serializers.ModelSerializer):
     """Serializer for Appointment model."""
     class Meta:
         fields = (
+            'id'
             'customer',
             'service',
             'staff',

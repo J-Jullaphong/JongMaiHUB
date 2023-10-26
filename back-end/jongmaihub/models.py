@@ -11,6 +11,9 @@ class ServiceProvider(models.Model):
     profile_picture = models.TextField(default=None)
     cover_picture = models.TextField(default=None)
 
+    def __str__(self):
+        return f"{self.name}-{self.uid}"
+
 
 class Service(models.Model):
     """Service Model represents the service for reservations."""
@@ -21,6 +24,9 @@ class Service(models.Model):
     duration = models.IntegerField()
     price = models.DecimalField(decimal_places=2, max_digits=10)
     service_picture = models.TextField(default=None)
+
+    def __str__(self):
+        return f"{self.service_provider}-{self.name}"
 
 
 class Staff(models.Model):
@@ -36,6 +42,9 @@ class Staff(models.Model):
     get_off_work_time = models.TimeField()
     profile_picture = models.TextField(default=None)
 
+    def __str__(self):
+        return f"{self.service_provider}-{self.name}"
+
 
 class Customer(models.Model):
     """Customer Model represents the customers, containing basic information."""
@@ -43,6 +52,9 @@ class Customer(models.Model):
     name = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=10, blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.name}-{self.email}"
 
 
 class Appointment(models.Model):
