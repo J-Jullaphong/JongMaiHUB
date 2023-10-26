@@ -68,3 +68,26 @@
     padding-left: 1vw;
 }
 
+.staffs {
+    display: flex;
+    flex-direction: row;
+}
+
+.staffs .staff-detail {
+    width: 200px;
+    height: 300px;
+    background-color: white;
+    border-radius: 25px;
+    margin-right: 2vw;
+}
+
+.staffs .staff-detail .main-panel {
+    border-radius: 25px;
+}
+
+.staffs .staff-detail img {
+    object-fit: cover;
+    width: 200px;
+    height: 200px;
+    border-radius: 25px;
+}

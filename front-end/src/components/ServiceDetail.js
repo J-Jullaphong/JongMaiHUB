@@ -1,5 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
+import { Panel } from "rsuite";
 import "./styles/ServiceDetail.css";
 
 const ServiceDetail = ({ serviceData, providerData, staffData }) => {
@@ -32,14 +33,25 @@ const ServiceDetail = ({ serviceData, providerData, staffData }) => {
                 <h2>{service.name}</h2>
                 <p>Duration: {service.duration} Minutes</p>
                 <p>Price: {service.price} Baht</p>
+                <h3>Available Staffs</h3>
                 <div className="staffs">
-                    <h2>Available Staffs</h2>
-                    {staffs.map((staff) => 
+                    {staffs.map((staff) => (
                         <div className="staff-detail" key={staff.uid}>
-                        <img src={staff.profile_picture} alt={staff.name}/>
-                        <h3>{staff.name}</h3>
-                    </div>
-                    )}
+                            <Panel shaded bodyFill className="main-panel">
+                                <img
+                                    src={staff.profile_picture}
+                                    alt={staff.name}
+                                />
+                                <Panel header={staff.name} style={{backgroundColor: "white"}}>
+                                    <p>
+                                        <small>
+                                            Specialty: {staff.specialty}
+                                        </small>
+                                    </p>
+                                </Panel>
+                            </Panel>
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>
