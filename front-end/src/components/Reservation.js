@@ -142,6 +142,18 @@ const Reservation = ({ service, staff }) => {
         );
     };
 
+    const display = () => {
+        if (reservationState === 1) return displayStateOne();
+        else if (reservationState === 2) return displayStateTwo();
+        else if (reservationState === 3) return displayStateThree();
+    };
+
+    useEffect(() => {
+        display();
+    }, [reservationState]);
+
+    return display();
+};
 
 }
 export default Reservation;
