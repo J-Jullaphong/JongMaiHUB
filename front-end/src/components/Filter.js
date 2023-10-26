@@ -68,7 +68,6 @@ const Filter = ({ serviceData, searchQuery }) => {
         setMaxDuration(serviceMaxDuration);
         handleApplyFilter();
         const updateSearchParams = new URLSearchParams(searchQuery.toString());
-        updateSearchParams.delete("name");
         updateSearchParams.delete("type");
         updateSearchParams.delete("maxPrice");
         updateSearchParams.delete("maxDuration");
