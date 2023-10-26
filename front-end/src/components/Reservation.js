@@ -7,6 +7,21 @@ const Reservation = ({ service, staff }) => {
     const [selectedDateTime, setSelectedDateTime] = useState(new Date());
     const [isDateSelected, setIsDateSelected] = useState(false);
 
+    const monthNames = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+    ];
+
 
     const handleConfirmClick = () => {
         return reservationState < 3
@@ -55,13 +70,50 @@ const Reservation = ({ service, staff }) => {
 
         return <Modal.Footer>{content}</Modal.Footer>;
     };
-    
+
     const displayStateOne = () => {
         return (
             <div>
                 <h3>{staff.name}</h3>
                 <h4>Specialty: {staff.specialty}</h4>
                 <h4>Background: {staff.background}</h4>
+                {createFooter()}
+            </div>
+        );
+    };
+
+    const displayStateTwo = () => {
+
+        return (
+            <div>
+                <Form layout="horizontal">
+                    <Form.Group controlId="date-time">
+                        <Form.ControlLabel>Date & Time</Form.ControlLabel>
+                        <DatePicker
+                            name="date-time"
+                            format="dd-MM-yyyy HH:mm"
+                            placement="bottomStart"
+                            onChange={handleDateChange}
+                            value={selectedDateTime}
+                            cleanable={false}
+                            limitEndYear={1}
+                        />
+                        <Form.HelpText>Required</Form.HelpText>
+                    </Form.Group>
+                </Form>
+                <h4>
+                    Selected Date: {selectedDateTime.getDate()}{" "}
+                    {monthNames.at(selectedDateTime.getMonth())}{" "}
+                    {selectedDateTime.getFullYear()}
+                </h4>
+                <h4>
+                    Selected Time: {selectedDateTime.getHours() < 10
+                        ? 0 + selectedDateTime.getHours().toString()
+                        : selectedDateTime.getHours()}:
+                    {selectedDateTime.getMinutes() < 10
+                        ? 0 + selectedDateTime.getMinutes().toString()
+                        : selectedDateTime.getMinutes()}
+                </h4>
                 {createFooter()}
             </div>
         );
