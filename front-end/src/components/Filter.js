@@ -75,9 +75,10 @@ const Filter = ({ serviceData, searchQuery }) => {
             <SelectPicker
                 label="Type"
                 width="80%"
+                placeholder="Select a service type"
                 data={uniqueServiceTypes}
                 value={type}
-                onSelect={handleTypeSelect}
+                onChange={handleTypeSelect}
             />
 
             <Divider style={{ width: "80%" }} />
