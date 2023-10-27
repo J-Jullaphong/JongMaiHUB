@@ -22,6 +22,15 @@ const Reservation = ({ service, staff }) => {
         "December",
     ];
 
+    const days = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+    ];
 
     const handleConfirmClick = () => {
         return reservationState < 3
@@ -104,11 +113,27 @@ const Reservation = ({ service, staff }) => {
     };
 
     const displayStateTwo = () => {
-
         const isDateInPast = (date) => {
             const today = new Date();
-            return date.getTime() < today.getTime()
+            const disabledDates = [
+                new Date("2023-10-28"),
+                new Date("2023-11-15"),
+            ];
+            return (
+                date.getTime() < today.getTime() ||
+                disabledDates.some(
+                    (disabled) =>
+                        date.getDate() === disabled.getDate() &&
+                        date.getMonth() === disabled.getMonth() &&
+                        date.getFullYear() === disabled.getFullYear()
+                )
+            );
         };
+
+        const isHourInPast = (hour) => {
+            const today = new Date();
+            return hour < today.getHours();
+        }
 
         return (
             <div>
@@ -124,19 +149,23 @@ const Reservation = ({ service, staff }) => {
                             cleanable={false}
                             limitEndYear={1}
                             shouldDisableDate={isDateInPast}
+                            shouldDisableHour={isHourInPast}
                         />
                         <Form.HelpText>Required</Form.HelpText>
                     </Form.Group>
                 </Form>
                 <h4>
-                    Selected Date: {selectedDateTime.getDate()}{" "}
-                    {monthNames.at(selectedDateTime.getMonth())}{" "}
+                    Selected Date: {days[selectedDateTime.getDay()]}{" "}
+                    {selectedDateTime.getDate()}{" "}
+                    {monthNames[selectedDateTime.getMonth()]}{" "}
                     {selectedDateTime.getFullYear()}
                 </h4>
                 <h4>
-                    Selected Time: {selectedDateTime.getHours() < 10
+                    Selected Time:{" "}
+                    {selectedDateTime.getHours() < 10
                         ? 0 + selectedDateTime.getHours().toString()
-                        : selectedDateTime.getHours()}:
+                        : selectedDateTime.getHours()}
+                    :
                     {selectedDateTime.getMinutes() < 10
                         ? 0 + selectedDateTime.getMinutes().toString()
                         : selectedDateTime.getMinutes()}
@@ -152,14 +181,17 @@ const Reservation = ({ service, staff }) => {
                 <h3>{service.name}</h3>
                 <h4>Selected Staff: {staff.name}</h4>
                 <h4>
-                    Selected Date: {selectedDateTime.getDate()}{" "}
+                    Selected Date: {days[selectedDateTime.getDay()]}{" "}
+                    {selectedDateTime.getDate()}{" "}
                     {monthNames[selectedDateTime.getMonth()]}{" "}
                     {selectedDateTime.getFullYear()}
                 </h4>
                 <h4>
-                    Selected Time: {selectedDateTime.getHours() < 10
+                    Selected Time:{" "}
+                    {selectedDateTime.getHours() < 10
                         ? 0 + selectedDateTime.getHours().toString()
-                        : selectedDateTime.getHours()}:
+                        : selectedDateTime.getHours()}
+                    :
                     {selectedDateTime.getMinutes() < 10
                         ? 0 + selectedDateTime.getMinutes().toString()
                         : selectedDateTime.getMinutes()}
@@ -181,6 +213,5 @@ const Reservation = ({ service, staff }) => {
 
     return display();
 };
-
 
 export default Reservation;
