@@ -23,10 +23,6 @@ const ServiceDetail = ({ serviceData, providerData, staffData }) => {
 
     const staffs = staffData.filter((staff) => staff.service === service.id);
 
-    // const displayReservation = () => {
-    //     return
-    // }
-
     return (
         <div className="detail">
             <div className="provider-detail">
