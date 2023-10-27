@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Modal, DatePicker, Button, Form, Steps } from "rsuite";
 import DataSender from "./DataSender";
-import DataFetcher from "./DataFetcher";
-import firebase from "firebase/compat/app";
-import "firebase/compat/auth";
 
-const Reservation = ({ service, staff }) => {
+const Reservation = ({ user, service, staff }) => {
     const [reservationState, setReservationState] = useState(1);
     const [selectedDateTime, setSelectedDateTime] = useState(new Date());
     const [isDateSelected, setIsDateSelected] = useState(false);
@@ -35,41 +32,21 @@ const Reservation = ({ service, staff }) => {
         "Saturday",
     ];
 
-
     const dataSender = new DataSender();
 
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [user, setUser] = useState(null);
-
-    useEffect(() => {
-        const unsubscribe = firebase.auth().onAuthStateChanged((authUser) => {
-            if (authUser) {
-                setIsAuthenticated(true);
-                setUser(authUser);
-            } else {
-                setIsAuthenticated(false);
-                setUser(null);
-            }
-        });
-    })
-
-
     const handleConfirmClick = () => {
-        const formData = {
-            "staff": staff.uid,
-            "service": service.id,
-            "customer": user.uid,
-            "date_time": selectedDateTime.toISOString()
-        }
-        console.log(selectedDateTime);
         if (reservationState < 3) {
             setReservationState(reservationState + 1);
         } else if (reservationState === 3) {
+            const formData = {
+                staff: staff.uid,
+                service: service.id,
+                customer: user.uid,
+                date_time: selectedDateTime.toISOString(),
+            };
             dataSender.submitAppointmentData(formData);
             setReservationState(reservationState + 1);
         }
-
-
     };
 
     const handleDateChange = (dateTime) => {
@@ -86,12 +63,12 @@ const Reservation = ({ service, staff }) => {
                     <Button onClick={handleConfirmClick} appearance="primary">
                         Continue
                     </Button>
-                    <br/>
-                    <br/>
+                    <br />
+                    <br />
                     <Steps current={reservationState - 1} small>
-                        <Steps.Item/>
-                        <Steps.Item/>
-                        <Steps.Item/>
+                        <Steps.Item />
+                        <Steps.Item />
+                        <Steps.Item />
                     </Steps>
                 </>
             );
@@ -105,12 +82,12 @@ const Reservation = ({ service, staff }) => {
                     >
                         Continue
                     </Button>
-                    <br/>
-                    <br/>
+                    <br />
+                    <br />
                     <Steps current={reservationState - 1} small>
-                        <Steps.Item/>
-                        <Steps.Item/>
-                        <Steps.Item/>
+                        <Steps.Item />
+                        <Steps.Item />
+                        <Steps.Item />
                     </Steps>
                 </>
             );
@@ -121,18 +98,18 @@ const Reservation = ({ service, staff }) => {
                     <Button onClick={handleConfirmClick} appearance="primary">
                         Confirm
                     </Button>
-                    <br/>
-                    <br/>
+                    <br />
+                    <br />
                     <Steps current={reservationState - 1} small>
-                        <Steps.Item/>
-                        <Steps.Item/>
-                        <Steps.Item/>
+                        <Steps.Item />
+                        <Steps.Item />
+                        <Steps.Item />
                     </Steps>
                 </>
             );
         }
         return <Modal.Footer>{content}</Modal.Footer>;
-    }
+    };
 
     const displayStateOne = () => {
         return (
@@ -147,6 +124,7 @@ const Reservation = ({ service, staff }) => {
 
     const displayStateTwo = () => {
         const isDateInPast = (date) => {
+            if (!date) return false;
             const today = new Date();
             const disabledDates = [
                 new Date("2023-10-28"),
@@ -166,47 +144,53 @@ const Reservation = ({ service, staff }) => {
         const isHourInPast = (hour) => {
             const today = new Date();
             return hour < today.getHours();
-        }
+        };
 
         return (
-            <div>
-                <Form layout="horizontal">
-                    <Form.Group controlId="date-time">
-                        <Form.ControlLabel>Date & Time</Form.ControlLabel>
-                        <DatePicker
-                            name="date-time"
-                            format="dd-MM-yyyy HH:mm"
-                            placement="bottomStart"
-                            onChange={handleDateChange}
-                            value={selectedDateTime}
-                            cleanable={false}
-                            limitEndYear={1}
-                            shouldDisableDate={isDateInPast}
-                            shouldDisableHour={isHourInPast}
-                        />
-                        <Form.HelpText>Required</Form.HelpText>
-                    </Form.Group>
-                </Form>
-                <h4>
-                    Selected Date: {days[selectedDateTime.getDay()]}{" "}
-                    {selectedDateTime.getDate()}{" "}
-                    {monthNames[selectedDateTime.getMonth()]}{" "}
-                    {selectedDateTime.getFullYear()}
-                </h4>
-                <h4>
-                    Selected Time:{" "}
-                    {selectedDateTime.getHours() < 10
-                        ? 0 + selectedDateTime.getHours().toString()
-                        : selectedDateTime.getHours()}
-                    :
-                    {selectedDateTime.getMinutes() < 10
-                        ? 0 + selectedDateTime.getMinutes().toString()
-                        : selectedDateTime.getMinutes()}
-                </h4>
-                {createFooter()}
-            </div>
-        );
-    };
+        <div>
+            <Form layout="horizontal">
+                <Form.Group controlId="date-time">
+                    <Form.ControlLabel>Date & Time</Form.ControlLabel>
+                    <DatePicker
+                        name="date-time"
+                        format="dd-MM-yyyy HH:mm"
+                        placement="bottomStart"
+                        onChange={handleDateChange}
+                        value={selectedDateTime}
+                        cleanable={false}
+                        limitEndYear={1}
+                        shouldDisableDate={isDateInPast}
+                        shouldDisableHour={isHourInPast}
+                    />
+                    <Form.HelpText>Required</Form.HelpText>
+                </Form.Group>
+            </Form>
+            {selectedDateTime ? (
+                <div>
+                    <h4>
+                        Selected Date: {days[selectedDateTime.getDay()]}{' '}
+                        {selectedDateTime.getDate()}{' '}
+                        {monthNames[selectedDateTime.getMonth()]}{' '}
+                        {selectedDateTime.getFullYear()}
+                    </h4>
+                    <h4>
+                        Selected Time:{' '}
+                        {selectedDateTime.getHours() < 10
+                            ? '0' + selectedDateTime.getHours()
+                            : selectedDateTime.getHours()}
+                        :
+                        {selectedDateTime.getMinutes() < 10
+                            ? '0' + selectedDateTime.getMinutes()
+                            : selectedDateTime.getMinutes()}
+                    </h4>
+                </div>
+            ) : (
+                <h4>Please Select Date and Time</h4>
+            )}
+            {createFooter()}
+        </div>
+    );
+}
 
     const displayStateThree = () => {
         return (
@@ -240,8 +224,8 @@ const Reservation = ({ service, staff }) => {
                 <h3>Your Reservation is recorded.</h3>
                 <h4>You may close this window.</h4>
             </div>
-        )
-    }
+        );
+    };
 
     const display = () => {
         if (reservationState === 1) return displayStateOne();
@@ -255,7 +239,6 @@ const Reservation = ({ service, staff }) => {
     }, [reservationState]);
 
     return display();
-
 };
 
 export default Reservation;
