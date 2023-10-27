@@ -55,16 +55,12 @@ const Reservation = ({ service, staff }) => {
 
 
     const handleConfirmClick = () => {
-        // const formData = new FormData();
-        // formData.append("staff", staff.uid);
-        // formData.append("service", service.id);
-        // formData.append("customer", user.uid);
-        // formData.append("date_time", selectedDateTime);
         const formData = {
             "staff": staff.uid,
             "service": service.id,
             "customer": user.uid,
-            "date_time": selectedDateTime.toISOString()}
+            "date_time": selectedDateTime.toISOString()
+        }
         console.log(selectedDateTime);
         return reservationState < 3
             ? setReservationState(reservationState + 1)
