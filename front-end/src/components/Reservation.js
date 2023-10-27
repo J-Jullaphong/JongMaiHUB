@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Modal, DatePicker, Button, Form, Steps } from "rsuite";
 import DataSender from "./DataSender";
 
-const Reservation = ({ service, staff, provider}) => {
+const Reservation = ({service, staff, provider, user}) => {
     const [reservationState, setReservationState] = useState(1);
     const [selectedDateTime, setSelectedDateTime] = useState(new Date());
     const [isDateSelected, setIsDateSelected] = useState(false);
