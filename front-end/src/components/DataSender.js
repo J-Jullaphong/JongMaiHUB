@@ -19,21 +19,24 @@ class DataSender extends Component {
         });
     }
 
-    async convertImagesInForm(eventTarget) {
-        const formData = new FormData(eventTarget);
-        for (const [key, value] of formData.entries()) {
+    async convertImagesInForm(formData) {
+        const updatedFormData = new FormData();
+        for (const [key, value] of formData) {
             if (value instanceof File) {
-                formData.append(key, this.convertImageToBase64(value));
+                const base64Image = await this.convertImageToBase64(value);
+                updatedFormData.append(key, base64Image); 
+            } else {
+                updatedFormData.append(key, value);
             }
         }
-        return formData;
+        return updatedFormData;
     }
+
 
     async submitData(type, formData, key = "") {
         return await axios
             .post(
-                `${this.state.api}${type}/${key}`,
-                await this.convertImagesInForm(formData)
+                `${this.state.api}${type}/${key}`, formData
             )
             .catch((error) => {
                 console.log(error);
