@@ -27,7 +27,7 @@ const SearchScreen = ({ serviceData, providerData }) => {
                     .includes(searchQuery.get("name").toLowerCase())
         )
         : serviceData;
-
+    
     useEffect(() => {
         const filterData = () => {
             const filteredData = serviceData.filter((service) => {
@@ -77,28 +77,36 @@ const SearchScreen = ({ serviceData, providerData }) => {
                 <img src={service.service_picture} alt={service.name} />
                 <div className="service-detail">
                     <div style={{ display: "flex", alignItems: "center" }}>
-                        <Avatar
-                            circle
-                            title={providerLists[service.service_provider][0]}
-                            src={providerLists[service.service_provider][1]}
-                            style={{ paddingLeft: "20px", marginRight: "1vw" }}
-                        />
-                        <h2>
-                            {service.name} |{" "}
+                    </div>
+                    <div>
+                        <h3>
+                            <Avatar
+                                circle
+                                title={providerLists[service.service_provider][0]}
+                                src={providerLists[service.service_provider][1]}
+                                style={{ paddingLeft: "20px", marginRight: "1vw" }}
+                                size="md"
+                            />
                             {providerLists[service.service_provider][0]}
-                        </h2>
+                        </h3>
+                        <h5>
+                            {service.name}
+                        </h5>
                     </div>
                     <p>
                         {service.type} | {service.duration} Minutes |{" "}
                         {service.price} Baht
                     </p>
-                    <Button onClick={() => handleDetailClick(service)}>
+                    <Button
+                        className="details-button"
+                        onClick={() => handleDetailClick(service)}
+                    >
                         Details
                     </Button>
                 </div>
             </div>
         ));
-
+    
     const handleLoadMoreClick = () => {
         setPageNumber(pageNumber + 1);
     };
