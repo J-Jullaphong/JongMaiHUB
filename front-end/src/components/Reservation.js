@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Modal, DatePicker, Button, Form, Steps } from "rsuite";
 import DataSender from "./DataSender";
-import DataFetcher from "./DataFetcher";
-import firebase from "firebase/compat/app";
-import "firebase/compat/auth";
 
 const Reservation = ({ service, staff, provider}) => {
     const [reservationState, setReservationState] = useState(1);
@@ -35,24 +32,7 @@ const Reservation = ({ service, staff, provider}) => {
         "Saturday",
     ];
 
-
     const dataSender = new DataSender();
-
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [user, setUser] = useState(null);
-
-    useEffect(() => {
-        const unsubscribe = firebase.auth().onAuthStateChanged((authUser) => {
-            if (authUser) {
-                setIsAuthenticated(true);
-                setUser(authUser);
-            } else {
-                setIsAuthenticated(false);
-                setUser(null);
-            }
-        });
-    })
-
 
     const handleConfirmClick = () => {
         if (reservationState < 3) {
@@ -111,7 +91,7 @@ const Reservation = ({ service, staff, provider}) => {
                     </Steps>
                 </>
             );
-        } else {
+        } else if (reservationState === 3) {
             content = (
                 <>
                     <p>Please Confirm your Reservation</p>
@@ -128,7 +108,6 @@ const Reservation = ({ service, staff, provider}) => {
                 </>
             );
         }
-
         return <Modal.Footer>{content}</Modal.Footer>;
     };
 
@@ -240,10 +219,20 @@ const Reservation = ({ service, staff, provider}) => {
         );
     };
 
+    const displayStateFour = () => {
+        return (
+            <div>
+                <h3>Your Reservation is recorded.</h3>
+                <h4>You may close this window.</h4>
+            </div>
+        );
+    };
+
     const display = () => {
         if (reservationState === 1) return displayStateOne();
         else if (reservationState === 2) return displayStateTwo();
         else if (reservationState === 3) return displayStateThree();
+        else if (reservationState === 4) return displayStateFour();
     };
 
     useEffect(() => {
@@ -251,6 +240,6 @@ const Reservation = ({ service, staff, provider}) => {
     }, [reservationState]);
 
     return display();
-}
+};
 
 export default Reservation;
