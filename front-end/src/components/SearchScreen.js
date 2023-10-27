@@ -27,7 +27,7 @@ const SearchScreen = ({ serviceData, providerData }) => {
                     .includes(searchQuery.get("name").toLowerCase())
         )
         : serviceData;
-    
+
     useEffect(() => {
         const filterData = () => {
             const filteredData = serviceData.filter((service) => {
@@ -73,18 +73,22 @@ const SearchScreen = ({ serviceData, providerData }) => {
     const displayServices = searchResult
         .slice(0, pageNumber * 5)
         .map((service) => (
-            <div className="service" key={service.id}>
+            <div
+                className="service"
+                key={service.id}
+                onClick={() => handleDetailClick(service)}
+            >
                 <img src={service.service_picture} alt={service.name} />
                 <div className="service-detail">
                     <div style={{ display: "flex", alignItems: "center" }}>
                     </div>
                     <div>
                         <h3>
-                            <Avatar
+                            <Avatar className="Avatar"
                                 circle
                                 title={providerLists[service.service_provider][0]}
                                 src={providerLists[service.service_provider][1]}
-                                style={{ paddingLeft: "20px", marginRight: "1vw" }}
+                                style={{ paddingLeft: "20px", paddingBottom: "20px", marginRight: "1vw" }}
                                 size="md"
                             />
                             {providerLists[service.service_provider][0]}
@@ -105,8 +109,9 @@ const SearchScreen = ({ serviceData, providerData }) => {
                     </Button>
                 </div>
             </div>
+
         ));
-    
+
     const handleLoadMoreClick = () => {
         setPageNumber(pageNumber + 1);
     };
