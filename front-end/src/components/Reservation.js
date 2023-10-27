@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Modal, DatePicker, Button, Form, Steps } from "rsuite";
 import DataSender from "./DataSender";
+import DataFetcher from "./DataFetcher";
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
 
 const Reservation = ({ service, staff }) => {
     const [reservationState, setReservationState] = useState(1);
@@ -32,10 +35,40 @@ const Reservation = ({ service, staff }) => {
         "Saturday",
     ];
 
+
+    const dataSender = new DataSender();
+
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const unsubscribe = firebase.auth().onAuthStateChanged((authUser) => {
+            if (authUser) {
+                setIsAuthenticated(true);
+                setUser(authUser);
+            } else {
+                setIsAuthenticated(false);
+                setUser(null);
+            }
+        });
+    })
+
+
     const handleConfirmClick = () => {
+        // const formData = new FormData();
+        // formData.append("staff", staff.uid);
+        // formData.append("service", service.id);
+        // formData.append("customer", user.uid);
+        // formData.append("date_time", selectedDateTime);
+        const formData = {
+            "staff": staff.uid,
+            "service": service.id,
+            "customer": user.uid,
+            "date_time": selectedDateTime.toISOString()}
+        console.log(selectedDateTime);
         return reservationState < 3
             ? setReservationState(reservationState + 1)
-            : NaN;
+            : dataSender.submitAppointmentData(formData);
     };
 
     const handleDateChange = (dateTime) => {
@@ -212,6 +245,6 @@ const Reservation = ({ service, staff }) => {
     }, [reservationState]);
 
     return display();
-};
+}
 
 export default Reservation;
