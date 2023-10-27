@@ -62,9 +62,14 @@ const Reservation = ({ service, staff }) => {
             "date_time": selectedDateTime.toISOString()
         }
         console.log(selectedDateTime);
-        return reservationState < 3
-            ? setReservationState(reservationState + 1)
-            : dataSender.submitAppointmentData(formData);
+        if (reservationState < 3) {
+            setReservationState(reservationState + 1);
+        } else if (reservationState === 3) {
+            dataSender.submitAppointmentData(formData);
+            setReservationState(reservationState + 1);
+        }
+
+
     };
 
     const handleDateChange = (dateTime) => {
@@ -81,12 +86,12 @@ const Reservation = ({ service, staff }) => {
                     <Button onClick={handleConfirmClick} appearance="primary">
                         Continue
                     </Button>
-                    <br />
-                    <br />
+                    <br/>
+                    <br/>
                     <Steps current={reservationState - 1} small>
-                        <Steps.Item />
-                        <Steps.Item />
-                        <Steps.Item />
+                        <Steps.Item/>
+                        <Steps.Item/>
+                        <Steps.Item/>
                     </Steps>
                 </>
             );
@@ -100,35 +105,34 @@ const Reservation = ({ service, staff }) => {
                     >
                         Continue
                     </Button>
-                    <br />
-                    <br />
+                    <br/>
+                    <br/>
                     <Steps current={reservationState - 1} small>
-                        <Steps.Item />
-                        <Steps.Item />
-                        <Steps.Item />
+                        <Steps.Item/>
+                        <Steps.Item/>
+                        <Steps.Item/>
                     </Steps>
                 </>
             );
-        } else {
+        } else if (reservationState === 3) {
             content = (
                 <>
                     <p>Please Confirm your Reservation</p>
                     <Button onClick={handleConfirmClick} appearance="primary">
                         Confirm
                     </Button>
-                    <br />
-                    <br />
+                    <br/>
+                    <br/>
                     <Steps current={reservationState - 1} small>
-                        <Steps.Item />
-                        <Steps.Item />
-                        <Steps.Item />
+                        <Steps.Item/>
+                        <Steps.Item/>
+                        <Steps.Item/>
                     </Steps>
                 </>
             );
         }
-
         return <Modal.Footer>{content}</Modal.Footer>;
-    };
+    }
 
     const displayStateOne = () => {
         return (
@@ -230,10 +234,20 @@ const Reservation = ({ service, staff }) => {
         );
     };
 
+    const displayStateFour = () => {
+        return (
+            <div>
+                <h3>Your Reservation is recorded.</h3>
+                <h4>You may close this window.</h4>
+            </div>
+        )
+    }
+
     const display = () => {
         if (reservationState === 1) return displayStateOne();
         else if (reservationState === 2) return displayStateTwo();
         else if (reservationState === 3) return displayStateThree();
+        else if (reservationState === 4) return displayStateFour();
     };
 
     useEffect(() => {
@@ -241,6 +255,7 @@ const Reservation = ({ service, staff }) => {
     }, [reservationState]);
 
     return display();
-}
+
+};
 
 export default Reservation;
