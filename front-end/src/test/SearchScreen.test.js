@@ -70,4 +70,5 @@ describe("SearchScreen", () => {
         const serviceNames = screen.getAllByText(/service/i);
         expect(serviceNames.length).toBe(2);
     });
+
 });
