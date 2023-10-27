@@ -5,7 +5,7 @@ import DataFetcher from "./DataFetcher";
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 
-const Reservation = ({ service, staff }) => {
+const Reservation = ({ service, staff, provider}) => {
     const [reservationState, setReservationState] = useState(1);
     const [selectedDateTime, setSelectedDateTime] = useState(new Date());
     const [isDateSelected, setIsDateSelected] = useState(false);
@@ -55,16 +55,18 @@ const Reservation = ({ service, staff }) => {
 
 
     const handleConfirmClick = () => {
-        const formData = {
-            "staff": staff.uid,
-            "service": service.id,
-            "customer": user.uid,
-            "date_time": selectedDateTime.toISOString()
+        if (reservationState < 3) {
+            setReservationState(reservationState + 1);
+        } else if (reservationState === 3) {
+            const formData = {
+                staff: staff.uid,
+                service: service.id,
+                customer: user.uid,
+                date_time: selectedDateTime.toISOString(),
+            };
+            dataSender.submitAppointmentData(formData);
+            setReservationState(reservationState + 1);
         }
-        console.log(selectedDateTime);
-        return reservationState < 3
-            ? setReservationState(reservationState + 1)
-            : dataSender.submitAppointmentData(formData);
     };
 
     const handleDateChange = (dateTime) => {
@@ -143,10 +145,10 @@ const Reservation = ({ service, staff }) => {
 
     const displayStateTwo = () => {
         const isDateInPast = (date) => {
+            if (!date) return false;
             const today = new Date();
             const disabledDates = [
-                new Date("2023-10-28"),
-                new Date("2023-11-15"),
+                today
             ];
             return (
                 date.getTime() < today.getTime() ||
@@ -159,9 +161,11 @@ const Reservation = ({ service, staff }) => {
             );
         };
 
-        const isHourInPast = (hour) => {
+        const isHourClosed = (hour) => {
             const today = new Date();
-            return hour < today.getHours();
+            const openTime = parseInt(provider.opening_time.split(":")[0]);
+            const closeTime = parseInt(provider.closing_time.split(":")[0]);
+            return hour < openTime || hour > closeTime;
         }
 
         return (
@@ -178,31 +182,37 @@ const Reservation = ({ service, staff }) => {
                             cleanable={false}
                             limitEndYear={1}
                             shouldDisableDate={isDateInPast}
-                            shouldDisableHour={isHourInPast}
+                            shouldDisableHour={isHourClosed}
                         />
                         <Form.HelpText>Required</Form.HelpText>
                     </Form.Group>
                 </Form>
-                <h4>
-                    Selected Date: {days[selectedDateTime.getDay()]}{" "}
-                    {selectedDateTime.getDate()}{" "}
-                    {monthNames[selectedDateTime.getMonth()]}{" "}
-                    {selectedDateTime.getFullYear()}
-                </h4>
-                <h4>
-                    Selected Time:{" "}
-                    {selectedDateTime.getHours() < 10
-                        ? 0 + selectedDateTime.getHours().toString()
-                        : selectedDateTime.getHours()}
-                    :
-                    {selectedDateTime.getMinutes() < 10
-                        ? 0 + selectedDateTime.getMinutes().toString()
-                        : selectedDateTime.getMinutes()}
-                </h4>
+                {selectedDateTime ? (
+                    <div>
+                        <h4>
+                            Selected Date: {days[selectedDateTime.getDay()]}{' '}
+                            {selectedDateTime.getDate()}{' '}
+                            {monthNames[selectedDateTime.getMonth()]}{' '}
+                            {selectedDateTime.getFullYear()}
+                        </h4>
+                        <h4>
+                            Selected Time:{' '}
+                            {selectedDateTime.getHours() < 10
+                                ? '0' + selectedDateTime.getHours()
+                                : selectedDateTime.getHours()}
+                            :
+                            {selectedDateTime.getMinutes() < 10
+                                ? '0' + selectedDateTime.getMinutes()
+                                : selectedDateTime.getMinutes()}
+                        </h4>
+                    </div>
+                ) : (
+                    <h4>Please Select Date and Time</h4>
+                )}
                 {createFooter()}
             </div>
         );
-    };
+    }
 
     const displayStateThree = () => {
         return (

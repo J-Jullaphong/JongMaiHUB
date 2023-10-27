@@ -58,7 +58,7 @@ const ServiceDetail = ({ serviceData, providerData, staffData }) => {
                                     <button onClick={() => handleOpen(staff)}>View</button>
                                     <Modal open={open} onClose={handleClose}>
                                     <Modal.Header>{service.name}</Modal.Header>
-                                    <Modal.Body>{<Reservation service={service} staff={selectedStaff} />}</Modal.Body>
+                                    <Modal.Body>{<Reservation service={service} staff={selectedStaff} provider={provider} />}</Modal.Body>
                                     </Modal>
                                     <p>
                                         <small>
