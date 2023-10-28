@@ -75,6 +75,7 @@ const SearchScreen = ({ serviceData, providerData }) => {
         .map((service) => (
             <div
                 className="service"
+                title = "service"
                 key={service.id}
                 onClick={() => handleDetailClick(service)}
             >
@@ -82,7 +83,7 @@ const SearchScreen = ({ serviceData, providerData }) => {
                 <div className="service-detail">
                     <div style={{ display: "flex", alignItems: "center" }}>
                     </div>
-                    <div>
+                    <div title="provider">
                         <h3>
                             <Avatar className="Avatar"
                                 circle
@@ -93,7 +94,7 @@ const SearchScreen = ({ serviceData, providerData }) => {
                             />
                             {providerLists[service.service_provider][0]}
                         </h3>
-                        <h5>
+                        <h5 >
                             {service.name}
                         </h5>
                     </div>
@@ -103,6 +104,7 @@ const SearchScreen = ({ serviceData, providerData }) => {
                     </p>
                     <Button
                         className="details-button"
+                        title = "details"
                         onClick={() => handleDetailClick(service)}
                     >
                         Details
