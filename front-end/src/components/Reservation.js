@@ -3,9 +3,13 @@ import { Modal, DatePicker, Button, Form, Steps } from "rsuite";
 import DataSender from "./DataSender";
 
 const Reservation = ({service, staff, provider, user}) => {
+    const defaultDate = new Date();
+    defaultDate.setDate(defaultDate.getDate() + 1);
+
     const [reservationState, setReservationState] = useState(1);
-    const [selectedDateTime, setSelectedDateTime] = useState(new Date());
+    const [selectedDateTime, setSelectedDateTime] = useState(defaultDate);
     const [isDateSelected, setIsDateSelected] = useState(false);
+
 
     const monthNames = [
         "January",
@@ -146,6 +150,7 @@ const Reservation = ({service, staff, provider, user}) => {
             const closeTime = parseInt(provider.closing_time.split(":")[0]);
             return hour < openTime || hour > closeTime;
         }
+
 
         return (
             <div>
