@@ -157,4 +157,23 @@ describe("SearchScreen", () => {
         expect(getAllService.length).toBe(5);
     });
 
+    it("should display load more button when there are more than 5 services.", () => {
+        render(
+            <MemoryRouter initialEntries={["/search?"]}>
+                <SearchScreen serviceData={serviceData} providerData={providerData} />
+            </MemoryRouter>
+        );
+        const getLoadMore = screen.getByText(/Load More/i);
+        expect(getLoadMore).toBeInTheDocument();
+    })
+
+    it("should not display load more button when there are less than 5 services.", () => {
+        render(
+            <MemoryRouter initialEntries={["/search?type=type1"]}>
+                <SearchScreen serviceData={serviceData} providerData={providerData} />
+            </MemoryRouter>
+        );
+        const getLoadMore = screen.queryByText(/Load More/i);
+        expect(getLoadMore).toBeNull();
+    })
 });
