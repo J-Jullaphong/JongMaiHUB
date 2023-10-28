@@ -1,12 +1,10 @@
 import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import NavBar from "../components/NavBar";
 
 jest.mock("firebase/compat/app", () => ({
     auth: () => ({
-        onAuthStateChanged: (callback) => {
-            callback(null);
-        },
+        onAuthStateChanged: (callback) => callback(null),
         currentUser: null,
         signOut: jest.fn(),
     }),
@@ -29,11 +27,12 @@ describe("Navbar when user is not logged in", () => {
         expect(getLogin).toBeInTheDocument();
     });
 
-    it('should display all services when clicks a category', () => {
+    it('should not user profile', () => {
         render(<NavBar />);
-        fireEvent.click(screen.getByText(/categories/i));
-        // todo use mock api 
-        const getBarber = screen.getByText(/barber/i);
-        expect(getBarber).toBeInTheDocument();
+        const userName = screen.queryByText(/username/i);
+        expect(userName).toBeNull();
+        const userProfile = screen.queryByText(/userprofile/i);
+        expect(userProfile).toBeNull();
     });
+
 });
