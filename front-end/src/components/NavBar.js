@@ -34,7 +34,9 @@ const NavBar = () => {
         });
 
         return () => {
-            unsubscribe();
+            if (unsubscribe) {
+                unsubscribe();
+            }
         };
     }, []);
 
