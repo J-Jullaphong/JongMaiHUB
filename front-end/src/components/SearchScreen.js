@@ -73,30 +73,45 @@ const SearchScreen = ({ serviceData, providerData }) => {
     const displayServices = searchResult
         .slice(0, pageNumber * 5)
         .map((service) => (
-            <div className="service" key={service.id}>
+            <div
+                className="service"
+                title = "service"
+                key={service.id}
+                onClick={() => handleDetailClick(service)}
+            >
                 <img src={service.service_picture} alt={service.name} />
                 <div className="service-detail">
                     <div style={{ display: "flex", alignItems: "center" }}>
-                        <Avatar
-                            circle
-                            title={providerLists[service.service_provider][0]}
-                            src={providerLists[service.service_provider][1]}
-                            style={{ paddingLeft: "20px", marginRight: "1vw" }}
-                        />
-                        <h2>
-                            {service.name} |{" "}
+                    </div>
+                    <div title="provider">
+                        <h3>
+                            <Avatar className="Avatar"
+                                circle
+                                title={providerLists[service.service_provider][0]}
+                                src={providerLists[service.service_provider][1]}
+                                style={{ paddingLeft: "20px", paddingBottom: "20px", marginRight: "1vw" }}
+                                size="md"
+                            />
                             {providerLists[service.service_provider][0]}
-                        </h2>
+                        </h3>
+                        <h5 >
+                            {service.name}
+                        </h5>
                     </div>
                     <p>
                         {service.type} | {service.duration} Minutes |{" "}
                         {service.price} Baht
                     </p>
-                    <Button onClick={() => handleDetailClick(service)}>
+                    <Button
+                        className="details-button"
+                        title = "details"
+                        onClick={() => handleDetailClick(service)}
+                    >
                         Details
                     </Button>
                 </div>
             </div>
+
         ));
 
     const handleLoadMoreClick = () => {
