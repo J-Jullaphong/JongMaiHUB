@@ -1,11 +1,14 @@
 from rest_framework import generics
 from .serializers import *
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 class ListServiceProvider(generics.ListCreateAPIView):
     """ListServiceProvider displays a list of all Service Provider."""
     queryset = ServiceProvider.objects.all()
     serializer_class = ServiceProviderSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = "__all__"
 
 
 class DetailServiceProvider(generics.RetrieveUpdateDestroyAPIView):
@@ -54,6 +57,9 @@ class ListAppointment(generics.ListCreateAPIView):
     """ListAppointment displays a list of all Appointment."""
     queryset = Appointment.objects.all()
     serializer_class = AppointmentSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = "__all__"
+    # filterset_fields = ["customer", "staff", "id"]
 
 
 class DetailAppointment(generics.RetrieveUpdateDestroyAPIView):
