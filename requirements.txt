@@ -4,3 +4,4 @@ python-decouple >=3.8
 djangorestframework
 psycopg2-binary
 django-cors-headers
+django-filters
