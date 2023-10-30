@@ -5,80 +5,40 @@ from .models import *
 class ServiceProviderSerializer(serializers.ModelSerializer):
     """Serializer for ServiceProvider model."""
     class Meta:
-        fields = (
-            'uid',
-            'name',
-            'location',
-            'opening_time',
-            'closing_time',
-            'profile_picture',
-            'cover_picture',
-        )
+        fields = "__all__"
         model = ServiceProvider
 
 
 class ServiceSerializer(serializers.ModelSerializer):
     """Serializer for Service model."""
     class Meta:
-        fields = (
-            'id',
-            'name',
-            'service_provider',
-            'type',
-            'duration',
-            'price',
-            'service_picture',
-        )
+        fields = "__all__"
         model = Service
 
 
 class StaffSerializer(serializers.ModelSerializer):
     """Serializer for Staff model."""
     class Meta:
-        fields = (
-            'uid',
-            'name',
-            'service_provider',
-            'service',
-            'specialty',
-            'background',
-            'start_work_time',
-            'get_off_work_time',
-            'profile_picture',
-        )
+        fields = "__all__"
         model = Staff
 
 
 class CustomerSerializer(serializers.ModelSerializer):
     """Serializer for Customer model."""
     class Meta:
-        fields = (
-            'uid',
-            'name',
-            'phone_number',
-            'email',
-        )
+        fields = "__all__"
         model = Customer
 
 
 class AppointmentSerializer(serializers.ModelSerializer):
     """Serializer for Appointment model."""
     class Meta:
-        fields = (
-            'id',
-            'customer',
-            'service',
-            'staff',
-            'date_time',
-        )
+        fields = "__all__"
         model = Appointment
 
 
 class RatingSerializer(serializers.ModelSerializer):
     """Serializer for Rating model."""
     class Meta:
-        fields = (
-            'appointment',
-            'rating',
-        )
+        fields = "__all__"
         model = Rating

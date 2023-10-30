@@ -21,6 +21,8 @@ class ListService(generics.ListCreateAPIView):
     """ListService displays a list of all Service."""
     queryset = Service.objects.all()
     serializer_class = ServiceSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = "__all__"
 
 
 class DetailService(generics.RetrieveUpdateDestroyAPIView):
@@ -33,6 +35,8 @@ class ListStaff(generics.ListCreateAPIView):
     """ListStaff displays a list of all Staff."""
     queryset = Staff.objects.all()
     serializer_class = StaffSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = "__all__"
 
 
 class DetailStaff(generics.RetrieveUpdateDestroyAPIView):
@@ -45,6 +49,8 @@ class ListCustomer(generics.ListCreateAPIView):
     """ListCustomer displays a list of all Customer."""
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = "__all__"
 
 
 class DetailCustomer(generics.RetrieveUpdateDestroyAPIView):
@@ -59,7 +65,6 @@ class ListAppointment(generics.ListCreateAPIView):
     serializer_class = AppointmentSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = "__all__"
-    # filterset_fields = ["customer", "staff", "id"]
 
 
 class DetailAppointment(generics.RetrieveUpdateDestroyAPIView):
@@ -72,6 +77,8 @@ class ListRating(generics.ListCreateAPIView):
     """ListRating displays a list of all Rating."""
     queryset = Rating.objects.all()
     serializer_class = RatingSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = "__all__"
 
 
 class DetailRating(generics.RetrieveUpdateDestroyAPIView):
