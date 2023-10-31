@@ -3,7 +3,7 @@ from django.db import models
 
 class ServiceProvider(models.Model):
     """Service Provider Model represents a service provider with their information."""
-    uid = models.CharField(max_length=28, primary_key=True)
+    uid = models.CharField(max_length=50, primary_key=True)
     name = models.CharField(max_length=100)
     location = models.CharField(max_length=500)
     opening_time = models.TimeField()
@@ -31,7 +31,7 @@ class Service(models.Model):
 
 class Staff(models.Model):
     """Staff Model represents the staffs give services to customer."""
-    uid = models.CharField(max_length=28, primary_key=True)
+    uid = models.CharField(max_length=50, primary_key=True)
     name = models.CharField(max_length=100)
     service_provider = models.ForeignKey(ServiceProvider,
                                          on_delete=models.CASCADE)
@@ -48,7 +48,7 @@ class Staff(models.Model):
 
 class Customer(models.Model):
     """Customer Model represents the customers, containing basic information."""
-    uid = models.CharField(max_length=28, primary_key=True)
+    uid = models.CharField(max_length=50, primary_key=True)
     name = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=10, blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
