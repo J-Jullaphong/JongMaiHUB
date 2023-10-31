@@ -82,4 +82,19 @@ describe("Reservation", () => {
         expect(getStep3).toBeInTheDocument();
     });
 
+    it("should display select date and time when click continue first time.", () => {
+        render(<Reservation service={serviceData} staff={staffData} provider={providerData} user={userData} />);
+        const getContinue = screen.getByText(/continue/i);
+        fireEvent.click(getContinue);
+        const getSelectDate = screen.getByText(/selected date/i);
+        const getSelectTime = screen.getByText(/selected time/i)
+        const getRequired = screen.getByText(/required/i)
+        const getStep1 = screen.queryByText("1");
+
+        expect(getSelectDate).toBeInTheDocument();
+        expect(getSelectTime).toBeInTheDocument();
+        expect(getRequired).toBeInTheDocument();
+        expect(getStep1).toBe(null)
+    });
+
 });
