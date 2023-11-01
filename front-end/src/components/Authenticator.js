@@ -100,7 +100,7 @@ const Authenticator = ({ user, onAuthenticationChange }) => {
 
   const addCurrentUser = async (user) => {
     try {
-      await dataFetcher.getCustomerData();
+      await dataFetcher.getCustomerData(user.getUID());
     } catch (AxiosError) {
       const formData = { uid: user.getUID(), name: user.getName() };
       dataSender.submitCustomerData(formData);
