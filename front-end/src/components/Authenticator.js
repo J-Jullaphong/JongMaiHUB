@@ -99,9 +99,11 @@ const Authenticator = ({ user, onAuthenticationChange }) => {
   };
 
   const addCurrentUser = async (user) => {
-    try {
-      await dataFetcher.getCustomerData(user.getUID());
-    } catch (AxiosError) {
+    const customers = await dataFetcher.getCustomerData();
+    const fetchedCustomer = customers.filter(
+      (customer) => customer.uid === user.getUID()
+    );
+    if (fetchedCustomer.length === 0) {
       const formData = { uid: user.getUID(), name: user.getName() };
       dataSender.submitCustomerData(formData);
     }
