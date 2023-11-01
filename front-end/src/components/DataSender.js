@@ -35,9 +35,7 @@ class DataSender extends Component {
 
     async submitData(type, formData) {
         return await axios
-            .post(
-                `${this.state.api}${type}`, formData
-            )
+            .post(`${this.state.api}${type}/`, formData)
             .catch((error) => {
                 console.log(error);
                 throw error;
@@ -46,9 +44,7 @@ class DataSender extends Component {
 
     async updateData(type, formData, key = "") {
         return await axios
-            .patch(
-                `${this.state.api}${type}/${key}`, formData
-            )
+            .patch(`${this.state.api}${type}/${key}/`, formData)
             .catch((error) => {
                 console.log(error);
                 throw error;
