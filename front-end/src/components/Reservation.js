@@ -1,14 +1,37 @@
 import React, { useEffect, useState } from "react";
 import { Modal, DatePicker, Button, Form, Steps } from "rsuite";
+import DataFetcher from "./DataFetcher";
 import DataSender from "./DataSender";
 
-const Reservation = ({service, staff, provider, user}) => {
+const Reservation = ({ service, staff, provider, user }) => {
     const defaultDate = new Date();
     defaultDate.setDate(defaultDate.getDate() + 1);
 
     const [reservationState, setReservationState] = useState(1);
     const [selectedDateTime, setSelectedDateTime] = useState(defaultDate);
     const [isDateSelected, setIsDateSelected] = useState(false);
+    const [CustomerAppointmentData, setCustomerAppointmentData] = useState([]);
+    const [StaffAppointmentData, setStaffAppointmentData] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const dataFetcher = new DataFetcher();
+            try {
+                const [CustomerAppointmentData, StaffAppointmentData] = await Promise.all([
+                    dataFetcher.getAppointmentByCustomer(),
+                    dataFetcher.getAppointmentByStaff(),
+                ]);
+                console.log("Received Customer Appointment JSON data:", CustomerAppointmentData);
+                console.log("Received Staff Appointment JSON data:", StaffAppointmentData);
+                setCustomerAppointmentData(CustomerAppointmentData);
+                setStaffAppointmentData(StaffAppointmentData);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchData();
+    }, []);
 
 
     const monthNames = [
