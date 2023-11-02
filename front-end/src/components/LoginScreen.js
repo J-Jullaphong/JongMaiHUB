@@ -1,13 +1,17 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import "./styles/LoginScreen.css";
 import LineAuth from "./LineAuth";
+import { Button } from "rsuite";
 
 const LINE_CLIENT_ID = "<% CLIENT-ID %>"
 
 const LoginScreen = () => {
+  const navigate = useNavigate();
+
   const uiConfig = {
     signInFlow: "popup",
     signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
@@ -36,6 +40,11 @@ const LoginScreen = () => {
         scope="profile%20openid"
         redirectURI="http://localhost:3000/login/"
       />
+      <div className="button-container">
+        <Button appearance="primary" onClick={() => navigate("/")}>
+          Continue as Guest
+        </Button>
+      </div>
     </div>
   );
 };

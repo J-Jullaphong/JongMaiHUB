@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import firebase from "firebase/compat/app";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import qs from "qs";
 import { jwtDecode } from "jwt-decode";
@@ -16,6 +17,7 @@ const Authenticator = ({ user, onAuthenticationChange }) => {
 
   const dataFetcher = new DataFetcher();
   const dataSender = new DataSender();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const authObserver = firebase.auth().onAuthStateChanged((authUser) => {
@@ -127,15 +129,7 @@ const Authenticator = ({ user, onAuthenticationChange }) => {
     }
   };
 
-  return (
-    <div>
-      {isAuthenticated ? (
-        <h1>{user.getName()} is authenticated!</h1>
-      ) : (
-        <LoginScreen />
-      )}
-    </div>
-  );
+  return <div>{isAuthenticated ? navigate("/") : <LoginScreen />}</div>;
 };
 
 export default Authenticator;
