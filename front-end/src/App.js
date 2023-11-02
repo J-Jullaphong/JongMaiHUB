@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import "firebase/compat/auth";
 
 import Authenticator from "./components/Authenticator";
@@ -15,6 +15,7 @@ const App = () => {
   const [userAuthenticated, setUserAuthenticated] = useState(
     user.getName() !== null
   );
+  const navigate = useNavigate();
   const [serviceData, setServiceData] = useState([]);
   const [providerData, setProviderData] = useState([]);
   const [staffData, setStaffData] = useState([]);
@@ -39,6 +40,7 @@ const App = () => {
       }
     };
     fetchData();
+    navigate("/login")
   }, []);
 
   const handleAuthenticationChange = (authenticated) => {
@@ -48,11 +50,7 @@ const App = () => {
   return (
     <div className="App">
       <header className="app-header">
-        <NavBar
-          user={user}
-          isUserAuthenticated={userAuthenticated}
-          serviceData={serviceData}
-        />
+        <NavBar user={user} isUserAuthenticated={userAuthenticated} serviceData={serviceData}/>
         <Routes>
           <Route path="/" element={<HubScreen />} />
           <Route
