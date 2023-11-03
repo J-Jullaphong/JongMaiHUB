@@ -2,24 +2,38 @@ import React, { useState, useEffect } from 'react';
 import { Input, Button, Panel } from 'rsuite';
 import DataSender from './DataSender';
 import { useParams } from 'react-router-dom';
+import DataFetcher from './DataFetcher';
 
-const ServiceManagement = ({ serviceData }) => {
+const ServiceManagement = () => {
     const [service, setService] = useState(null);
     const [name, setName] = useState('');
     const [type, setType] = useState('');
     const [duration, setDuration] = useState('');
     const [price, setPrice] = useState('');
+    const [serviceData, setServiceData] = useState([]);
     const dataSender = new DataSender();
+    const dataFetcher = new DataFetcher();
     const { serviceId } = useParams()
 
     useEffect(() => {
-        const serviceMember = serviceData.find(service => service.id && service.id.toString()  === serviceId );
-        if (serviceMember) {
-            setService(serviceMember);
-            setName(serviceMember.name);
-            setType(serviceMember.type);
-            setDuration(serviceMember.duration);
-            setPrice(serviceMember.price);
+        if (service === null) {
+            try {
+                const fetchData = async () => {
+                    const serviceData = await dataFetcher.getServiceData(serviceId)
+                    setServiceData(serviceData);
+
+                    if (serviceData) {
+                        setService(serviceData);
+                        setName(serviceData.name);
+                        setType(serviceData.type);
+                        setDuration(serviceData.duration);
+                        setPrice(serviceData.price);
+                    }
+                };
+                fetchData();
+            } catch (error) {
+                console.error(error);
+            }
         }
     }, [serviceData, serviceId]);
 

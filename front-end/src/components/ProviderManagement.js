@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Input, Button, Panel, Table } from 'rsuite';
 import DataSender from './DataSender';
+import DataFetcher from './DataFetcher';
 import { useNavigate } from 'react-router-dom';
 
-const ProviderManagement = ({ user, serviceData, providerData, staffData }) => {
+const ProviderManagement = ({ user }) => {
     const [uid, setUid] = useState('');
     const [name, setName] = useState('');
     const [location, setLocation] = useState('');
@@ -15,32 +16,50 @@ const ProviderManagement = ({ user, serviceData, providerData, staffData }) => {
     const [staffList, setStaffList] = useState([]);
     const [serviceList, setServiceList] = useState([])
 
+    const [serviceData, setServiceData] = useState([]);
+    const [providerData, setProviderData] = useState([]);
+    const [staffData, setStaffData] = useState([]);
+    
     const dataSender = new DataSender();
     const navigate = useNavigate();
+    const dataFetcher = new DataFetcher();
     
     useEffect(() => {
-        if (user.isProvider) {
-            const userProvider = providerData.find(provider => provider.uid === user.getUID());
-            const providerStaffList = staffData.filter(staff => staff.service_provider === user.getUID());
-            const providerServiceList = serviceData.filter(service => service.service_provider === user.getUID());
+        if (currentProvider === null) {
+            try {
+                const fetchData = async () => {
+                    const serviceData = await dataFetcher.getServiceByServiceProvider(user.getUID());
+                    const providerData = await dataFetcher.getServiceProviderData(user.getUID());
+                    const staffData = await dataFetcher.getStaffByServiceProvider(user.getUID());
+                    setServiceData(serviceData);
+                    setProviderData(providerData);
+                    setStaffData(staffData);
 
-            if (userProvider) {
-                setCurrentProvider(userProvider);
-                setUid(userProvider.uid);
-                setName(userProvider.name);
-                setLocation(userProvider.location);
-                setOpeningTime(userProvider.opening_time);
-                setClosingTime(userProvider.closing_time);
-                setProfilePicture(userProvider.profile_picture);
-                setCoverPicture(userProvider.cover_picture);
+                    if (user.isProvider) {
+
+                        if (providerData) {
+                            setCurrentProvider(providerData);
+                            setUid(providerData.uid);
+                            setName(providerData.name);
+                            setLocation(providerData.location);
+                            setOpeningTime(providerData.opening_time);
+                            setClosingTime(providerData.closing_time);
+                            setProfilePicture(providerData.profile_picture);
+                            setCoverPicture(providerData.cover_picture);
+                        }
+                        if (staffData) {
+                            setStaffList(staffData);
+                        }
+                        if (serviceData) {
+                            setServiceList(serviceData);
+                        }
+                    }
+                };
+                fetchData();
+            } catch (error) {
+                console.error(error);
             }
-            if (providerStaffList) {
-                setStaffList(providerStaffList);
-            }
-            if (providerServiceList) {
-                setServiceList(providerServiceList);
-            }
-        }
+        }        
     }, [user.isProvider, user.id, providerData, staffData, serviceData]);
 
     
@@ -74,6 +93,11 @@ const ProviderManagement = ({ user, serviceData, providerData, staffData }) => {
         navigate(`/provider-management`);
     };
 
+    const deleteServiceSelection = (serviceId) => {
+        dataSender.deleteService(serviceId);
+        navigate(`/provider-management`);
+    };
+ 
     return (
         <div>
             <Panel header="Provider Management">
@@ -200,7 +224,7 @@ const ProviderManagement = ({ user, serviceData, providerData, staffData }) => {
                         <Table.HeaderCell>Delete</Table.HeaderCell>
                         <Table.Cell>
                             {rowData => (
-                                <button onClick={() => deleteStaffSelection(rowData.uid)}>
+                                <button onClick={() => deleteServiceSelection(rowData.id)}>
                                     Delete
                                 </button>
                             )}

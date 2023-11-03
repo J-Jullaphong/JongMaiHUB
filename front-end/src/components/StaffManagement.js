@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Input, Button, Panel, Calendar } from 'rsuite';
 import DataSender from './DataSender';
 import { useParams } from 'react-router-dom';
+import DataFetcher from './DataFetcher';
 
-const StaffManagement = ({ staffData, appointmentData, customerData }) => {
+const StaffManagement = ({ appointmentData }) => {
     const [staff, setStaff] = useState(null);
     const [name, setName] = useState('');
     const [specialty, setSpecialty] = useState('');
@@ -12,24 +13,65 @@ const StaffManagement = ({ staffData, appointmentData, customerData }) => {
     const [getOffWorkTime, setGetOffWorkTime] = useState('');
     const [profilePicture, setProfilePicture] = useState('');
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const [staffData, setStaffData] = useState([]);
+    const [customerData, setCustomerData] = useState([]);
+    const dataFetcher = new DataFetcher();
     const dataSender = new DataSender();
     const { staffUid } = useParams();
 
     useEffect(() => {
-        const staffMember = staffData.find((staff) => staff.uid === staffUid);
-        if (staffMember) {
-            setStaff(staffMember);
-            setName(staffMember.name);
-            setSpecialty(staffMember.specialty);
-            setBackground(staffMember.background);
-            setStartWorkTime(staffMember.start_work_time);
-            setGetOffWorkTime(staffMember.get_off_work_time);
-            setProfilePicture(staffMember.profile_picture);
+    if (staff === null) {
+        try {
+            const fetchStaffData = async () => {
+                const staffData = await dataFetcher.getStaffData(staffUid);
+                const customerData = await dataFetcher.getAppointmentByStaff(staffUid);
+                setStaffData(staffData);
+                setCustomerData(customerData);
+                if (staffData) {
+                    setStaff(staffData);
+                    setName(staffData.name);
+                    setSpecialty(staffData.specialty);
+                    setBackground(staffData.background);
+                    setStartWorkTime(staffData.start_work_time);
+                    setGetOffWorkTime(staffData.get_off_work_time);
+                    setProfilePicture(staffData.profile_picture);
+                }
+            };
+            fetchStaffData();
+        } catch (error) {
+            console.error(error);
         }
-    }, [staffData, staffUid]);
+    }
+}, [staffData, staffUid]);
+
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
+    };
+
+    const showAppointmentByDate = () => {
+        const dateString = selectedDate.toDateString();
+        const appointmentsOnDate = appointmentData.filter(
+            (appointment) =>
+                appointment.staff === staffUid &&
+                new Date(appointment.date_time).toDateString() === dateString
+        );
+
+        if (appointmentsOnDate.length > 0) {
+            const appointmentDetails = appointmentsOnDate.map((appointment, index) => {
+                const appointmentTime = new Date(appointment.date_time);
+                const nameCustomer = getCustomerNameById(appointment.customer);
+                const timeString = appointmentTime.toLocaleTimeString([], {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                });
+                return `${timeString} - ${nameCustomer}`;
+            });
+
+            alert(`Appointments on ${dateString}:\n${appointmentDetails.join('\n')}`);
+        } else {
+            alert(`No appointments on ${dateString}`);
+        }
     };
 
     const updateStaffInfo = () => {
@@ -90,6 +132,7 @@ const StaffManagement = ({ staffData, appointmentData, customerData }) => {
                 <Calendar
                     value={selectedDate}
                     onChange={handleDateChange}
+                    onSelect={showAppointmentByDate}
                     renderCell={(date) => {
                         const dateString = date.toDateString();
                         const appointmentsOnDate = appointmentData.filter(
