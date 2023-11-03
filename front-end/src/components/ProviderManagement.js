@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Input, Button, Panel, Table } from 'rsuite';
-import { Link } from 'react-router-dom';
 import DataSender from './DataSender';
 import { useNavigate } from 'react-router-dom';
 
@@ -58,6 +57,11 @@ const ProviderManagement = ({ user, providerData, staffData }) => {
         navigate(`/staff-management/${staffUid}`);
     };
 
+    const deleteStaffSelection = (staffUid) => {
+        dataSender.deleteStaff(staffUid);
+        navigate(`/provider-management`);
+    };
+
     return (
         <div>
             <Panel header="Provider Management">
@@ -91,20 +95,45 @@ const ProviderManagement = ({ user, providerData, staffData }) => {
                 <Table
                     data={staffList}
                     autoHeight
+                    width={1000}
                 >
-                    <Table.Column width={100}>
+                    <Table.Column width={200}>
                         <Table.HeaderCell>Staff Name</Table.HeaderCell>
                         <Table.Cell>
                             {rowData => (
-                                <Link to={`/staff-management/${rowData.uid}`} onClick={() => handleStaffSelection(rowData.uid)}>
-                                    {rowData.name}
-                                </Link>
+                                <p>
+                                    {rowData.name} 
+                                </p>
                             )}
                         </Table.Cell>
                     </Table.Column>
-                    <Table.Column width={100}>
+                    <Table.Column width={200}>
                         <Table.HeaderCell>Specialty</Table.HeaderCell>
                         <Table.Cell dataKey="specialty" />
+                    </Table.Column>
+                    <Table.Column width={200}>
+                        <Table.HeaderCell>Specialty</Table.HeaderCell>
+                        <Table.Cell dataKey="service" />
+                    </Table.Column>
+                    <Table.Column width={200}>
+                        <Table.HeaderCell>Update</Table.HeaderCell>
+                        <Table.Cell>
+                            {rowData => (
+                                <button onClick={() => handleStaffSelection(rowData.uid)}>
+                                    Update
+                                </button>
+                            )}
+                        </Table.Cell>
+                    </Table.Column>
+                    <Table.Column width={200}>
+                        <Table.HeaderCell>Delete</Table.HeaderCell>
+                        <Table.Cell>
+                            {rowData => (
+                                <button onClick={() => deleteStaffSelection(rowData.uid)}>
+                                    Delete
+                                </button>
+                            )}
+                        </Table.Cell>
                     </Table.Column>
                 </Table>
             </Panel>
