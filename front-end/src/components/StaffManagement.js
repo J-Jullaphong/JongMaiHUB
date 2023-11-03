@@ -4,7 +4,7 @@ import DataSender from './DataSender';
 import { useParams } from 'react-router-dom';
 import DataFetcher from './DataFetcher';
 
-const StaffManagement = ({ appointmentData }) => {
+const StaffManagement = ({ customerData }) => {
     const [staff, setStaff] = useState(null);
     const [name, setName] = useState('');
     const [specialty, setSpecialty] = useState('');
@@ -14,7 +14,7 @@ const StaffManagement = ({ appointmentData }) => {
     const [profilePicture, setProfilePicture] = useState('');
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [staffData, setStaffData] = useState([]);
-    const [customerData, setCustomerData] = useState([]);
+    const [appointmentData, setAppointmentData] = useState([]);
     const dataFetcher = new DataFetcher();
     const dataSender = new DataSender();
     const { staffUid } = useParams();
@@ -24,9 +24,9 @@ const StaffManagement = ({ appointmentData }) => {
         try {
             const fetchStaffData = async () => {
                 const staffData = await dataFetcher.getStaffData(staffUid);
-                const customerData = await dataFetcher.getAppointmentByStaff(staffUid);
+                const appointmentData = await dataFetcher.getAppointmentByStaff(staffUid);
                 setStaffData(staffData);
-                setCustomerData(customerData);
+                setAppointmentData(appointmentData);
                 if (staffData) {
                     setStaff(staffData);
                     setName(staffData.name);
