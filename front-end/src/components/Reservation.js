@@ -12,6 +12,7 @@ const Reservation = ({ service, staff, user }) => {
   const [selectedMinute, setSelectedMinute] = useState(defaultDateTime);
   const [isDateSelected, setIsDateSelected] = useState(false);
   const [isHourSelected, setIsHourSelected] = useState(false);
+  const [isMinuteSelected, setIsMinuteSelected] = useState(false);
   const [CustomerAppointmentData, setCustomerAppointmentData] = useState([]);
   const [StaffAppointmentData, setStaffAppointmentData] = useState([]);
 
@@ -102,6 +103,7 @@ const Reservation = ({ service, staff, user }) => {
 
   const handleMinuteChange = (minute) => {
     setSelectedMinute(minute);
+    setIsMinuteSelected(!!minute);
   };
 
   const createFooter = () => {
@@ -129,7 +131,7 @@ const Reservation = ({ service, staff, user }) => {
           <Button
             onClick={handleConfirmClick}
             appearance="primary"
-            disabled={!isDateSelected}
+            disabled={!isDateSelected || !isHourSelected || !isMinuteSelected}
           >
             Continue
           </Button>
