@@ -203,27 +203,14 @@ const Reservation = ({ service, staff, user }) => {
       return new Date(appointment.date_time).getDate() === selectedDate.getDate();
     });
 
-    const allAppointmentsByHour = allAppointmentsByDate.filter(
-      (appointment) => {
-        return new Date(appointment.date_time).getHours() === selectedHour.getHours();
-      }
-    );
-
-    const bookedMinutes = allAppointmentsByHour.flatMap((appointment) => {
-    const startMinute = new Date(appointment.date_time).getMinutes();
-    const endMinute = startMinute + service.duration;
-    const minutesInRange = [];
-
-    for (let i = startMinute; i < endMinute; i++) {
-      const minuteDate = new Date(appointment.date_time);
-      minuteDate.setMinutes(i);
-      minutesInRange.push(minuteDate.getMinutes());
-    }
-    console.log(minutesInRange);
-    return minutesInRange;
-  });
-
-
+      const bookedMinutes = allAppointmentsByDate.map((appointment) => {
+        const startTime = new Date(appointment.date_time)
+        const endTime = new Date(appointment.date_time)
+        endTime.setMinutes(startTime.getMinutes()+service.duration)
+      return {
+          start: startTime.getHours() * 60 + startTime.getMinutes(),
+          end: endTime.getHours() * 60 + endTime.getMinutes()}
+    });
 
     const unavailableHours = (hour) => {
       const openTime = parseInt(staff.start_work_time.split(":")[0]);
@@ -231,10 +218,14 @@ const Reservation = ({ service, staff, user }) => {
       return hour < openTime || hour > closeTime;
     };
 
-
     const unavailableMinutes = (minute) => {
-    return bookedMinutes.includes(minute);
-};
+  return bookedMinutes.some((range) => {
+    return (
+      (selectedHour.getHours() * 60 + minute + service.duration >= range.start) &&
+      (selectedHour.getHours() * 60 + minute <= range.end)
+    );
+  });
+}
 
 
 
