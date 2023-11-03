@@ -4,21 +4,14 @@ import DataFetcher from "./DataFetcher";
 import DataSender from "./DataSender";
 
 const Reservation = ({ service, staff, user }) => {
-  const defaultDate = new Date();
-
-  const defaultHour = new Date();
-  defaultHour.setHours(defaultHour.getHours());
-
-  const defaultMinute = new Date();
-  defaultMinute.setMinutes(defaultMinute.getMinutes());
+  const defaultDateTime = new Date();
 
   const [reservationState, setReservationState] = useState(1);
-  const [selectedDate, setSelectedDate] = useState(defaultDate);
-  const [selectedHour, setSelectedHour] = useState(defaultHour);
-  const [selectedMinute, setSelectedMinute] = useState(defaultMinute);
+  const [selectedDate, setSelectedDate] = useState(defaultDateTime);
+  const [selectedHour, setSelectedHour] = useState(defaultDateTime);
+  const [selectedMinute, setSelectedMinute] = useState(defaultDateTime);
   const [isDateSelected, setIsDateSelected] = useState(false);
   const [isHourSelected, setIsHourSelected] = useState(false);
-  const [isMinuteSelected, setIsMinuteSelected] = useState(false);
   const [CustomerAppointmentData, setCustomerAppointmentData] = useState([]);
   const [StaffAppointmentData, setStaffAppointmentData] = useState([]);
 
@@ -109,7 +102,6 @@ const Reservation = ({ service, staff, user }) => {
 
   const handleMinuteChange = (minute) => {
     setSelectedMinute(minute);
-    setIsMinuteSelected(!!minute);
   };
 
   const createFooter = () => {
@@ -200,16 +192,19 @@ const Reservation = ({ service, staff, user }) => {
       ...CustomerAppointmentData,
       ...StaffAppointmentData,
     ].filter((appointment) => {
-      return new Date(appointment.date_time).getDate() === selectedDate.getDate();
+      return (
+        new Date(appointment.date_time).getDate() === selectedDate.getDate()
+      );
     });
 
-      const bookedMinutes = allAppointmentsByDate.map((appointment) => {
-        const startTime = new Date(appointment.date_time)
-        const endTime = new Date(appointment.date_time)
-        endTime.setMinutes(startTime.getMinutes()+service.duration)
+    const bookedMinutes = allAppointmentsByDate.map((appointment) => {
+      const startTime = new Date(appointment.date_time);
+      const endTime = new Date(appointment.date_time);
+      endTime.setMinutes(startTime.getMinutes() + service.duration);
       return {
-          start: startTime.getHours() * 60 + startTime.getMinutes(),
-          end: endTime.getHours() * 60 + endTime.getMinutes()}
+        start: startTime.getHours() * 60 + startTime.getMinutes(),
+        end: endTime.getHours() * 60 + endTime.getMinutes(),
+      };
     });
 
     const unavailableHours = (hour) => {
@@ -219,15 +214,13 @@ const Reservation = ({ service, staff, user }) => {
     };
 
     const unavailableMinutes = (minute) => {
-  return bookedMinutes.some((range) => {
-    return (
-      (selectedHour.getHours() * 60 + minute + service.duration >= range.start) &&
-      (selectedHour.getHours() * 60 + minute <= range.end)
-    );
-  });
-}
-
-
+      return bookedMinutes.some((range) => {
+        return (
+          selectedHour.getHours() * 60 + minute + service.duration >=
+            range.start && selectedHour.getHours() * 60 + minute <= range.end
+        );
+      });
+    };
 
     return (
       <div>
