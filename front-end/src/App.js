@@ -75,6 +75,8 @@ const App = () => {
             path="/:providerUrl/:serviceUrl/"
             element={
               <ServiceDetail
+                user={user}
+                isUserAuthenticated={userAuthenticated}
                 serviceData={serviceData}
                 providerData={providerData}
                 staffData={staffData}
