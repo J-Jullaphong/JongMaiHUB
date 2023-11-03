@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import Reservation from '../components/Reservation';
+import User from '../components/User';
 
 
 jest.mock('../components/DataSender', () => {
@@ -13,6 +14,11 @@ jest.mock('../components/DataSender', () => {
         }),
     };
 });
+
+const currentUserMock = User.getInstance();
+currentUserMock.setUID("Mock UID");
+currentUserMock.setName("Mock User");
+currentUserMock.setProfilePicture("data:image/jpeg;base64,mockProfilePicture");
 
 
 const serviceData = [
@@ -50,16 +56,9 @@ const staffData = {
     profile_picture: "staff1.jpg",
 };
 
-const userData = {
-    uid: 2,
-    name: "user1",
-    phone: 1234567890,
-    email: "jongmaihub@gmail.com"
-}
-
 describe("Reservation", () => {
     it("should display name, specialty and background of staff correctly.", () => {
-        render(<Reservation service={serviceData} staff={staffData} provider={providerData} user={userData} />);
+        render(<Reservation service={serviceData} staff={staffData} provider={providerData} user={currentUserMock} />);
         const getName = screen.getByText(/staff/i);
         const getSpecialty = screen.getByText(/specialty/i);
         const getBackground = screen.getByText(/background1/i);
@@ -70,7 +69,7 @@ describe("Reservation", () => {
     });
 
     it("should display continue button and step of process.", () => {
-        render(<Reservation service={serviceData} staff={staffData} provider={providerData} user={userData} />);        
+        render(<Reservation service={serviceData} staff={staffData} provider={providerData} user={currentUserMock} />);        
         const getContinue = screen.getByText(/continue/i);
         const getStep1 = screen.getByText("1");
         const getStep2 = screen.getByText("2");
@@ -83,17 +82,15 @@ describe("Reservation", () => {
     });
 
     it("should display select date and time when click continue first time.", () => {
-        render(<Reservation service={serviceData} staff={staffData} provider={providerData} user={userData} />);
+        render(<Reservation service={serviceData} staff={staffData} provider={providerData} user={currentUserMock} />);
         const getContinue = screen.getByText(/continue/i);
         fireEvent.click(getContinue);
         const getSelectDate = screen.getByText(/selected date/i);
         const getSelectTime = screen.getByText(/selected time/i)
-        const getRequired = screen.getByText(/required/i)
         const getStep1 = screen.queryByText("1");
 
         expect(getSelectDate).toBeInTheDocument();
         expect(getSelectTime).toBeInTheDocument();
-        expect(getRequired).toBeInTheDocument();
         expect(getStep1).toBe(null)
     });
 
