@@ -24,7 +24,7 @@ class DataSender extends Component {
         for (const [key, value] of formData) {
             if (value instanceof File) {
                 const base64Image = await this.convertImageToBase64(value);
-                updatedFormData.append(key, base64Image); 
+                updatedFormData.append(key, base64Image);
             } else {
                 updatedFormData.append(key, value);
             }
@@ -38,6 +38,15 @@ class DataSender extends Component {
             .post(
                 `${this.state.api}${type}/${key}`, formData
             )
+            .catch((error) => {
+                console.log(error);
+                throw error;
+            });
+    }
+
+    async deleteData(type, key) {
+        return await axios
+            .delete(`${this.state.api}${type}/${key}`)
             .catch((error) => {
                 console.log(error);
                 throw error;
@@ -66,6 +75,18 @@ class DataSender extends Component {
 
     async submitRatingData(formData, key = "") {
         return this.submitData("rating", formData, key);
+    }
+
+    async deleteStaff(key) {
+        return this.deleteData("staff", key)
+    }
+
+    async deleteService(key) {
+        return this.deleteData("service", key)
+    }
+
+    async deleteAppointment(key) {
+        return this.deleteData("appointment", key)
     }
 }
 

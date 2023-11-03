@@ -7,27 +7,26 @@ class DataFetcher extends Component {
     };
 
     async fetchData(type, key = "", param = "") {
-    let url = `${this.state.api}${type}/`;
+        let url = `${this.state.api}${type}/`;
 
-    if (key) {
-        url += `${key}/`;
+        if (key) {
+            url += `${key}/`;
+        }
+
+        if (param) {
+            url += `?${param}`;
+        }
+
+        return await axios
+            .get(url)
+            .then((response) => {
+                return response.data;
+            })
+            .catch((error) => {
+                console.log(error);
+                throw error;
+            });
     }
-
-    if (param) {
-        url += `?param=${param}`;
-    }
-
-    return await axios
-        .get(url)
-        .then((response) => {
-            return response.data;
-        })
-        .catch((error) => {
-            console.log(error);
-            throw error;
-        });
-}
-
 
 
 
@@ -56,15 +55,19 @@ class DataFetcher extends Component {
     }
 
     async getStaffByServiceProvider(providerKey) {
-        return this.fetchData("staff", "", { service_provider: providerKey });
+        return this.fetchData("staff", "", `service_provider=${providerKey}`);
     }
 
     async getAppointmentByStaff(staffKey) {
-        return this.fetchData("appointment", "", { staff: staffKey });
+        return this.fetchData("appointment", "", `staff=${staffKey}`);
+    }
+
+    async getServiceByServiceProvider(providerKey) {
+        return this.fetchData("service", "", `service_provider=${providerKey}`);
     }
 
     async getAppointmentByCustomer(customerKey) {
-        return this.fetchData("appointment", "", { customer: customerKey });
+        return this.fetchData("appointment", "", `customer=${customerKey}`);
     }
 }
 
