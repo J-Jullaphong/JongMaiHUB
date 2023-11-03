@@ -3,7 +3,7 @@ import { Input, Button, Panel, Calendar } from 'rsuite';
 import DataSender from './DataSender';
 import { useParams } from 'react-router-dom';
 
-const StaffManagement = ({ staffData, appointmentData }) => {
+const StaffManagement = ({ staffData, appointmentData, customerData }) => {
     const [staff, setStaff] = useState(null);
     const [name, setName] = useState('');
     const [specialty, setSpecialty] = useState('');
@@ -45,6 +45,12 @@ const StaffManagement = ({ staffData, appointmentData }) => {
         dataSender.updateStaffData(updatedStaffData, staff.uid).then(() => {
             console.log('Staff information updated.');
         });
+    };
+    
+    const getCustomerNameById = (customerId) => {
+        const customer = customerData.find((customer) => customer.uid === customerId);
+        console.log(customer);
+        return customer ? customer.name : 'Unknown';
     };
 
     return (
@@ -95,12 +101,19 @@ const StaffManagement = ({ staffData, appointmentData }) => {
                         if (appointmentsOnDate.length > 0) {
                             return (
                                 <div>
-                                    {appointmentsOnDate.map((appointment, index) => (
-                                        <div key={index}>
-                                            {new Date(appointment.date_time).toLocaleTimeString()} -{' '}
-                                            {appointment.customer}
-                                        </div>
-                                    ))}
+                                    {appointmentsOnDate.map((appointment, index) => {
+                                        const appointmentTime = new Date(appointment.date_time);
+                                        const nameCustomer = getCustomerNameById(appointment.customer);
+                                        const timeString = appointmentTime.toLocaleTimeString([], {
+                                            hour: '2-digit',
+                                            minute: '2-digit',
+                                        });
+                                        return (
+                                            <div key={index}>
+                                                {timeString} - {nameCustomer}
+                                            </div>
+                                        );
+                                    })}
                                 </div>
                             );
                         } else {
