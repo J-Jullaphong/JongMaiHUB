@@ -21,8 +21,8 @@ const Reservation = ({ service, staff, user }) => {
       try {
         const [CustomerAppointmentData, StaffAppointmentData] =
           await Promise.all([
-            dataFetcher.getAppointmentByCustomer(),
-            dataFetcher.getAppointmentByStaff(),
+            dataFetcher.getAppointmentByCustomer(user.uid),
+            dataFetcher.getAppointmentByStaff(staff.uid),
           ]);
         console.log(
           "Received Customer Appointment JSON data:",
