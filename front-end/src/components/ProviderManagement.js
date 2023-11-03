@@ -3,7 +3,7 @@ import { Input, Button, Panel, Table } from 'rsuite';
 import DataSender from './DataSender';
 import { useNavigate } from 'react-router-dom';
 
-const ProviderManagement = ({ user, providerData, staffData }) => {
+const ProviderManagement = ({ user, serviceData, providerData, staffData }) => {
     const [uid, setUid] = useState('');
     const [name, setName] = useState('');
     const [location, setLocation] = useState('');
@@ -13,13 +13,16 @@ const ProviderManagement = ({ user, providerData, staffData }) => {
     const [coverPicture, setCoverPicture] = useState('');
     const [currentProvider, setCurrentProvider] = useState(null);
     const [staffList, setStaffList] = useState([]);
+    const [serviceList, setServiceList] = useState([])
+
     const dataSender = new DataSender();
     const navigate = useNavigate();
-
+    
     useEffect(() => {
         if (user.isProvider) {
             const userProvider = providerData.find(provider => provider.uid === user.getUID());
             const providerStaffList = staffData.filter(staff => staff.service_provider === user.getUID());
+            const providerServiceList = serviceData.filter(service => service.service_provider === user.getUID());
 
             if (userProvider) {
                 setCurrentProvider(userProvider);
@@ -34,8 +37,13 @@ const ProviderManagement = ({ user, providerData, staffData }) => {
             if (providerStaffList) {
                 setStaffList(providerStaffList);
             }
+            if (providerServiceList) {
+                setServiceList(providerServiceList);
+            }
         }
-    }, [user.isProvider, user.id, providerData, staffData]);
+    }, [user.isProvider, user.id, providerData, staffData, serviceData]);
+
+    
 
     const updateProviderInfo = () => {
         const providerData = {
@@ -55,6 +63,10 @@ const ProviderManagement = ({ user, providerData, staffData }) => {
 
     const handleStaffSelection = (staffUid) => {
         navigate(`/staff-management/${staffUid}`);
+    };
+
+    const handleServiceSelection = ( serviceId) => {
+        navigate(`/service-management/${serviceId}`);
     };
 
     const deleteStaffSelection = (staffUid) => {
@@ -136,6 +148,65 @@ const ProviderManagement = ({ user, providerData, staffData }) => {
                         </Table.Cell>
                     </Table.Column>
                 </Table>
+            </Panel>
+
+                <Panel header="Service of Venues">
+                    <Table
+                        data={serviceList}
+                        autoHeight
+                        width={1000}
+                    >
+                        <Table.Column width={200}>
+                            <Table.HeaderCell>Service Name</Table.HeaderCell>
+                            <Table.Cell>
+                                {rowData => (
+                                    <p>
+                                        {rowData.name}
+                                    </p>
+                                )}
+                            </Table.Cell>
+                        </Table.Column>
+                        <Table.Column width={200}>
+                        <Table.HeaderCell>Service duration</Table.HeaderCell>
+                        <Table.Cell>
+                            {rowData => (
+                                <p>
+                                    {rowData.duration}
+                                </p>
+                            )}
+                        </Table.Cell>
+                        </Table.Column>
+                        <Table.Column width={200}>
+                        <Table.HeaderCell>Service price</Table.HeaderCell>
+                        <Table.Cell>
+                            {rowData => (
+                                <p>
+                                    {rowData.price}
+                                </p>
+                            )}
+                        </Table.Cell>
+                    </Table.Column>
+                    <Table.Column width={200}>
+                        <Table.HeaderCell>Update</Table.HeaderCell>
+                        <Table.Cell>
+                            {rowData => (
+                                <button onClick={() => handleServiceSelection(rowData.id)}>
+                                    Update
+                                </button>
+                            )}
+                        </Table.Cell>
+                    </Table.Column>
+                    <Table.Column width={200}>
+                        <Table.HeaderCell>Delete</Table.HeaderCell>
+                        <Table.Cell>
+                            {rowData => (
+                                <button onClick={() => deleteStaffSelection(rowData.uid)}>
+                                    Delete
+                                </button>
+                            )}
+                        </Table.Cell>
+                    </Table.Column>
+                    </Table>
             </Panel>
         </div>
     );
