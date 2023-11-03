@@ -119,6 +119,7 @@ const Reservation = ({ service, staff, user }) => {
             <Steps.Item />
             <Steps.Item />
             <Steps.Item />
+            <Steps.Item />
           </Steps>
         </>
       );
@@ -138,6 +139,7 @@ const Reservation = ({ service, staff, user }) => {
             <Steps.Item />
             <Steps.Item />
             <Steps.Item />
+            <Steps.Item />
           </Steps>
         </>
       );
@@ -154,6 +156,25 @@ const Reservation = ({ service, staff, user }) => {
             <Steps.Item />
             <Steps.Item />
             <Steps.Item />
+            <Steps.Item />
+
+          </Steps>
+        </>
+      );
+    }
+    else if (reservationState === 4){
+      content = (
+          <>
+            <br/>
+            <br/>
+          <br />
+          <br />
+            <br />
+            <Steps current={reservationState - 1} small>
+              <Steps.Item />
+              <Steps.Item />
+              <Steps.Item />
+              <Steps.Item />
           </Steps>
         </>
       );
@@ -324,6 +345,7 @@ const Reservation = ({ service, staff, user }) => {
       <div>
         <h3>Your Reservation is recorded.</h3>
         <h4>You may close this window.</h4>
+        {createFooter()}
       </div>
     );
   };
