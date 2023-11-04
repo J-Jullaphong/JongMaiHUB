@@ -127,7 +127,7 @@ const MyAppointmentScreen = ({ user, serviceData, providerData, staffData }) => 
                                     <Table.HeaderCell>Cancel</Table.HeaderCell>
                                     <Table.Cell>
                                         {rowData => (
-                                            <button onClick={() => handleRateAppointment(rowData.id)}>
+                                            <button onClick={() => handleCancelAppointment(rowData.id)}>
                                                 Cancel
                                             </button>
                                         )}
@@ -194,7 +194,7 @@ const MyAppointmentScreen = ({ user, serviceData, providerData, staffData }) => 
                                     <Table.HeaderCell>Rate</Table.HeaderCell>
                                     <Table.Cell>
                                         {rowData => (
-                                            <button onClick={() => handleCancelAppointment(rowData.id)}>
+                                            <button onClick={() => handleRateAppointment(rowData.id)}>
                                                 Rate
                                             </button>
                                         )}
