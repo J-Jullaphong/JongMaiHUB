@@ -13,7 +13,7 @@ const CreateNewStaff = () => {
     const [background, setBackground] = useState('');
     const [startWorkTime, setStartWorkTime] = useState('');
     const [getOffWorkTime, setGetOffWorkTime] = useState('');
-    const [profilePicture, setProfilePicture] = useState("12345");
+    const [profilePicture, setProfilePicture] = useState("");
     const [service_provider, setServiceProvider] = useState("");
     const [service, setService] = useState(3);
     const dataSender = new DataSender();
@@ -38,10 +38,32 @@ const CreateNewStaff = () => {
             console.log('Staff information added.');
         });
     };
+
+    const uploadImage = async (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            try {
+                const base64Image = await dataSender.convertImageToBase64(file);
+                setProfilePicture(base64Image);
+            } catch (error) {
+                console.error("Error converting image to base64:", error);
+            }
+        }
+    };
+
     return (
         <div>
             <Panel header={`Add new staff`}>
                 <h3>Staff Information</h3>
+                <img src={profilePicture} alt="Profile Picture" />
+                <div>
+                    <label>Profile Picture</label>
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={uploadImage}
+                    />
+                </div>
                 <Input
                     placeholder="Uid"
                     value={uid}
