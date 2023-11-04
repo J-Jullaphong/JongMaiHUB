@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Modal, DatePicker, Button, Form, Steps, Table } from "rsuite";
+import { Modal, Table } from "rsuite";
 import DataFetcher from "./DataFetcher";
 import DataSender from "./DataSender";
 import RatingScreen from "./RatingScreen";
 import { useNavigate } from "react-router-dom";
+import "./styles/MyAppointmentScreen.css"
 
 const MyAppointmentScreen = ({
   user,
@@ -38,7 +39,7 @@ const MyAppointmentScreen = ({
       }
     };
     fetchData();
-  }, [user]);
+  }, [user, appointments]);
 
   const handleCancelAppointment = (appointmentId) => {
     dataSender.deleteAppointment(appointmentId);
@@ -87,162 +88,159 @@ const MyAppointmentScreen = ({
   );
 
   return (
-    <div style={{ maxWidth: "800px", margin: "0 auto", padding: "20px" }}>
-      <h1 style={{ marginBottom: "20px", textAlign: "center" }}>
-        My Appointments
-      </h1>
+    <div className="appointments-container">
+      <h1 className="appointment-title">My Appointments</h1>
       <br />
       {loading ? (
-        <h2 style={{ textAlign: "center" }}>Loading...</h2>
+        <h2>Loading...</h2>
       ) : (
         <>
-          {upcomingAppointments.length > 0 && (
-            <>
-              <h2 style={{ textAlign: "center" }}>Upcoming Appointments</h2>
+          {upcomingAppointments.length > 0 &&
+            <div className="upcoming-container">
+              <h2>Upcoming Appointments</h2>
               <Table
                 data={upcomingAppointments}
                 autoHeight
                 width={1000}
-                style={{ marginTop: "20px" }}
+                style={{ marginTop: '20px' }}
               >
-                <Table.Column width={200} align="center">
+                <Table.Column
+                  width={200}
+                  align="center">
                   <Table.HeaderCell>Provider</Table.HeaderCell>
                   <Table.Cell>
-                    {(rowData) => {
-                      const service = serviceData.find(
-                        (service) => service.id === rowData.service
-                      );
-                      const provider = providerData.find(
-                        (provider) => provider.uid === service.service_provider
-                      );
-                      return provider ? provider.name : "";
+                    {rowData => {
+                      const service = serviceData.find(service => service.id === rowData.service);
+                      const provider = providerData.find(provider => provider.uid === service.service_provider);
+                      return provider ? provider.name : '';
                     }}
                   </Table.Cell>
                 </Table.Column>
-                <Table.Column width={200} align="center">
+                <Table.Column
+                  width={200}
+                  align="center">
                   <Table.HeaderCell>Service</Table.HeaderCell>
                   <Table.Cell>
-                    {(rowData) => {
-                      const service = serviceData.find(
-                        (service) => service.id === rowData.service
-                      );
-                      return service ? service.name : "";
+                    {rowData => {
+                      const service = serviceData.find(service => service.id === rowData.service);
+                      return service ? service.name : '';
                     }}
                   </Table.Cell>
                 </Table.Column>
-                <Table.Column width={200} align="center">
+                <Table.Column
+                  width={200}
+                  align="center">
                   <Table.HeaderCell>Staff</Table.HeaderCell>
                   <Table.Cell>
-                    {(rowData) => {
-                      const staff = staffData.find(
-                        (staff) => staff.uid === rowData.staff
-                      );
-                      return staff ? staff.name : "";
+                    {rowData => {
+                      const staff = staffData.find(staff => staff.uid === rowData.staff);
+                      return staff ? staff.name : '';
                     }}
                   </Table.Cell>
                 </Table.Column>
-                <Table.Column width={200} align="center">
+                <Table.Column
+                  width={200}
+                  align="center">
                   <Table.HeaderCell>Start</Table.HeaderCell>
                   <Table.Cell>
-                    {(rowData) => formatDateTime(rowData.date_time)}
+                    {rowData => formatDateTime(rowData.date_time)}
                   </Table.Cell>
                 </Table.Column>
-                <Table.Column width={200} align="center">
+                <Table.Column
+                  width={200}
+                  align="center">
                   <Table.HeaderCell>Cancel</Table.HeaderCell>
                   <Table.Cell>
-                    {(rowData) => (
-                      <button onClick={() => handleCancelAppointment()}>
+                    {rowData => (
+                      <button onClick={() => handleCancelAppointment(rowData.id)}>
                         Cancel
                       </button>
                     )}
                   </Table.Cell>
                 </Table.Column>
               </Table>
-            </>
-          )}
+            </div>
+          }
 
-          {pastAppointments.length > 0 && (
-            <>
-              <h2 style={{ textAlign: "center" }}>Past Appointments</h2>
+          {pastAppointments.length > 0 &&
+            <div className="past-container">
+              <h2>Past Appointments</h2>
               <Table
                 data={pastAppointments}
                 autoHeight
                 width={1000}
-                style={{ marginTop: "20px" }}
+                style={{ marginTop: '20px' }}
               >
-                <Table.Column width={200} align="center">
+                <Table.Column
+                  width={200}
+                  align="center">
                   <Table.HeaderCell>Provider</Table.HeaderCell>
                   <Table.Cell>
-                    {(rowData) => {
-                      const service = serviceData.find(
-                        (service) => service.id === rowData.service
-                      );
-                      const provider = providerData.find(
-                        (provider) => provider.uid === service.service_provider
-                      );
-                      return provider ? provider.name : "";
+                    {rowData => {
+                      const service = serviceData.find(service => service.id === rowData.service);
+                      const provider = providerData.find(provider => provider.uid === service.service_provider);
+                      return provider ? provider.name : '';
                     }}
                   </Table.Cell>
                 </Table.Column>
-                <Table.Column width={200} align="center">
+                <Table.Column
+                  width={200}
+                  align="center">
                   <Table.HeaderCell>Service</Table.HeaderCell>
                   <Table.Cell>
-                    {(rowData) => {
-                      const service = serviceData.find(
-                        (service) => service.id === rowData.service
-                      );
-                      return rowData.id;
+                    {rowData => {
+                      const service = serviceData.find(service => service.id === rowData.service);
+                      return service ? service.name : '';
                     }}
                   </Table.Cell>
                 </Table.Column>
-                <Table.Column width={200} align="center">
+                <Table.Column
+                  width={200}
+                  align="center">
                   <Table.HeaderCell>Staff</Table.HeaderCell>
                   <Table.Cell>
-                    {(rowData) => {
-                      const staff = staffData.find(
-                        (staff) => staff.uid === rowData.staff
-                      );
-                      return staff ? staff.name : "";
+                    {rowData => {
+                      const staff = staffData.find(staff => staff.uid === rowData.staff);
+                      return staff ? staff.name : '';
                     }}
                   </Table.Cell>
                 </Table.Column>
-                <Table.Column width={200} align="center">
+                <Table.Column
+                  width={200}
+                  align="center">
                   <Table.HeaderCell>Start</Table.HeaderCell>
                   <Table.Cell>
-                    {(rowData) => formatDateTime(rowData.date_time)}
+                    {rowData => formatDateTime(rowData.date_time)}
                   </Table.Cell>
                 </Table.Column>
-                <Table.Column width={200} align="center">
+                <Table.Column
+                  width={200}
+                  align="center">
                   <Table.HeaderCell>Rate</Table.HeaderCell>
                   <Table.Cell>
-                    {(rowData) => (
-                      <>
-                        <button onClick={() => handleRateAppointment(rowData.id)}>
-                          Rate
-                        </button>
-                      </>
+                    {rowData => (
+                      <button onClick={() => handleRateAppointment(rowData.id)}>
+                        Rate
+                      </button>
                     )}
                   </Table.Cell>
                 </Table.Column>
               </Table>
-            </>
-          )}
+            </div>
+          }
 
-          {pastAppointments.length === 0 &&
-            upcomingAppointments.length === 0 && (
-              <h2 style={{ textAlign: "center" }}>
-                Sorry, You don't have any appointments.
-              </h2>
-            )}
+          {pastAppointments.length === 0 && upcomingAppointments.length === 0 &&
+            <h2>Sorry, You don't have any appointments.</h2>
+          }
+
+          <Modal open={open} onClose={handleClose}>
+            <Modal.Header>Please Rate</Modal.Header>
+            <Modal.Body>
+              <RatingScreen appointmentId={selectedAppointment} />
+            </Modal.Body>
+          </Modal>
         </>
       )}
-
-      <Modal open={open} onClose={handleClose}>
-        <Modal.Header>Please Rate</Modal.Header>
-        <Modal.Body>
-          <RatingScreen appointmentId={selectedAppointment} />
-        </Modal.Body>
-      </Modal>
     </div>
   );
 };

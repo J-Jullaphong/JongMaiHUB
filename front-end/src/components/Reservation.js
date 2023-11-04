@@ -36,8 +36,8 @@ const Reservation = ({ service, staff, user }) => {
         setCustomerAppointmentData(CustomerAppointmentData);
         setStaffAppointmentData(StaffAppointmentData);
       } catch (error) {
-        console.error(error);
-      }
+        console.log(error);
+      };
     };
     fetchData();
   }, []);
