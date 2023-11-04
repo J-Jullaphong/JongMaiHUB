@@ -217,9 +217,7 @@ const MyAppointmentScreen = ({
                   <Table.Cell>
                     {(rowData) => (
                       <>
-                        <button
-                          onClick={() => handleRateAppointment(rowData.id)}
-                        >
+                        <button onClick={() => handleRateAppointment(rowData.id)}>
                           Rate
                         </button>
                       </>
@@ -240,11 +238,11 @@ const MyAppointmentScreen = ({
       )}
 
       <Modal open={open} onClose={handleClose}>
-          <Modal.Header>Please Rate</Modal.Header>
-          <Modal.Body>
-            <RatingScreen appointmentId={selectedAppointment} />
-          </Modal.Body>
-        </Modal>
+        <Modal.Header>Please Rate</Modal.Header>
+        <Modal.Body>
+          <RatingScreen appointmentId={selectedAppointment} />
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };

@@ -8,7 +8,7 @@ const RatingScreen = ({ appointmentId }) => {
   const [ratingState, setRatingState] = useState(1);
   const dataSender = new DataSender();
 
-  console.log("Appointment ID",appointmentId )
+  console.log("Appointment ID", appointmentId)
 
 
   const handleRatingChange = (rating) => {
@@ -16,26 +16,26 @@ const RatingScreen = ({ appointmentId }) => {
   };
 
   const handleSubmitRating = async () => {
-  const formattedRating = rating.toFixed(1);
-  const formData = {
-    appointment: appointmentId,
-    rating: formattedRating,
-  };
-  try {
-    await dataSender.submitRatingData(formData);
-    console.log("Rating submitted successfully.");
-    setRatingState(2);
-  } catch (error) {
-    console.error("Error submitting rating:", error);
+    const formattedRating = rating.toFixed(1);
+    const formData = {
+      appointment: appointmentId,
+      rating: formattedRating,
+    };
     try {
-      await dataSender.updateRatingData(formData, appointmentId);
-      console.log("Rating data updated successfully.");
+      await dataSender.submitRatingData(formData);
+      console.log("Rating submitted successfully.");
       setRatingState(2);
-    } catch (updateError) {
-      console.error("Error updating rating data:", updateError);
+    } catch (error) {
+      console.error("Error submitting rating:", error);
+      try {
+        await dataSender.updateRatingData(formData, appointmentId);
+        console.log("Rating data updated successfully.");
+        setRatingState(2);
+      } catch (updateError) {
+        console.error("Error updating rating data:", updateError);
+      }
     }
-  }
-};
+  };
 
 
   const displayStateOne = () => {
@@ -65,7 +65,7 @@ const RatingScreen = ({ appointmentId }) => {
   const createFooter = () => {
     let content;
     if (ratingState === 1) {
-      content = <button onClick={handleSubmitRating}>Rate</button>;
+      content = <Button onClick={handleSubmitRating}>Rate</Button>;
     } else if (ratingState === 2) {
       content = null;
     }
