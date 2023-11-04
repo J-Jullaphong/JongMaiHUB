@@ -13,8 +13,7 @@ const ProviderManagement = ({ user }) => {
     const [closingTime, setClosingTime] = useState('');
     const [profilePicture, setProfilePicture] = useState('');
     const [coverPicture, setCoverPicture] = useState('');
-    const [updateData, setUpdateData] = useState(true);
-
+    const [loading, setLoading] = useState(true);
     const [staffList, setStaffList] = useState([]);
     const [serviceList, setServiceList] = useState([]);
 
@@ -22,14 +21,12 @@ const ProviderManagement = ({ user }) => {
     const [providerData, setProviderData] = useState([]);
     const [staffData, setStaffData] = useState([]);
 
-    const [loading, setLoading] = useState(true);
-
     const dataSender = new DataSender();
     const navigate = useNavigate();
     const dataFetcher = new DataFetcher();
 
     useEffect(() => {
-        if (updateData) {
+        if (loading) {
             try {
                 const fetchData = async () => {
                     const serviceData = await dataFetcher.getServiceByServiceProvider(user.getUID());
@@ -58,33 +55,34 @@ const ProviderManagement = ({ user }) => {
                             setServiceList(serviceData);
                         }
                     }
-
                     setLoading(false);
-                    setUpdateData(false);
                 };
                 fetchData();
             } catch (error) {
                 console.error(error);
                 setLoading(false);
-                setUpdateData(false);
             }
         }
-    }, [user.isProvider, user.id, providerData, staffData, serviceData]);
+    }, [user.isProvider, user.id, providerData, staffList, serviceList, loading]);
 
     const updateProviderInfo = () => {
-        const providerData = {
-            uid,
-            name,
-            location,
-            openingTime,
-            closingTime,
-            profile_picture: profilePicture,
-            coverPicture,
-        };
+        const shouldUpdate = window.confirm('Are you sure you want to update provider information?');
 
-        dataSender.updateServiceProviderData(providerData, currentProvider.uid).then(() => {
-            console.log('Provider information updated.');
-        });
+        if (shouldUpdate) {
+            const providerData = {
+                uid,
+                name,
+                location,
+                openingTime,
+                closingTime,
+                profile_picture: profilePicture,
+                coverPicture,
+            };
+
+            dataSender.updateServiceProviderData(providerData, currentProvider.uid).then(() => {
+                console.log('Provider information updated.');
+            });
+        }
     };
 
     const uploadImage = async (event) => {
@@ -119,7 +117,7 @@ const ProviderManagement = ({ user }) => {
         const shouldDelete = window.confirm('Are you sure you want to delete this staff member?');
         if (shouldDelete) {
             dataSender.deleteStaff(staffUid);
-            setUpdateData(false);
+            setLoading(true);
             navigate(`/provider-management`);
         }
     };
@@ -128,7 +126,7 @@ const ProviderManagement = ({ user }) => {
         const shouldDelete = window.confirm('Are you sure you want to delete this service?');
         if (shouldDelete) {
             dataSender.deleteService(serviceId);
-            setUpdateData(false);
+            setLoading(true);
             navigate(`/provider-management`);
         }
     };
@@ -294,3 +292,4 @@ const ProviderManagement = ({ user }) => {
 };
 
 export default ProviderManagement;
+

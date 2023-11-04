@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Input, Button, Panel } from 'rsuite';
 import DataSender from './DataSender';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const CreateNewService = () => {
     const { providerId } = useParams();
@@ -12,22 +12,27 @@ const CreateNewService = () => {
     const [servicePicture, setServicePicture] = useState("");
     const [serviceProvider, setServiceProvider] = useState("");
     const dataSender = new DataSender();
+    const navigate = useNavigate();
 
 
     const addServiceInfo = () => {
+        const shouldAddService = window.confirm('Are you sure you want to add this service?');
 
-        const NewServiceData = {
-            name,
-            type,
-            duration,
-            price,
-            service_picture: servicePicture,
-            service_provider: providerId,
-        };
+        if (shouldAddService) {
+            const NewServiceData = {
+                name,
+                type,
+                duration,
+                price,
+                service_picture: servicePicture,
+                service_provider: providerId,
+            };
 
-        dataSender.submitServiceData(NewServiceData).then(() => {
-            console.log('Service information updated.');
-        });
+            dataSender.submitServiceData(NewServiceData).then(() => {
+                console.log('Service information added.');
+                navigate('/provider-management');
+            });
+        }
     };
 
     const uploadImage = async (event) => {
@@ -82,3 +87,4 @@ const CreateNewService = () => {
 };
 
 export default CreateNewService;
+

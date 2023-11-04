@@ -29,6 +29,7 @@ const ServiceManagement = () => {
                         setName(serviceData.name);
                         setType(serviceData.type);
                         setDuration(serviceData.duration);
+                        setServicePicture(serviceData.service_picture)
                         setPrice(serviceData.price);
                     }
                     setLoading(false);
@@ -42,17 +43,21 @@ const ServiceManagement = () => {
     }, [serviceData, serviceId]);
 
     const updateServiceInfo = () => {
-        const updatedServiceData = {
-            name,
-            type,
-            duration,
-            price,
-            service_picture: servicePicture,
-        };
+        const shouldUpdate = window.confirm('Are you sure you want to update service information?');
 
-        dataSender.updateServiceData(updatedServiceData, service.id).then(() => {
-            console.log('Service information updated.');
-        });
+        if (shouldUpdate) {
+            const updatedServiceData = {
+                name,
+                type,
+                duration,
+                price,
+                service_picture: servicePicture,
+            };
+
+            dataSender.updateServiceData(updatedServiceData, service.id).then(() => {
+                console.log('Service information updated.');
+            });
+        }
     };
 
     const uploadImage = async (event) => {
@@ -113,3 +118,4 @@ const ServiceManagement = () => {
 };
 
 export default ServiceManagement;
+

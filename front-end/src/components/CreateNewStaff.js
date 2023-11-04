@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { Input, Button, Panel } from 'rsuite';
 import DataSender from './DataSender';
-import { useParams } from 'react-router-dom';
-
-
+import { useParams, useNavigate } from 'react-router-dom';
 
 const CreateNewStaff = () => {
     const { providerId } = useParams();
@@ -17,26 +15,30 @@ const CreateNewStaff = () => {
     const [service_provider, setServiceProvider] = useState("");
     const [service, setService] = useState(3);
     const dataSender = new DataSender();
+    const navigate = useNavigate();
 
 
     const addStaffInfo = () => {
-        console.log("provider", service_provider)
-        console.log("service", service)
-        const NewStaffData = {
-            uid,
-            name,
-            specialty,
-            background,
-            start_work_time: startWorkTime,
-            get_off_work_time: getOffWorkTime,
-            profile_picture: profilePicture,
-            service_provider: providerId,
-            service
-        };
+        const shouldAddStaff = window.confirm('Are you sure you want to add this staff member?');
 
-        dataSender.submitStaffData(NewStaffData).then(() => {
-            console.log('Staff information added.');
-        });
+        if (shouldAddStaff) {
+            const NewStaffData = {
+                uid,
+                name,
+                specialty,
+                background,
+                start_work_time: startWorkTime,
+                get_off_work_time: getOffWorkTime,
+                profile_picture: profilePicture,
+                service_provider: providerId,
+                service,
+            };
+
+            dataSender.submitStaffData(NewStaffData).then(() => {
+                console.log('Staff information added.');
+                navigate('/provider-management');
+            });
+        }
     };
 
     const uploadImage = async (event) => {
@@ -103,3 +105,4 @@ const CreateNewStaff = () => {
 };
 
 export default CreateNewStaff;
+

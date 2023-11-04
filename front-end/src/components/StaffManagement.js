@@ -77,19 +77,22 @@ const StaffManagement = ({ customerData }) => {
     };
 
     const updateStaffInfo = () => {
-        const updatedStaffData = {
-            name,
-            specialty,
-            background,
-            start_work_time: startWorkTime,
-            get_off_work_time: getOffWorkTime,
-            profile_picture: profilePicture,
-        };
+        const shouldUpdate = window.confirm('Are you sure you want to update staff information?');
 
-        console.log("Image", profilePicture)
-        dataSender.updateStaffData(updatedStaffData, staff.uid).then(() => {
-            console.log('Staff information updated.');
-        });
+        if (shouldUpdate) {
+            const updatedStaffData = {
+                name,
+                specialty,
+                background,
+                start_work_time: startWorkTime,
+                get_off_work_time: getOffWorkTime,
+                profile_picture: profilePicture,
+            };
+
+            dataSender.updateStaffData(updatedStaffData, staff.uid).then(() => {
+                console.log('Staff information updated.');
+            });
+        }
     };
 
     const uploadImage = async (event) => {
@@ -126,31 +129,46 @@ const StaffManagement = ({ customerData }) => {
                             onChange={uploadImage}
                         />
                     </div>
-                    <Input
-                        placeholder="Name"
-                        value={name}
-                        onChange={(value) => setName(value)}
-                    />
-                    <Input
-                        placeholder="Specialty"
-                        value={specialty}
-                        onChange={(value) => setSpecialty(value)}
-                    />
-                    <Input
-                        placeholder="Background"
-                        value={background}
-                        onChange={(value) => setBackground(value)}
-                    />
-                    <Input
-                        placeholder="Start Work Time"
-                        value={startWorkTime}
-                        onChange={(value) => setStartWorkTime(value)}
-                    />
-                    <Input
-                        placeholder="Get Off Work Time"
-                        value={getOffWorkTime}
-                        onChange={(value) => setGetOffWorkTime(value)}
-                    />
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <h5 style={{ marginRight: '10px' }}>Name:</h5>
+                        <Input
+                            placeholder="Name"
+                            value={name}
+                            onChange={(value) => setName(value)}
+                        />
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <h5 style={{ marginRight: '10px' }}>Specialty:</h5>
+                        <Input
+                            placeholder="Specialty"
+                            value={specialty}
+                            onChange={(value) => setSpecialty(value)}
+                        />
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <h5 style={{ marginRight: '10px' }}>Background:</h5>
+                        <Input
+                            placeholder="Background"
+                            value={background}
+                            onChange={(value) => setBackground(value)}
+                        />
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <h5 style={{ marginRight: '10px' }}>Start Work Time:</h5>
+                        <Input
+                            placeholder="Start Work Time"
+                            value={startWorkTime}
+                            onChange={(value) => setStartWorkTime(value)}
+                        />
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <h5 style={{ marginRight: '10px' }}>Get Off  Time:</h5>
+                        <Input
+                            placeholder="Get Off Time"
+                            value={getOffWorkTime}
+                            onChange={(value) => setGetOffWorkTime(value)}
+                        />
+                    </div>
                     <Button appearance="primary" onClick={updateStaffInfo}>
                         Update Staff Information
                     </Button>
@@ -198,3 +216,4 @@ const StaffManagement = ({ customerData }) => {
 };
 
 export default StaffManagement;
+
