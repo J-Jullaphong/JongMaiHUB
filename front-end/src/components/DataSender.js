@@ -24,7 +24,7 @@ class DataSender extends Component {
         for (const [key, value] of formData) {
             if (value instanceof File) {
                 const base64Image = await this.convertImageToBase64(value);
-                updatedFormData.append(key, base64Image); 
+                updatedFormData.append(key, base64Image);
             } else {
                 updatedFormData.append(key, value);
             }
@@ -33,39 +33,92 @@ class DataSender extends Component {
     }
 
 
-    async submitData(type, formData, key = "") {
+    async submitData(type, formData) {
         return await axios
-            .post(
-                `${this.state.api}${type}/${key}`, formData
-            )
+            .post(`${this.state.api}${type}/`, formData)
             .catch((error) => {
                 console.log(error);
                 throw error;
             });
     }
 
-    async submitServiceProviderData(formData, key = "") {
-        return this.fetchData("service-provider", formData, key);
+    async updateData(type, formData, key = "") {
+        return await axios
+            .patch(`${this.state.api}${type}/${key}/`, formData)
+            .catch((error) => {
+                console.log(error);
+                throw error;
+            });
     }
 
-    async submitServiceData(formData, key = "") {
-        return this.submitData("service", formData, key);
+    async deleteData(type, key) {
+        return await axios
+            .delete(`${this.state.api}${type}/${key}`)
+            .catch((error) => {
+                console.log(error);
+                throw error;
+            });
     }
 
-    async submitStaffData(formData, key = "") {
-        return this.submitData("staff", formData, key);
+    async submitServiceProviderData(formData) {
+        return this.submitData("service-provider", formData);
     }
 
-    async submitCustomerData(formData, key = "") {
-        return this.submitData("customer", formData, key);
+    async submitServiceData(formData) {
+        return this.submitData("service", formData);
     }
 
-    async submitAppointmentData(formData, key = "") {
-        return this.submitData("appointment", formData, key);
+    async submitStaffData(formData) {
+        return this.submitData("staff", formData);
     }
 
-    async submitRatingData(formData, key = "") {
-        return this.submitData("rating", formData, key);
+    async submitCustomerData(formData) {
+        return this.submitData("customer", formData);
+    }
+
+    async submitAppointmentData(formData) {
+        return this.submitData("appointment", formData);
+    }
+
+    async submitRatingData(formData) {
+        return this.submitData("rating", formData);
+    }
+
+    async updateServiceProviderData(formData, key) {
+        return this.updateData("service-provider", formData, key);
+
+    }
+
+    async updateServiceData(formData, key) {
+        return this.updateData("service", formData, key);
+    }
+
+    async updateStaffData(formData, key) {
+        return this.updateData("staff", formData, key);
+    }
+
+    async updateCustomerData(formData, key) {
+        return this.updateData("customer", formData, key);
+    }
+
+    async updateAppointmentData(formData, key) {
+        return this.updateData("appointment", formData, key);
+    }
+
+    async updateRatingData(formData, key) {
+        return this.updateData("rating", formData, key);
+    }
+
+    async deleteStaff(key) {
+        return this.deleteData("staff", key)
+    }
+
+    async deleteService(key) {
+        return this.deleteData("service", key)
+    }
+
+    async deleteAppointment(key) {
+        return this.deleteData("appointment", key)
     }
 }
 
