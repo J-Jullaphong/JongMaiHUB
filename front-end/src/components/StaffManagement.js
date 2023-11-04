@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Input, Button, Panel, Calendar } from 'rsuite';
+import { Input, Button, Panel, Calendar, Loader } from 'rsuite';
 import DataSender from './DataSender';
 import { useParams } from 'react-router-dom';
 import DataFetcher from './DataFetcher';
 
 const StaffManagement = ({ customerData }) => {
+    const [loading, setLoading] = useState(true);
     const [staff, setStaff] = useState(null);
     const [name, setName] = useState('');
     const [specialty, setSpecialty] = useState('');
@@ -20,30 +21,31 @@ const StaffManagement = ({ customerData }) => {
     const { staffUid } = useParams();
 
     useEffect(() => {
-    if (staff === null) {
-        try {
-            const fetchStaffData = async () => {
-                const staffData = await dataFetcher.getStaffData(staffUid);
-                const appointmentData = await dataFetcher.getAppointmentByStaff(staffUid);
-                setStaffData(staffData);
-                setAppointmentData(appointmentData);
-                if (staffData) {
-                    setStaff(staffData);
-                    setName(staffData.name);
-                    setSpecialty(staffData.specialty);
-                    setBackground(staffData.background);
-                    setStartWorkTime(staffData.start_work_time);
-                    setGetOffWorkTime(staffData.get_off_work_time);
-                    setProfilePicture(staffData.profile_picture);
-                }
-            };
-            fetchStaffData();
-        } catch (error) {
-            console.error(error);
-        }
+        if (staff === null) {
+            try {
+                const fetchStaffData = async () => {
+                    const staffData = await dataFetcher.getStaffData(staffUid);
+                    const appointmentData = await dataFetcher.getAppointmentByStaff(staffUid);
+                    setStaffData(staffData);
+                    setAppointmentData(appointmentData);
+                    if (staffData) {
+                        setStaff(staffData);
+                        setName(staffData.name);
+                        setSpecialty(staffData.specialty);
+                        setBackground(staffData.background);
+                        setStartWorkTime(staffData.start_work_time);
+                        setGetOffWorkTime(staffData.get_off_work_time);
+                        setProfilePicture(staffData.profile_picture);
+                    }
+                    setLoading(false);
+                };
+                fetchStaffData();
+            } catch (error) {
+                console.error(error);
+                setLoading(false);
+            }
         }
     }, [staffData, staffUid]);
-
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
@@ -74,18 +76,6 @@ const StaffManagement = ({ customerData }) => {
         }
     };
 
-    const uploadImage = async (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            try {
-                const base64Image = await dataSender.convertImageToBase64(file);
-                setProfilePicture(base64Image);
-            } catch (error) {
-                console.error("Error converting image to base64:", error);
-            }
-        }
-    };
-
     const updateStaffInfo = () => {
         const updatedStaffData = {
             name,
@@ -101,7 +91,19 @@ const StaffManagement = ({ customerData }) => {
             console.log('Staff information updated.');
         });
     };
-    
+
+    const uploadImage = async (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            try {
+                const base64Image = await dataSender.convertImageToBase64(file);
+                setProfilePicture(base64Image);
+            } catch (error) {
+                console.error("Error converting image to base64:", error);
+            }
+        }
+    };
+
     const getCustomerNameById = (customerId) => {
         const customer = customerData.find((customer) => customer.uid === customerId);
         console.log(customer);
@@ -110,83 +112,87 @@ const StaffManagement = ({ customerData }) => {
 
     return (
         <div>
-            <Panel header={`Staff Management: ${staff ? staff.name : ''}`}>
-                <h3>Staff Information:</h3>
-                <img src={profilePicture} alt="Profile Picture" />
-                <div>
-                    <label>Profile Picture</label>
-                    <input
-                        type="file"
-                        accept="image/*"
-                        onChange={uploadImage}
+            {loading ? (
+                <Loader center content="Loading..." vertical />
+            ) : (
+                <Panel header={`Staff Management: ${staff ? staff.name : ''}`}>
+                    <h3>Staff Information:</h3>
+                    <img src={profilePicture} alt="Profile Picture" />
+                    <div>
+                        <label>Profile Picture</label>
+                        <input
+                            type="file"
+                            accept="image/*"
+                            onChange={uploadImage}
+                        />
+                    </div>
+                    <Input
+                        placeholder="Name"
+                        value={name}
+                        onChange={(value) => setName(value)}
                     />
-                </div>
-                <Input
-                    placeholder="Name"
-                    value={name}
-                    onChange={(value) => setName(value)}
-                />
-                <Input
-                    placeholder="Specialty"
-                    value={specialty}
-                    onChange={(value) => setSpecialty(value)}
-                />
-                <Input
-                    placeholder="Background"
-                    value={background}
-                    onChange={(value) => setBackground(value)}
-                />
-                <Input
-                    placeholder="Start Work Time"
-                    value={startWorkTime}
-                    onChange={(value) => setStartWorkTime(value)}
-                />
-                <Input
-                    placeholder="Get Off Work Time"
-                    value={getOffWorkTime}
-                    onChange={(value) => setGetOffWorkTime(value)}
-                />
-                <Button appearance="primary" onClick={updateStaffInfo}>
-                    Update Staff Information
-                </Button>
-                <hr />
-                <h3>Booked Times for {selectedDate.toDateString()}:</h3>
-                <Calendar
-                    value={selectedDate}
-                    onChange={handleDateChange}
-                    onSelect={showAppointmentByDate}
-                    renderCell={(date) => {
-                        const dateString = date.toDateString();
-                        const appointmentsOnDate = appointmentData.filter(
-                            (appointment) =>
-                                appointment.staff === staffUid &&
-                                new Date(appointment.date_time).toDateString() === dateString
-                        );
-
-                        if (appointmentsOnDate.length > 0) {
-                            return (
-                                <div>
-                                    {appointmentsOnDate.map((appointment, index) => {
-                                        const appointmentTime = new Date(appointment.date_time);
-                                        const nameCustomer = getCustomerNameById(appointment.customer);
-                                        const timeString = appointmentTime.toLocaleTimeString([], {
-                                            hour: '2-digit',
-                                            minute: '2-digit',
-                                        });
-                                        return (
-                                            <div key={index}>
-                                                {timeString} - {nameCustomer}
-                                            </div>
-                                        );
-                                    })}
-                                </div>
+                    <Input
+                        placeholder="Specialty"
+                        value={specialty}
+                        onChange={(value) => setSpecialty(value)}
+                    />
+                    <Input
+                        placeholder="Background"
+                        value={background}
+                        onChange={(value) => setBackground(value)}
+                    />
+                    <Input
+                        placeholder="Start Work Time"
+                        value={startWorkTime}
+                        onChange={(value) => setStartWorkTime(value)}
+                    />
+                    <Input
+                        placeholder="Get Off Work Time"
+                        value={getOffWorkTime}
+                        onChange={(value) => setGetOffWorkTime(value)}
+                    />
+                    <Button appearance="primary" onClick={updateStaffInfo}>
+                        Update Staff Information
+                    </Button>
+                    <hr />
+                    <h3>Booked Times for {selectedDate.toDateString()}:</h3>
+                    <Calendar
+                        value={selectedDate}
+                        onChange={handleDateChange}
+                        onSelect={showAppointmentByDate}
+                        renderCell={(date) => {
+                            const dateString = date.toDateString();
+                            const appointmentsOnDate = appointmentData.filter(
+                                (appointment) =>
+                                    appointment.staff === staffUid &&
+                                    new Date(appointment.date_time).toDateString() === dateString
                             );
-                        } else {
-                            return null;
-                        }
-                    }}
-                />
-            </Panel>
+
+                            if (appointmentsOnDate.length > 0) {
+                                return (
+                                    <div>
+                                        {appointmentsOnDate.map((appointment, index) => {
+                                            const appointmentTime = new Date(appointment.date_time);
+                                            const nameCustomer = getCustomerNameById(appointment.customer);
+                                            const timeString = appointmentTime.toLocaleTimeString([], {
+                                                hour: '2-digit',
+                                                minute: '2-digit',
+                                            });
+                                            return (
+                                                <div key={index}>
+                                                    {timeString} - {nameCustomer}
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                );
+                            } else {
+                                return null;
+                            }
+                        }}
+                    />
+                </Panel>
+            )}
         </div>
     );
 };

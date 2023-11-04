@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Input, Button, Panel, Table } from 'rsuite';
+import { Input, Button, Panel, Table, Loader } from 'rsuite';
 import DataSender from './DataSender';
 import DataFetcher from './DataFetcher';
 import { useNavigate } from 'react-router-dom';
@@ -58,12 +58,12 @@ const ProviderManagement = ({ user }) => {
                         }
                     }
 
-                    setLoading(false); 
+                    setLoading(false);
                 };
                 fetchData();
             } catch (error) {
                 console.error(error);
-                setLoading(false); 
+                setLoading(false);
             }
         }
     }, [user.isProvider, user.id, providerData, staffData, serviceData]);
@@ -125,7 +125,7 @@ const ProviderManagement = ({ user }) => {
     return (
         <div className="ProviderManagement">
             {loading ? (
-                <div>Loading...</div>
+                <Loader center content="Loading..." vertical />
             ) : (
                 <>
                     <Panel header="Provider Management">
