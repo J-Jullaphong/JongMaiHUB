@@ -77,6 +77,19 @@ const NavBar = ({ user, isUserAuthenticated, serviceData }) => {
               <Nav.Item>
                 <a
                   onClick={() => {
+                    navigate("/my-appointment");
+                  }}
+                  style={{
+                    textDecoration: "none",
+                    color: "#000000",
+                  }}
+                >
+                  My appointment
+                </a>
+              </Nav.Item>
+              <Nav.Item>
+                <a
+                  onClick={() => {
                     handleSignOut();
                     navigate("/");
                   }}
@@ -86,19 +99,6 @@ const NavBar = ({ user, isUserAuthenticated, serviceData }) => {
                   }}
                 >
                   Sign Out
-                </a>
-              </Nav.Item>
-              <Nav.Item>
-                <a
-                  onClick={() => {
-                    navigate("/my-appointment");
-                  }}
-                  style={{
-                    textDecoration: "none",
-                    color: "#000000",
-                  }}
-                >
-                  My appointment
                 </a>
               </Nav.Item>
             </Nav.Menu>

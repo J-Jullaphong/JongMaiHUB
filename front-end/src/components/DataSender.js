@@ -46,7 +46,7 @@ class DataSender extends Component {
 
     async deleteData(type, key) {
         return await axios
-            .delete(`${this.state.api}${type}/${key}`)
+            .delete(`${this.state.api}${type}/${key}/`)
             .catch((error) => {
                 console.log(error);
                 throw error;

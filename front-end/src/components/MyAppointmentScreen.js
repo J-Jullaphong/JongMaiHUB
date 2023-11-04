@@ -3,6 +3,7 @@ import { Modal, DatePicker, Button, Form, Steps, Table } from "rsuite";
 import DataFetcher from "./DataFetcher";
 import DataSender from "./DataSender";
 import { useNavigate } from 'react-router-dom';
+import "./styles/MyAppointmentScreen.css"
 
 const MyAppointmentScreen = ({ user, serviceData, providerData, staffData }) => {
     const [appointments, setAppointments] = useState([]);
@@ -30,7 +31,7 @@ const MyAppointmentScreen = ({ user, serviceData, providerData, staffData }) => 
             }
         };
         fetchData();
-    }, [user]);
+    }, [user, appointments]);
 
     const handleCancelAppointment = (appointmentId) => {
         dataSender.deleteAppointment(appointmentId);
@@ -63,23 +64,23 @@ const MyAppointmentScreen = ({ user, serviceData, providerData, staffData }) => 
     const upcomingAppointments = appointments.filter(appointment => new Date(appointment.date_time) >= currentDate);
 
     return (
-        <div style={{ maxWidth: '800px', margin: '0 auto', padding: '20px' }}>
-            <h1 style={{ marginBottom: '20px', textAlign: 'center' }}>My Appointments</h1>
+        <div className="appointments-container">
+            <h1 className="appointment-title">My Appointments</h1>
             <br />
             {loading ? (
-                <h2 style={{ textAlign: 'center' }}>Loading...</h2>
+                <h2>Loading...</h2>
             ) : (
                 <>
                     {upcomingAppointments.length > 0 &&
-                        <>
-                            <h2 style={{ textAlign: 'center' }}>Upcoming Appointments</h2>
+                        <div className="upcoming-container">
+                            <h2>Upcoming Appointments</h2>
                             <Table
                                 data={upcomingAppointments}
                                 autoHeight
                                 width={1000}
                                 style={{ marginTop: '20px' }}
                             >
-                                <Table.Column 
+                                <Table.Column
                                 width={200}
                                 align="center">
                                     <Table.HeaderCell>Provider</Table.HeaderCell>
@@ -91,7 +92,7 @@ const MyAppointmentScreen = ({ user, serviceData, providerData, staffData }) => 
                                         }}
                                     </Table.Cell>
                                 </Table.Column>
-                                <Table.Column 
+                                <Table.Column
                                 width={200}
                                 align="center">
                                     <Table.HeaderCell>Service</Table.HeaderCell>
@@ -102,7 +103,7 @@ const MyAppointmentScreen = ({ user, serviceData, providerData, staffData }) => 
                                         }}
                                     </Table.Cell>
                                 </Table.Column>
-                                <Table.Column 
+                                <Table.Column
                                 width={200}
                                 align="center">
                                     <Table.HeaderCell>Staff</Table.HeaderCell>
@@ -113,7 +114,7 @@ const MyAppointmentScreen = ({ user, serviceData, providerData, staffData }) => 
                                         }}
                                     </Table.Cell>
                                 </Table.Column>
-                                <Table.Column 
+                                <Table.Column
                                 width={200}
                                 align="center">
                                     <Table.HeaderCell>Start</Table.HeaderCell>
@@ -121,7 +122,7 @@ const MyAppointmentScreen = ({ user, serviceData, providerData, staffData }) => 
                                         {rowData => formatDateTime(rowData.date_time)}
                                     </Table.Cell>
                                 </Table.Column>
-                                <Table.Column 
+                                <Table.Column
                                 width={200}
                                 align="center">
                                     <Table.HeaderCell>Cancel</Table.HeaderCell>
@@ -134,19 +135,19 @@ const MyAppointmentScreen = ({ user, serviceData, providerData, staffData }) => 
                                     </Table.Cell>
                                 </Table.Column>
                             </Table>
-                        </>
+                        </div>
                     }
 
                     {pastAppointments.length > 0 &&
-                        <>
-                            <h2 style={{ textAlign: 'center' }}>Past Appointments</h2>
+                        <div className="past-container">
+                            <h2>Past Appointments</h2>
                             <Table
                                 data={pastAppointments}
                                 autoHeight
                                 width={1000}
                                 style={{ marginTop: '20px' }}
                             >
-                                <Table.Column 
+                                <Table.Column
                                 width={200}
                                 align="center">
                                     <Table.HeaderCell>Provider</Table.HeaderCell>
@@ -158,7 +159,7 @@ const MyAppointmentScreen = ({ user, serviceData, providerData, staffData }) => 
                                         }}
                                     </Table.Cell>
                                 </Table.Column>
-                                <Table.Column 
+                                <Table.Column
                                 width={200}
                                 align="center">
                                     <Table.HeaderCell>Service</Table.HeaderCell>
@@ -169,7 +170,7 @@ const MyAppointmentScreen = ({ user, serviceData, providerData, staffData }) => 
                                         }}
                                     </Table.Cell>
                                 </Table.Column>
-                                <Table.Column 
+                                <Table.Column
                                 width={200}
                                 align="center">
                                     <Table.HeaderCell>Staff</Table.HeaderCell>
@@ -180,7 +181,7 @@ const MyAppointmentScreen = ({ user, serviceData, providerData, staffData }) => 
                                         }}
                                     </Table.Cell>
                                 </Table.Column>
-                                <Table.Column 
+                                <Table.Column
                                 width={200}
                                 align="center">
                                     <Table.HeaderCell>Start</Table.HeaderCell>
@@ -188,7 +189,7 @@ const MyAppointmentScreen = ({ user, serviceData, providerData, staffData }) => 
                                         {rowData => formatDateTime(rowData.date_time)}
                                     </Table.Cell>
                                 </Table.Column>
-                                <Table.Column 
+                                <Table.Column
                                 width={200}
                                 align="center">
                                     <Table.HeaderCell>Rate</Table.HeaderCell>
@@ -201,11 +202,11 @@ const MyAppointmentScreen = ({ user, serviceData, providerData, staffData }) => 
                                     </Table.Cell>
                                 </Table.Column>
                             </Table>
-                        </>
+                        </div>
                     }
 
                     {pastAppointments.length === 0 && upcomingAppointments.length === 0 &&
-                        <h2 style={{ textAlign: 'center' }}>Sorry, You don't have any appointments.</h2>
+                        <h2>Sorry, You don't have any appointments.</h2>
                     }
 
                 </>
