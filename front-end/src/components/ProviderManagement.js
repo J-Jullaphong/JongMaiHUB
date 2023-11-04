@@ -73,15 +73,26 @@ const ProviderManagement = ({ user }) => {
             location,
             openingTime,
             closingTime,
-            profilePicture,
+            profile_picture: profilePicture,
             coverPicture,
         };
-
+        
         dataSender.updateServiceProviderData(providerData, currentProvider.uid).then(() => {
             console.log('Provider information updated.');
         });
     };
 
+    const uploadImage = async (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            try {
+                const base64Image = await dataSender.convertImageToBase64(file);
+                setProfilePicture(base64Image);
+            } catch (error) {
+                console.error("Error converting image to base64:", error);
+            }
+        }
+    };
     const addNewStaff = (providerId) => {
         navigate(`/add-staff/${providerId}`);
     };
@@ -112,6 +123,15 @@ const ProviderManagement = ({ user }) => {
         <div>
             <Panel header="Provider Management">
                 <h3>Current Provider Information</h3>
+                <img src={profilePicture} alt="Profile Picture" />
+                <div>
+                    <label>Profile Picture</label>
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={uploadImage}
+                    />
+                </div>
                 <Input
                     placeholder="Name"
                     value={name}
@@ -244,6 +264,7 @@ const ProviderManagement = ({ user }) => {
                         </Table.Cell>
                     </Table.Column>
                     </Table>
+                    
                 <Button appearance="primary"  onClick={() => addNewService(currentProvider.uid)}>
                     Add Service
                 </Button>
