@@ -13,6 +13,7 @@ const ProviderManagement = ({ user }) => {
     const [closingTime, setClosingTime] = useState('');
     const [profilePicture, setProfilePicture] = useState('');
     const [coverPicture, setCoverPicture] = useState('');
+    const [updateData, setUpdateData] = useState(true);
 
     const [staffList, setStaffList] = useState([]);
     const [serviceList, setServiceList] = useState([]);
@@ -28,7 +29,7 @@ const ProviderManagement = ({ user }) => {
     const dataFetcher = new DataFetcher();
 
     useEffect(() => {
-        if (currentProvider === null) {
+        if (updateData) {
             try {
                 const fetchData = async () => {
                     const serviceData = await dataFetcher.getServiceByServiceProvider(user.getUID());
@@ -59,11 +60,13 @@ const ProviderManagement = ({ user }) => {
                     }
 
                     setLoading(false);
+                    setUpdateData(false);
                 };
                 fetchData();
             } catch (error) {
                 console.error(error);
                 setLoading(false);
+                setUpdateData(false);
             }
         }
     }, [user.isProvider, user.id, providerData, staffData, serviceData]);
@@ -113,13 +116,21 @@ const ProviderManagement = ({ user }) => {
     };
 
     const deleteStaffSelection = (staffUid) => {
-        dataSender.deleteStaff(staffUid);
-        navigate(`/provider-management`);
+        const shouldDelete = window.confirm('Are you sure you want to delete this staff member?');
+        if (shouldDelete) {
+            dataSender.deleteStaff(staffUid);
+            setUpdateData(false);
+            navigate(`/provider-management`);
+        }
     };
 
     const deleteServiceSelection = (serviceId) => {
-        dataSender.deleteService(serviceId);
-        navigate(`/provider-management`);
+        const shouldDelete = window.confirm('Are you sure you want to delete this service?');
+        if (shouldDelete) {
+            dataSender.deleteService(serviceId);
+            setUpdateData(false);
+            navigate(`/provider-management`);
+        }
     };
 
     return (
