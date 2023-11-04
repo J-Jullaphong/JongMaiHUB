@@ -9,6 +9,7 @@ import SearchScreen from "./components/SearchScreen";
 import DataFetcher from "./components/DataFetcher";
 import ServiceDetail from "./components/ServiceDetail";
 import User from "./components/User";
+import MyAppointmentScreen from "./components/MyAppointmentScreen";
 
 const App = () => {
   const user = User.getInstance();
@@ -77,6 +78,17 @@ const App = () => {
               <ServiceDetail
                 user={user}
                 isUserAuthenticated={userAuthenticated}
+                serviceData={serviceData}
+                providerData={providerData}
+                staffData={staffData}
+              />
+            }
+          />
+          <Route
+            path="/my-appointment"
+            element={
+              <MyAppointmentScreen
+                user={user}
                 serviceData={serviceData}
                 providerData={providerData}
                 staffData={staffData}
