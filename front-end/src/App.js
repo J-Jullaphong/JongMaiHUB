@@ -11,6 +11,8 @@ import User from "./components/User";
 import ProviderManagement from "./components/ProviderManagement";
 import StaffManagement from "./components/StaffManagement";
 import ServiceManagement from "./components/ServiceManagement";
+import CreateNewService from "./components/CreateNewService";
+import CreateNewStaff from "./components/CreateNewStaff";
 
 const App = () => {
     const user = User.getInstance();
@@ -86,9 +88,11 @@ const App = () => {
                             />
                         }
                     />
-                    <Route path="/provider-management" element={<ProviderManagement user={user} serviceData={serviceData} providerData={providerData} staffData={staffData} />} appointmentData={appointmentData} />
-                    <Route path="/staff-management/:staffUid" element={<StaffManagement user={user} staffData={staffData} customerData={customerData} appointmentData={appointmentData} />} />
+                    <Route path="/provider-management" element={<ProviderManagement user={user} />} />
+                    <Route path="/staff-management/:staffUid" element={<StaffManagement user={user} staffData={staffData} customerData={customerData} />} />
                     <Route path="/service-management/:serviceId" element={<ServiceManagement user={user} serviceData={serviceData} />} />
+                    <Route path="/add-staff/:providerId/" element={<CreateNewStaff/>} />
+                    <Route path="/add-service/:providerId/" element={<CreateNewService/>} />
                 </Routes>
             </header>
         </div>

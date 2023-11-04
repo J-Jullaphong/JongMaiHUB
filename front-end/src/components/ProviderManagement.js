@@ -5,6 +5,7 @@ import DataFetcher from './DataFetcher';
 import { useNavigate } from 'react-router-dom';
 
 const ProviderManagement = ({ user }) => {
+    const [currentProvider, setCurrentProvider] = useState(null);
     const [uid, setUid] = useState('');
     const [name, setName] = useState('');
     const [location, setLocation] = useState('');
@@ -12,7 +13,7 @@ const ProviderManagement = ({ user }) => {
     const [closingTime, setClosingTime] = useState('');
     const [profilePicture, setProfilePicture] = useState('');
     const [coverPicture, setCoverPicture] = useState('');
-    const [currentProvider, setCurrentProvider] = useState(null);
+
     const [staffList, setStaffList] = useState([]);
     const [serviceList, setServiceList] = useState([])
 
@@ -31,6 +32,7 @@ const ProviderManagement = ({ user }) => {
                     const serviceData = await dataFetcher.getServiceByServiceProvider(user.getUID());
                     const providerData = await dataFetcher.getServiceProviderData(user.getUID());
                     const staffData = await dataFetcher.getStaffByServiceProvider(user.getUID());
+                    
                     setServiceData(serviceData);
                     setProviderData(providerData);
                     setStaffData(staffData);
@@ -78,6 +80,14 @@ const ProviderManagement = ({ user }) => {
         dataSender.updateServiceProviderData(providerData, currentProvider.uid).then(() => {
             console.log('Provider information updated.');
         });
+    };
+
+    const addNewStaff = (providerId) => {
+        navigate(`/add-staff/${providerId}`);
+    };
+
+    const addNewService = (providerId) => {
+        navigate(`/add-service/${providerId}`);
     };
 
     const handleStaffSelection = (staffUid) => {
@@ -172,6 +182,9 @@ const ProviderManagement = ({ user }) => {
                         </Table.Cell>
                     </Table.Column>
                 </Table>
+                <Button appearance="primary"  onClick={() => addNewStaff(currentProvider.uid)}>
+                    Add Staff
+                </Button>
             </Panel>
 
                 <Panel header="Service of Venues">
@@ -231,6 +244,9 @@ const ProviderManagement = ({ user }) => {
                         </Table.Cell>
                     </Table.Column>
                     </Table>
+                <Button appearance="primary"  onClick={() => addNewService(currentProvider.uid)}>
+                    Add Service
+                </Button>
             </Panel>
         </div>
     );
