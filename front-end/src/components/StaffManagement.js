@@ -41,8 +41,8 @@ const StaffManagement = ({ customerData }) => {
         } catch (error) {
             console.error(error);
         }
-    }
-}, [staffData, staffUid]);
+        }
+    }, [staffData, staffUid]);
 
 
     const handleDateChange = (date) => {
@@ -74,16 +74,29 @@ const StaffManagement = ({ customerData }) => {
         }
     };
 
+    const uploadImage = async (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            try {
+                const base64Image = await dataSender.convertImageToBase64(file);
+                setProfilePicture(base64Image);
+            } catch (error) {
+                console.error("Error converting image to base64:", error);
+            }
+        }
+    };
+
     const updateStaffInfo = () => {
         const updatedStaffData = {
             name,
             specialty,
             background,
-            startWorkTime,
-            getOffWorkTime,
-            profilePicture,
+            start_work_time: startWorkTime,
+            get_off_work_time: getOffWorkTime,
+            profile_picture: profilePicture,
         };
 
+        console.log("Image", profilePicture)
         dataSender.updateStaffData(updatedStaffData, staff.uid).then(() => {
             console.log('Staff information updated.');
         });
@@ -99,6 +112,15 @@ const StaffManagement = ({ customerData }) => {
         <div>
             <Panel header={`Staff Management: ${staff ? staff.name : ''}`}>
                 <h3>Staff Information:</h3>
+                <img src={profilePicture} alt="Profile Picture" />
+                <div>
+                    <label>Profile Picture</label>
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={uploadImage}
+                    />
+                </div>
                 <Input
                     placeholder="Name"
                     value={name}

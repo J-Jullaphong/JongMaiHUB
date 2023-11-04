@@ -10,6 +10,7 @@ const ServiceManagement = () => {
     const [type, setType] = useState('');
     const [duration, setDuration] = useState('');
     const [price, setPrice] = useState('');
+    const [servicePicture, setServicePicture] = useState('');
     const [serviceData, setServiceData] = useState([]);
     const dataSender = new DataSender();
     const dataFetcher = new DataFetcher();
@@ -43,7 +44,8 @@ const ServiceManagement = () => {
             name,
             type,
             duration,
-            price
+            price,
+            service_picture: servicePicture
         };
 
         dataSender.updateServiceData(updatedServiceData, service.id).then(() => {
@@ -51,10 +53,31 @@ const ServiceManagement = () => {
         });
     };
 
+    const uploadImage = async (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            try {
+                const base64Image = await dataSender.convertImageToBase64(file);
+                setServicePicture(base64Image);
+            } catch (error) {
+                console.error("Error converting image to base64:", error);
+            }
+        }
+    };
+
     return (
         <div>
             <Panel header={`Service Management: ${service ? service.name : ''}`}>
-                <h3>Staff Information:</h3>
+                <h3>Service Information:</h3>
+                <img src={servicePicture} alt="No service picture" />
+                <div>
+                    <label>Service Picture</label>
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={uploadImage}
+                    />
+                </div>
                 <Input
                     placeholder="Name"
                     value={name}
