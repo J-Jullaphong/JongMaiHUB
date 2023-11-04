@@ -6,9 +6,19 @@ class DataFetcher extends Component {
         api: "http://localhost:8000/api/",
     };
 
-    async fetchData(type, key = "") {
+    async fetchData(type, key = "", param = "") {
+        let url = `${this.state.api}${type}/`;
+
+        if (key) {
+            url += `${key}/`;
+        }
+
+        if (param) {
+            url += `?${param}`;
+        }
+
         return await axios
-            .get(`${this.state.api}${type}/${key}`)
+            .get(url)
             .then((response) => {
                 return response.data;
             })
@@ -17,6 +27,8 @@ class DataFetcher extends Component {
                 throw error;
             });
     }
+
+
 
     async getServiceProviderData(key = "") {
         return this.fetchData("service-provider", key);
@@ -40,6 +52,22 @@ class DataFetcher extends Component {
 
     async getRatingData(key = "") {
         return this.fetchData("rating", key);
+    }
+
+    async getStaffByServiceProvider(providerKey) {
+        return this.fetchData("staff", "", `service_provider=${providerKey}`);
+    }
+
+    async getAppointmentByStaff(staffKey) {
+        return this.fetchData("appointment", "", `staff=${staffKey}`);
+    }
+
+    async getServiceByServiceProvider(providerKey) {
+        return this.fetchData("service", "", `service_provider=${providerKey}`);
+    }
+
+    async getAppointmentByCustomer(customerKey) {
+        return this.fetchData("appointment", "", `customer=${customerKey}`);
     }
 }
 

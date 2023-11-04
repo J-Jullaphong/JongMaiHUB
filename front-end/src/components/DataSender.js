@@ -51,6 +51,15 @@ class DataSender extends Component {
             });
     }
 
+    async deleteData(type, key) {
+        return await axios
+            .delete(`${this.state.api}${type}/${key}`)
+            .catch((error) => {
+                console.log(error);
+                throw error;
+            });
+    }
+
     async submitServiceProviderData(formData) {
         return this.submitData("service-provider", formData);
     }
@@ -77,6 +86,7 @@ class DataSender extends Component {
 
     async updateServiceProviderData(formData, key) {
         return this.updateData("service-provider", formData, key);
+
     }
 
     async updateServiceData(formData, key) {
@@ -97,6 +107,18 @@ class DataSender extends Component {
 
     async updateRatingData(formData, key) {
         return this.updateData("rating", formData, key);
+    }
+
+    async deleteStaff(key) {
+        return this.deleteData("staff", key)
+    }
+
+    async deleteService(key) {
+        return this.deleteData("service", key)
+    }
+
+    async deleteAppointment(key) {
+        return this.deleteData("appointment", key)
     }
 }
 

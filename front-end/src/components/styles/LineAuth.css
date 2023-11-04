@@ -1,0 +1,12 @@
+.line-button-container {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+}
+
+.line-button {
+    height: 88px;
+    width: 303px;
+    border-radius: 25px;
+    object-fit: cover;
+  }
