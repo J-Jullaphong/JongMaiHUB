@@ -8,11 +8,13 @@ import SearchScreen from "./components/SearchScreen";
 import DataFetcher from "./components/DataFetcher";
 import ServiceDetail from "./components/ServiceDetail";
 import User from "./components/User";
+
 import ProviderManagement from "./components/ProviderManagement";
 import StaffManagement from "./components/StaffManagement";
 import ServiceManagement from "./components/ServiceManagement";
 import CreateNewService from "./components/CreateNewService";
 import CreateNewStaff from "./components/CreateNewStaff";
+import MyAppointmentScreen from "./components/MyAppointmentScreen";
 
 const App = () => {
     const user = User.getInstance();
@@ -93,10 +95,14 @@ const App = () => {
                     <Route path="/service-management/:serviceId" element={<ServiceManagement user={user} serviceData={serviceData} />} />
                     <Route path="/add-staff/:providerId/" element={<CreateNewStaff/>} />
                     <Route path="/add-service/:providerId/" element={<CreateNewService/>} />
+                    <Route path="/my-appointment" element={ <MyAppointmentScreen user={user} serviceData={serviceData} providerData={providerData} staffData={staffData}/>
+                  }
+                />
                 </Routes>
             </header>
         </div>
     );
+
 };
 
 export default App;
