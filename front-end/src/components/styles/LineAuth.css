@@ -1,12 +1,17 @@
 .line-button-container {
-    width: 100vw;
-    display: flex;
-    justify-content: center;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
 }
 
 .line-button {
-    height: 88px;
-    width: 303px;
-    border-radius: 25px;
-    object-fit: cover;
-  }
+  width: 220px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.line-button:hover {
+  cursor: pointer;
+}

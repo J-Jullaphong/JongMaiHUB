@@ -18,7 +18,11 @@ const LineAuth = ({ clientID, state, scope, redirectURI }) => {
 
   return (
     <div className="line-button-container">
-      <button onClick={lineLogin} className="line-button"><img src={"https://i.imgur.com/khY4T6I.png"}/></button>
+      <img
+        src={"https://i.imgur.com/khY4T6I.png"}
+        className="line-button"
+        onClick={lineLogin}
+      />
     </div>
   );
 };
