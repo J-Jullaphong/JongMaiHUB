@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import "firebase/compat/auth";
+
 import Authenticator from "./components/Authenticator";
 import HubScreen from "./components/HubScreen";
 import NavBar from "./components/NavBar";
@@ -8,7 +9,6 @@ import SearchScreen from "./components/SearchScreen";
 import DataFetcher from "./components/DataFetcher";
 import ServiceDetail from "./components/ServiceDetail";
 import User from "./components/User";
-
 import ProviderManagement from "./components/ProviderManagement";
 import StaffManagement from "./components/StaffManagement";
 import ServiceManagement from "./components/ServiceManagement";
@@ -19,31 +19,24 @@ import MyAppointmentScreen from "./components/MyAppointmentScreen";
 const App = () => {
     const user = User.getInstance();
     const [userAuthenticated, setUserAuthenticated] = useState(user.getName() !== null);
-    const navigate = useNavigate();
     const [serviceData, setServiceData] = useState([]);
     const [providerData, setProviderData] = useState([]);
     const [staffData, setStaffData] = useState([]);
-    const [appointmentData, setAppointmentData] = useState([]);
     const [customerData, setCustomerData] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
             const dataFetcher = new DataFetcher();
             try {
-                const [serviceData, providerData, staffData, appointmentData, customerData] = await Promise.all([
+                const [serviceData, providerData, staffData, customerData] = await Promise.all([
                     dataFetcher.getServiceData(),
                     dataFetcher.getServiceProviderData(),
                     dataFetcher.getStaffData(),
-                    dataFetcher.getAppointmentData(),
                     dataFetcher.getCustomerData()
                 ]);
-                console.log("Received Service JSON data:", serviceData);
-                console.log("Received Provider JSON data:", providerData);
-                console.log("Received Staff JSON data:", staffData);
                 setServiceData(serviceData);
                 setProviderData(providerData);
                 setStaffData(staffData);
-                setAppointmentData(appointmentData);
                 setCustomerData(customerData);
             } catch (error) {
                 console.error(error);
@@ -90,14 +83,52 @@ const App = () => {
                             />
                         }
                     />
-                    <Route path="/provider-management" element={<ProviderManagement user={user} />} />
-                    <Route path="/staff-management/:staffUid" element={<StaffManagement user={user} staffData={staffData} customerData={customerData} />} />
-                    <Route path="/service-management/:serviceId" element={<ServiceManagement user={user} serviceData={serviceData} />} />
-                    <Route path="/add-staff/:providerId/" element={<CreateNewStaff/>} />
-                    <Route path="/add-service/:providerId/" element={<CreateNewService/>} />
-                    <Route path="/my-appointment" element={ <MyAppointmentScreen user={user} serviceData={serviceData} providerData={providerData} staffData={staffData}/>
-                  }
-                />
+                    <Route 
+                        path="/provider-management" 
+                        element={
+                            <ProviderManagement 
+                                user={user} 
+                            />
+                        } 
+                    />
+                    <Route 
+                        path="/staff-management/:staffUid" 
+                        element={
+                            <StaffManagement 
+                                user={user} 
+                                staffData={staffData} 
+                                customerData={customerData} 
+                            />
+                        } 
+                    />
+                    <Route 
+                        path="/service-management/:serviceId" 
+                        element={
+                            <ServiceManagement 
+                                user={user} 
+                                serviceData={serviceData} 
+                            />
+                        } 
+                    />
+                    <Route 
+                        path="/add-staff/:providerId/" 
+                        element={<CreateNewStaff/> } 
+                    />
+                    <Route 
+                        path="/add-service/:providerId/" 
+                        element={<CreateNewService/>} 
+                    />
+                    <Route 
+                        path="/my-appointment" 
+                        element={ 
+                            <MyAppointmentScreen 
+                                user={user} 
+                                serviceData={serviceData} 
+                                providerData={providerData} 
+                                staffData={staffData}
+                            />
+                        }
+                    />
                 </Routes>
             </header>
         </div>
