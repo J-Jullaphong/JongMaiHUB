@@ -23,6 +23,7 @@ const App = () => {
     const [providerData, setProviderData] = useState([]);
     const [staffData, setStaffData] = useState([]);
     const [customerData, setCustomerData] = useState([]);
+    const navigate = useNavigate(); 
 
     useEffect(() => {
         const fetchData = async () => {
@@ -43,6 +44,7 @@ const App = () => {
             }
         };
         fetchData();
+        navigate("/login")
     }, []);
 
     const handleAuthenticationChange = (authenticated) => {
@@ -52,7 +54,11 @@ const App = () => {
     return (
         <div className="App">
             <header className="app-header">
-                <NavBar user={user} isUserAuthenticated={userAuthenticated} serviceData={serviceData} />
+                <NavBar 
+                    user={user} 
+                    isUserAuthenticated={userAuthenticated} 
+                    serviceData={serviceData} 
+                />
                 <Routes>
                     <Route path="/" element={<HubScreen />} />
                     <Route
@@ -77,6 +83,8 @@ const App = () => {
                         path="/:providerUrl/:serviceUrl/"
                         element={
                             <ServiceDetail
+                                user={user}
+                                isUserAuthenticated={userAuthenticated}
                                 serviceData={serviceData}
                                 providerData={providerData}
                                 staffData={staffData}
