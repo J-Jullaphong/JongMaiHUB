@@ -20,10 +20,10 @@ const CreateNewService = () => {
 
         if (shouldAddService) {
             const NewServiceData = {
-                name,
-                type,
-                duration,
-                price,
+                name: name,
+                type: type,
+                duration: duration,
+                price: price,
                 service_picture: servicePicture,
                 service_provider: providerId,
             };

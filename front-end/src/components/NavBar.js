@@ -90,6 +90,19 @@ const NavBar = ({ user, isUserAuthenticated, serviceData }) => {
               <Nav.Item>
                 <a
                   onClick={() => {
+                    navigate("/provider-management");
+                  }}
+                  style={{
+                    textDecoration: "none",
+                    color: "#000000",
+                  }}
+                >
+                  Provider Management
+                </a>
+              </Nav.Item>
+              <Nav.Item>
+                <a
+                  onClick={() => {
                     handleSignOut();
                     navigate("/");
                   }}

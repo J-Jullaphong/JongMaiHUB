@@ -47,10 +47,10 @@ const ServiceManagement = () => {
 
         if (shouldUpdate) {
             const updatedServiceData = {
-                name,
-                type,
-                duration,
-                price,
+                name: name,
+                type: type,
+                duration: duration,
+                price: price,
                 service_picture: servicePicture,
             };
 
