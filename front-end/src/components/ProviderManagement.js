@@ -14,9 +14,6 @@ const ProviderManagement = ({ user }) => {
     const [profilePicture, setProfilePicture] = useState('');
     const [coverPicture, setCoverPicture] = useState('');
     const [loading, setLoading] = useState(true);
-    const [staffList, setStaffList] = useState([]);
-    const [serviceList, setServiceList] = useState([]);
-
     const [serviceData, setServiceData] = useState([]);
     const [providerData, setProviderData] = useState([]);
     const [staffData, setStaffData] = useState([]);
@@ -48,12 +45,6 @@ const ProviderManagement = ({ user }) => {
                             setProfilePicture(providerData.profile_picture);
                             setCoverPicture(providerData.cover_picture);
                         }
-                        if (staffData) {
-                            setStaffList(staffData);
-                        }
-                        if (serviceData) {
-                            setServiceList(serviceData);
-                        }
                     }
                     setLoading(false);
                 };
@@ -63,20 +54,20 @@ const ProviderManagement = ({ user }) => {
                 setLoading(false);
             }
         }
-    }, [user.isProvider, user.id, providerData, staffList, serviceList, loading]);
+    }, [user.isProvider, serviceData, providerData, staffData,loading]);
 
     const updateProviderInfo = () => {
         const shouldUpdate = window.confirm('Are you sure you want to update provider information?');
 
         if (shouldUpdate) {
             const providerData = {
-                uid,
-                name,
-                location,
-                openingTime,
-                closingTime,
+                uid: uid,
+                name: name,
+                location: location,
+                opening_time: openingTime,
+                closing_time: closingTime,
                 profile_picture: profilePicture,
-                coverPicture,
+                cover_picture: coverPicture,
             };
 
             dataSender.updateServiceProviderData(providerData, currentProvider.uid).then(() => {
@@ -175,7 +166,7 @@ const ProviderManagement = ({ user }) => {
 
                     <Panel header="Staff Management">
                         <Table
-                            data={staffList}
+                            data={staffData}
                             autoHeight
                             width={1000}
                         >
@@ -225,7 +216,7 @@ const ProviderManagement = ({ user }) => {
 
                     <Panel header="Service of Venues">
                         <Table
-                            data={serviceList}
+                            data={serviceData}
                             autoHeight
                             width={1000}
                         >

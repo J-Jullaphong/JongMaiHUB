@@ -23,15 +23,15 @@ const CreateNewStaff = () => {
 
         if (shouldAddStaff) {
             const NewStaffData = {
-                uid,
-                name,
-                specialty,
-                background,
+                uid: uid,
+                name: name,
+                specialty: specialty,
+                background: background,
                 start_work_time: startWorkTime,
                 get_off_work_time: getOffWorkTime,
                 profile_picture: profilePicture,
                 service_provider: providerId,
-                service,
+                service: service,
             };
 
             dataSender.submitStaffData(NewStaffData).then(() => {

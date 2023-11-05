@@ -81,9 +81,9 @@ const StaffManagement = ({ customerData }) => {
 
         if (shouldUpdate) {
             const updatedStaffData = {
-                name,
-                specialty,
-                background,
+                name: name,
+                specialty: specialty,
+                background: background,
                 start_work_time: startWorkTime,
                 get_off_work_time: getOffWorkTime,
                 profile_picture: profilePicture,
