@@ -13,10 +13,10 @@ const categoriesButtonStyle = {
 
 const NavBar = ({ user, isUserAuthenticated, serviceData }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(isUserAuthenticated);
-  const [isProvider, setIsProvider] = useState(false);
   const uniqueServiceTypes = Array.from(
     new Set(serviceData.map((service) => service.type))
   );
+  const [isProvider, setIsProvider] = useState(false);
 
   const navigate = useNavigate();
 
@@ -67,96 +67,56 @@ const NavBar = ({ user, isUserAuthenticated, serviceData }) => {
         </Nav.Item>
         {isAuthenticated ? (
           <>
-            {isProvider ? (
-              <>
-                <Nav.Item title="username">{user.getName()}</Nav.Item>
-                <Nav.Menu
-                  icon={
-                    <Avatar
-                      title="userprofile"
-                      circle
-                      src={user.getProfilePicture()}
-                    />
-                  }
+            <Nav.Item title="username">{user.getName()}</Nav.Item>
+            <Nav.Menu
+              icon={
+                <Avatar
+                  title="userprofile"
+                  circle
+                  src={user.getProfilePicture()}
+                />
+              }
+            >
+              <Nav.Item>
+                <a
+                  onClick={() => {
+                    navigate("/my-appointment");
+                  }}
+                  style={{
+                    textDecoration: "none",
+                    color: "#000000",
+                  }}
                 >
-                  <Nav.Item>
-                    <a
-                      onClick={() => {
-                        navigate("/my-appointment");
-                      }}
-                      style={{
-                        textDecoration: "none",
-                        color: "#000000",
-                      }}
-                    >
-                      My appointment
-                    </a>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <a
-                      onClick={() => {
-                        navigate("/provider-management");
-                      }}
-                      style={{
-                        textDecoration: "none",
-                        color: "#000000",
-                      }}
-                    >
-                      Provider Management
-                    </a>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <a
-                      onClick={handleSignOut}
-                      style={{
-                        textDecoration: "none",
-                        color: "#F26030",
-                      }}
-                    >
-                      Sign Out
-                    </a>
-                  </Nav.Item>
-                </Nav.Menu>
-              </>
-            ) : (
-              <>
-                <Nav.Item title="username">{user.getName()}</Nav.Item>
-                <Nav.Menu
-                  icon={
-                    <Avatar
-                      title="userprofile"
-                      circle
-                      src={user.getProfilePicture()}
-                    />
-                  }
+                  My appointment
+                </a>
+              </Nav.Item>
+              { isProvider ?(
+                <Nav.Item>
+                  <a
+                    onClick={() => {
+                      navigate("/provider-management");
+                    }}
+                    style={{
+                      textDecoration: "none",
+                      color: "#000000",
+                    }}
+                  >
+                    Provider Management
+                  </a>
+                </Nav.Item>
+              ) : null}
+              <Nav.Item>
+                <a
+                  onClick={handleSignOut}
+                  style={{
+                    textDecoration: "none",
+                    color: "#F26030",
+                  }}
                 >
-                  <Nav.Item>
-                    <a
-                      onClick={() => {
-                        navigate("/my-appointment");
-                      }}
-                      style={{
-                        textDecoration: "none",
-                        color: "#000000",
-                      }}
-                    >
-                      My appointment
-                    </a>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <a
-                      onClick={handleSignOut}
-                      style={{
-                        textDecoration: "none",
-                        color: "#F26030",
-                      }}
-                    >
-                      Sign Out
-                    </a>
-                  </Nav.Item>
-                </Nav.Menu>
-              </>
-            )}
+                  Sign Out
+                </a>
+              </Nav.Item>
+            </Nav.Menu>
           </>
         ) : (
           <Nav.Item
