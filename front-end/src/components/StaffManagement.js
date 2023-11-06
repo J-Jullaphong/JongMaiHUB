@@ -118,53 +118,52 @@ const StaffManagement = ({ customerData }) => {
             {loading ? (
                 <Loader center content="Loading..." vertical />
             ) : (
-                <Panel header={`Staff Management: ${staff ? staff.name : ''}`}>
-                    <h3>Staff Information:</h3>
+                    <Panel header={<h3>Staff Information: {staff ? staff.name : ''}</h3>}>
                     <img src={profilePicture} alt="Profile Picture" />
                     <div>
-                        <label>Profile Picture</label>
+                        <h5>Profile picture: </h5>
                         <input
                             type="file"
                             accept="image/*"
                             onChange={uploadImage}
                         />
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <h5 style={{ marginRight: '10px' }}>Name:</h5>
+                    <div>
+                        <h5>Name: </h5>
                         <Input
                             placeholder="Name"
                             value={name}
                             onChange={(value) => setName(value)}
                         />
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <h5 style={{ marginRight: '10px' }}>Specialty:</h5>
+                    <div>
+                        <h5>Specialty: </h5>
                         <Input
                             placeholder="Specialty"
                             value={specialty}
                             onChange={(value) => setSpecialty(value)}
                         />
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <h5 style={{ marginRight: '10px' }}>Background:</h5>
+                    <div>
+                        <h5>Background: </h5>
                         <Input
                             placeholder="Background"
                             value={background}
                             onChange={(value) => setBackground(value)}
                         />
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <h5 style={{ marginRight: '10px' }}>Start Work Time:</h5>
+                    <div>
+                        <h5>Start work time: </h5>
                         <Input
-                            placeholder="Start Work Time"
+                            placeholder="Start work time"
                             value={startWorkTime}
                             onChange={(value) => setStartWorkTime(value)}
                         />
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <h5 style={{ marginRight: '10px' }}>Get Off  Time:</h5>
+                    <div>
+                        <h5>Get off work time: </h5>
                         <Input
-                            placeholder="Get Off Time"
+                            placeholder="Get off work time"
                             value={getOffWorkTime}
                             onChange={(value) => setGetOffWorkTime(value)}
                         />
@@ -172,8 +171,8 @@ const StaffManagement = ({ customerData }) => {
                     <Button appearance="primary" onClick={updateStaffInfo}>
                         Update Staff Information
                     </Button>
-                    <hr />
-                    <h3>Booked Times for {selectedDate.toDateString()}:</h3>
+                    <hr/>
+                    <h3>Booked times: </h3>
                     <Calendar
                         value={selectedDate}
                         onChange={handleDateChange}
@@ -185,7 +184,6 @@ const StaffManagement = ({ customerData }) => {
                                     appointment.staff === staffUid &&
                                     new Date(appointment.date_time).toDateString() === dateString
                             );
-
                             if (appointmentsOnDate.length > 0) {
                                 return (
                                     <div>

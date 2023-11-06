@@ -54,7 +54,7 @@ const ProviderManagement = ({ user }) => {
                 setLoading(false);
             }
         }
-    }, [user.isProvider, serviceData, providerData, staffData,loading]);
+    }, [user.isProvider, serviceData, providerData, staffData, loading]);
 
     const updateProviderInfo = () => {
         const shouldUpdate = window.confirm('Are you sure you want to update provider information?');
@@ -128,64 +128,69 @@ const ProviderManagement = ({ user }) => {
                 <Loader center content="Loading..." vertical />
             ) : (
                 <>
-                    <Panel header="Provider Management">
-                        <h3>Current Provider Information</h3>
+                    <Panel header={<h3>Current Provider Information</h3>}>
                         <img src={profilePicture} alt="Profile Picture" />
                         <div>
-                            <label>Profile Picture</label>
+                            <h5>Profile picture: </h5>
                             <input
                                 type="file"
                                 accept="image/*"
                                 onChange={uploadImage}
                             />
                         </div>
-                        <Input
-                            placeholder="Name"
-                            value={name}
-                            onChange={(value) => setName(value)}
-                        />
-                        <Input
-                            placeholder="Location"
-                            value={location}
-                            onChange={(value) => setLocation(value)}
-                        />
-                        <Input
-                            placeholder="Opening Time"
-                            value={openingTime}
-                            onChange={(value) => setOpeningTime(value)}
-                        />
-                        <Input
-                            placeholder="Closing Time"
-                            value={closingTime}
-                            onChange={(value) => setClosingTime(value)}
-                        />
+                        <div>
+                            <h5>Name: </h5>
+                            <Input
+                                placeholder="Name"
+                                value={name}
+                                onChange={(value) => setName(value)}
+                            />
+                        </div>
+                        <div>
+                            <h5>Location: </h5>
+                            <Input
+                                placeholder="Location"
+                                value={location}
+                                onChange={(value) => setLocation(value)}
+                            />
+                        </div>
+                        <div>
+                            <h5>Open: </h5>
+                            <Input
+                                placeholder="Opening Time"
+                                value={openingTime}
+                                onChange={(value) => setOpeningTime(value)}
+                            />
+                        </div>
+                        <div>
+                            <h5>Close: </h5>
+                            <Input
+                                placeholder="Closing Time"
+                                value={closingTime}
+                                onChange={(value) => setClosingTime(value)}
+                            />
+                        </div>
                         <Button appearance="primary" onClick={updateProviderInfo}>
                             Update Information
                         </Button>
                     </Panel>
 
-                    <Panel header="Staff Management">
+                    <Panel header={<h3>Staff in this provider</h3>}>
                         <Table
                             data={staffData}
                             autoHeight
                             width={1000}
                         >
                             <Table.Column width={200}>
-                                <Table.HeaderCell>Staff Name</Table.HeaderCell>
-                                <Table.Cell>
-                                    {rowData => (
-                                        <p>
-                                            {rowData.name}
-                                        </p>
-                                    )}
-                                </Table.Cell>
+                                <Table.HeaderCell>Staff name</Table.HeaderCell>
+                                <Table.Cell dataKey="name" />
                             </Table.Column>
                             <Table.Column width={200}>
                                 <Table.HeaderCell>Specialty</Table.HeaderCell>
                                 <Table.Cell dataKey="specialty" />
                             </Table.Column>
                             <Table.Column width={200}>
-                                <Table.HeaderCell>Specialty</Table.HeaderCell>
+                                <Table.HeaderCell>Service</Table.HeaderCell>
                                 <Table.Cell dataKey="service" />
                             </Table.Column>
                             <Table.Column width={200}>
@@ -214,41 +219,23 @@ const ProviderManagement = ({ user }) => {
                         </Button>
                     </Panel>
 
-                    <Panel header="Service of Venues">
+                    <Panel header={<h3>Service in this provider</h3>}>
                         <Table
                             data={serviceData}
                             autoHeight
                             width={1000}
                         >
                             <Table.Column width={200}>
-                                <Table.HeaderCell>Service Name</Table.HeaderCell>
-                                <Table.Cell>
-                                    {rowData => (
-                                        <p>
-                                            {rowData.name}
-                                        </p>
-                                    )}
-                                </Table.Cell>
+                                <Table.HeaderCell>Service name</Table.HeaderCell>
+                                <Table.Cell dataKey="name" />
                             </Table.Column>
                             <Table.Column width={200}>
                                 <Table.HeaderCell>Service duration</Table.HeaderCell>
-                                <Table.Cell>
-                                    {rowData => (
-                                        <p>
-                                            {rowData.duration}
-                                        </p>
-                                    )}
-                                </Table.Cell>
+                                <Table.Cell dataKey="duration" />
                             </Table.Column>
                             <Table.Column width={200}>
                                 <Table.HeaderCell>Service price</Table.HeaderCell>
-                                <Table.Cell>
-                                    {rowData => (
-                                        <p>
-                                            {rowData.price}
-                                        </p>
-                                    )}
-                                </Table.Cell>
+                                <Table.Cell dataKey="price" />
                             </Table.Column>
                             <Table.Column width={200}>
                                 <Table.HeaderCell>Update</Table.HeaderCell>
@@ -271,7 +258,6 @@ const ProviderManagement = ({ user }) => {
                                 </Table.Cell>
                             </Table.Column>
                         </Table>
-
                         <Button appearance="primary" onClick={() => addNewService(currentProvider.uid)}>
                             Add Service
                         </Button>

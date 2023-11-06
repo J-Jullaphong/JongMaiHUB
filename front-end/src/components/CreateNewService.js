@@ -48,39 +48,50 @@ const CreateNewService = () => {
     };
 
     return (
-        <Panel header="Create New Service">
-            <h3>Service Information:</h3>
-            <img src={servicePicture} alt="No service picture" />
+        <Panel header={<h3>Add new service</h3>}>
             <div>
-                <label>Service Picture</label>
+                <h5>Service Picture: </h5>
+                <img src={servicePicture} alt="No service picture" />
                 <input
                     type="file"
                     accept="image/*"
                     onChange={uploadImage}
                 />
             </div>
-            <Input
-                placeholder="Name"
-                value={name}
-                onChange={(value) => setName(value)}
-            />
-            <Input
-                placeholder="Type"
-                value={type}
-                onChange={(value) => setType(value)}
-            />
-            <Input
-                placeholder="Duration"
-                value={duration}
-                onChange={(value) => setDuration(value)}
-            />
-            <Input
-                placeholder="Price"
-                value={price}
-                onChange={(value) => setPrice(value)}
-            />
+            <div>
+                <h5>Profile Picture: </h5>
+                <Input
+                    placeholder="Name"
+                    value={name}
+                    onChange={(value) => setName(value)}
+                />
+            </div>
+            <div>
+                <h5>Type: </h5>
+                <Input
+                    placeholder="Type"
+                    value={type}
+                    onChange={(value) => setType(value)}
+                />
+            </div>
+            <div>
+                <h5>Duration: </h5>
+                <Input
+                    placeholder="Duration"
+                    value={duration}
+                    onChange={(value) => setDuration(value)}
+                />
+            </div>
+            <div>
+                <h5>Price: </h5>
+                <Input
+                    placeholder="Price"
+                    value={price}
+                    onChange={(value) => setPrice(value)}
+                />
+            </div>
             <Button appearance="primary" onClick={addServiceInfo}>
-                Create Service
+                Create new service
             </Button>
         </Panel>
     );

@@ -55,49 +55,66 @@ const CreateNewStaff = () => {
 
     return (
         <div>
-            <Panel header={`Add new staff`}>
-                <h3>Staff Information</h3>
-                <img src={profilePicture} alt="Profile Picture" />
+            <Panel header={<h3>Add new staff</h3>}>
                 <div>
-                    <label>Profile Picture</label>
+                    <h5>Profile Picture: </h5>
+                    <img src={profilePicture} alt="No profile picture" />
                     <input
                         type="file"
                         accept="image/*"
                         onChange={uploadImage}
                     />
                 </div>
-                <Input
-                    placeholder="Uid"
-                    value={uid}
-                    onChange={(value) => setUid(value)}
-                />
-                <Input
-                    placeholder="Name"
-                    value={name}
-                    onChange={(value) => setName(value)}
-                />
-                <Input
-                    placeholder="Specialty"
-                    value={specialty}
-                    onChange={(value) => setSpecialty(value)}
-                />
-                <Input
-                    placeholder="Background"
-                    value={background}
-                    onChange={(value) => setBackground(value)}
-                />
-                <Input
-                    placeholder="Start Work Time"
-                    value={startWorkTime}
-                    onChange={(value) => setStartWorkTime(value)}
-                />
-                <Input
-                    placeholder="Get Off Work Time"
-                    value={getOffWorkTime}
-                    onChange={(value) => setGetOffWorkTime(value)}
-                />
+                <div>
+                    <h5>UID: </h5>
+                    <Input
+                        placeholder="Uid"
+                        value={uid}
+                        onChange={(value) => setUid(value)}
+                    />
+                </div>
+                <div>
+                    <h5>Name: </h5>
+                    <Input
+                        placeholder="Name"
+                        value={name}
+                        onChange={(value) => setName(value)}
+                    />
+                </div>
+                <div>
+                    <h5>Specialty: </h5>
+                    <Input
+                        placeholder="Specialty"
+                        value={specialty}
+                        onChange={(value) => setSpecialty(value)}
+                    />
+                </div>
+                <div>
+                    <h5>Background: </h5>
+                    <Input
+                        placeholder="Background"
+                        value={background}
+                        onChange={(value) => setBackground(value)}
+                    />
+                </div>
+                <div>
+                    <h5>Start work time: </h5>
+                    <Input
+                        placeholder="Start work time"
+                        value={startWorkTime}
+                        onChange={(value) => setStartWorkTime(value)}
+                    />
+                </div>
+                <div>
+                    <h5>Get off work time: </h5>
+                    <Input
+                        placeholder="Get off work time"
+                        value={getOffWorkTime}
+                        onChange={(value) => setGetOffWorkTime(value)}
+                    />
+                </div>
                 <Button appearance="primary" onClick={addStaffInfo}>
-                    Add Staff Information
+                    Add new staff
                 </Button>
             </Panel>
         </div>
