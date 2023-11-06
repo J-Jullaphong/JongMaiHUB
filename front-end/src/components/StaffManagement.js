@@ -119,10 +119,15 @@ const StaffManagement = ({ customerData }) => {
             {loading ? (
                 <Loader center content="Loading..." vertical />
             ) : (
-                    <Panel header={<h3>Staff Information: {staff ? staff.name : ''}</h3>}>
-                    <img src={profilePicture} alt="Profile Picture" />
+                <Panel header={<h3>Staff Information: {staff ? staff.name : ''}</h3>}>
                     <div>
                         <h5>Profile picture: </h5>
+                        <img
+                            src={profilePicture}
+                            alt="Profile Picture"
+                            className="custom-picture"
+                        />
+                        <br />
                         <input
                             className="custom-input"
                             type="file"
@@ -180,7 +185,7 @@ const StaffManagement = ({ customerData }) => {
                     <Button appearance="primary" onClick={updateStaffInfo}>
                         Update Staff Information
                     </Button>
-                    <hr/>
+                    <hr />
                     <h3>Booked times: </h3>
                     <Calendar
                         value={selectedDate}

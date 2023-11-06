@@ -83,9 +83,14 @@ const ServiceManagement = () => {
                 <Loader center content="Loading..." vertical />
             ) : (
                 <Panel header={<h3>Service Information: {service ? service.name : ''}</h3>}>
-                    <img src={servicePicture} alt="No service picture" />
                     <div>
                         <h5>Service picture: </h5>
+                        <img
+                            src={servicePicture}
+                            alt="No service picture"
+                            className="custom-picture"
+                        />
+                        <br />
                         <input
                             className="custom-input"
                             type="file"

@@ -55,7 +55,11 @@ const CreateNewService = () => {
         <Panel header={<h3>Add new service</h3>}>
             <div>
                 <h5>Service Picture: </h5>
-                <img src={servicePicture} alt="No service picture" />
+                <img
+                    src={servicePicture}
+                    alt="No service picture"
+                    className="custom-picture" />
+                <br />
                 <input
                     className="custom-input"
                     type="file"

@@ -130,9 +130,14 @@ const ProviderManagement = ({ user }) => {
             ) : (
                 <>
                     <Panel header={<h3>Current Provider Information</h3>}>
-                        <img src={profilePicture} alt="Profile Picture" />
                         <div>
                             <h5>Profile picture: </h5>
+                            <img
+                                src={profilePicture}
+                                alt="Profile Picture"
+                                className="custom-picture"
+                            />
+                            <br/>
                             <input
                                 className="custom-input"
                                 type="file"

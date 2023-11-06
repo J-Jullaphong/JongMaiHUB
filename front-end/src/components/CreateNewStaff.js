@@ -58,7 +58,12 @@ const CreateNewStaff = () => {
             <Panel header={<h3>Add new staff</h3>}>
                 <div>
                     <h5>Profile Picture: </h5>
-                    <img src={profilePicture} alt="No profile picture" />
+                    <img 
+                        src={profilePicture} 
+                        alt="No profile picture" 
+                        className="custom-picture"
+                    />
+                    <br />
                     <input
                         className="custom-input"
                         type="file"
