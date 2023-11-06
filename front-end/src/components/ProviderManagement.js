@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Input, Button, Panel, Table, Loader } from 'rsuite';
 import DataSender from './DataSender';
 import DataFetcher from './DataFetcher';
+import "./styles/InputButton.css";
 import { useNavigate } from 'react-router-dom';
 
 const ProviderManagement = ({ user }) => {
@@ -133,6 +134,7 @@ const ProviderManagement = ({ user }) => {
                         <div>
                             <h5>Profile picture: </h5>
                             <input
+                                className="custom-input"
                                 type="file"
                                 accept="image/*"
                                 onChange={uploadImage}
@@ -141,6 +143,7 @@ const ProviderManagement = ({ user }) => {
                         <div>
                             <h5>Name: </h5>
                             <Input
+                                className="custom-input"
                                 placeholder="Name"
                                 value={name}
                                 onChange={(value) => setName(value)}
@@ -149,6 +152,7 @@ const ProviderManagement = ({ user }) => {
                         <div>
                             <h5>Location: </h5>
                             <Input
+                                className="custom-input"
                                 placeholder="Location"
                                 value={location}
                                 onChange={(value) => setLocation(value)}
@@ -157,6 +161,7 @@ const ProviderManagement = ({ user }) => {
                         <div>
                             <h5>Open: </h5>
                             <Input
+                                className="custom-input"
                                 type="time"
                                 placeholder="Opening Time"
                                 value={openingTime}
@@ -166,6 +171,7 @@ const ProviderManagement = ({ user }) => {
                         <div>
                             <h5>Close: </h5>
                             <Input
+                                className="custom-input"
                                 type="time"
                                 placeholder="Closing Time"
                                 value={closingTime}

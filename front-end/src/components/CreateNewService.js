@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Input, Button, Panel, InputGroup } from 'rsuite';
 import DataSender from './DataSender';
+import "./styles/InputButton.css";
 import { useParams, useNavigate } from 'react-router-dom';
 
 const CreateNewService = () => {
@@ -56,6 +57,7 @@ const CreateNewService = () => {
                 <h5>Service Picture: </h5>
                 <img src={servicePicture} alt="No service picture" />
                 <input
+                    className="custom-input"
                     type="file"
                     accept="image/*"
                     onChange={uploadImage}
@@ -64,6 +66,7 @@ const CreateNewService = () => {
             <div>
                 <h5>Profile Picture: </h5>
                 <Input
+                    className="custom-input"
                     placeholder="Name"
                     value={name}
                     onChange={(value) => setName(value)}
@@ -72,6 +75,7 @@ const CreateNewService = () => {
             <div>
                 <h5>Type: </h5>
                 <Input
+                    className="custom-input"
                     placeholder="Type"
                     value={type}
                     onChange={(value) => setType(value)}
@@ -81,6 +85,7 @@ const CreateNewService = () => {
                 <h5>Duration: </h5>
                 <InputGroup inside style={styles}>
                     <Input
+                        className="custom-input"
                         type="int"
                         placeholder="Duration"
                         value={duration}
@@ -93,6 +98,7 @@ const CreateNewService = () => {
                 <h5>Price: </h5>
                 <InputGroup inside style={styles}>
                     <Input
+                        className="custom-input"
                         placeholder="Price"
                         value={price}
                         onChange={(value) => setPrice(value)}

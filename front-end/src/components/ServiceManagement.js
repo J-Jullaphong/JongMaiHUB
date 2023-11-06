@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Input, Button, Panel, Loader, InputGroup } from 'rsuite';
-import DataSender from './DataSender';
 import { useParams } from 'react-router-dom';
+import "./styles/InputButton.css";
+import DataSender from './DataSender';
 import DataFetcher from './DataFetcher';
 
 const ServiceManagement = () => {
@@ -86,6 +87,7 @@ const ServiceManagement = () => {
                     <div>
                         <h5>Service picture: </h5>
                         <input
+                            className="custom-input"
                             type="file"
                             accept="image/*"
                             onChange={uploadImage}
@@ -94,6 +96,7 @@ const ServiceManagement = () => {
                     <div>
                         <h5>Name: </h5>
                         <Input
+                            className="custom-input"
                             placeholder="Name"
                             value={name}
                             onChange={(value) => setName(value)}
@@ -102,6 +105,7 @@ const ServiceManagement = () => {
                     <div>
                         <h5>Type: </h5>
                         <Input
+                            className="custom-input"
                             placeholder="Type"
                             value={type}
                             onChange={(value) => setType(value)}
@@ -111,6 +115,7 @@ const ServiceManagement = () => {
                         <h5>Duration: </h5>
                         <InputGroup inside style={styles}>
                             <Input
+                                className="custom-input"
                                 type="int"
                                 placeholder="Duration"
                                 value={duration}
@@ -123,6 +128,7 @@ const ServiceManagement = () => {
                         <h5>Price: </h5>
                         <InputGroup inside style={styles}>
                             <Input
+                                className="custom-input"
                                 placeholder="Price"
                                 value={price}
                                 onChange={(value) => setPrice(value)}

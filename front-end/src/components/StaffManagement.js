@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Input, Button, Panel, Calendar, Loader } from 'rsuite';
-import DataSender from './DataSender';
 import { useParams } from 'react-router-dom';
+import "./styles/InputButton.css";
+import DataSender from './DataSender';
 import DataFetcher from './DataFetcher';
 
 const StaffManagement = ({ customerData }) => {
@@ -123,6 +124,7 @@ const StaffManagement = ({ customerData }) => {
                     <div>
                         <h5>Profile picture: </h5>
                         <input
+                            className="custom-input"
                             type="file"
                             accept="image/*"
                             onChange={uploadImage}
@@ -131,6 +133,7 @@ const StaffManagement = ({ customerData }) => {
                     <div>
                         <h5>Name: </h5>
                         <Input
+                            className="custom-input"
                             placeholder="Name"
                             value={name}
                             onChange={(value) => setName(value)}
@@ -139,6 +142,7 @@ const StaffManagement = ({ customerData }) => {
                     <div>
                         <h5>Specialty: </h5>
                         <Input
+                            className="custom-input"
                             placeholder="Specialty"
                             value={specialty}
                             onChange={(value) => setSpecialty(value)}
@@ -147,6 +151,7 @@ const StaffManagement = ({ customerData }) => {
                     <div>
                         <h5>Background: </h5>
                         <Input
+                            className="custom-input"
                             placeholder="Background"
                             value={background}
                             onChange={(value) => setBackground(value)}
@@ -155,6 +160,7 @@ const StaffManagement = ({ customerData }) => {
                     <div>
                         <h5>Start work time: </h5>
                         <Input
+                            className="custom-input"
                             type="time"
                             placeholder="Start work time"
                             value={startWorkTime}
@@ -164,6 +170,7 @@ const StaffManagement = ({ customerData }) => {
                     <div>
                         <h5>Get off work time: </h5>
                         <Input
+                            className="custom-input"
                             type="time"
                             placeholder="Get off work time"
                             value={getOffWorkTime}

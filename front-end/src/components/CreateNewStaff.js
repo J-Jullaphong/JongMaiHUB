@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Input, Button, Panel } from 'rsuite';
 import DataSender from './DataSender';
+import "./styles/InputButton.css";
 import { useParams, useNavigate } from 'react-router-dom';
 
 const CreateNewStaff = () => {
@@ -59,6 +60,7 @@ const CreateNewStaff = () => {
                     <h5>Profile Picture: </h5>
                     <img src={profilePicture} alt="No profile picture" />
                     <input
+                        className="custom-input"
                         type="file"
                         accept="image/*"
                         onChange={uploadImage}
@@ -67,6 +69,7 @@ const CreateNewStaff = () => {
                 <div>
                     <h5>UID: </h5>
                     <Input
+                        className="custom-input"
                         placeholder="Uid"
                         value={uid}
                         onChange={(value) => setUid(value)}
@@ -75,6 +78,7 @@ const CreateNewStaff = () => {
                 <div>
                     <h5>Name: </h5>
                     <Input
+                        className="custom-input"
                         placeholder="Name"
                         value={name}
                         onChange={(value) => setName(value)}
@@ -83,6 +87,7 @@ const CreateNewStaff = () => {
                 <div>
                     <h5>Specialty: </h5>
                     <Input
+                        className="custom-input"
                         placeholder="Specialty"
                         value={specialty}
                         onChange={(value) => setSpecialty(value)}
@@ -91,6 +96,7 @@ const CreateNewStaff = () => {
                 <div>
                     <h5>Background: </h5>
                     <Input
+                        className="custom-input"
                         placeholder="Background"
                         value={background}
                         onChange={(value) => setBackground(value)}
@@ -99,6 +105,7 @@ const CreateNewStaff = () => {
                 <div>
                     <h5>Start work time: </h5>
                     <Input
+                        className="custom-input"
                         type="time"
                         placeholder="Start work time"
                         value={startWorkTime}
@@ -108,6 +115,7 @@ const CreateNewStaff = () => {
                 <div>
                     <h5>Get off work time: </h5>
                     <Input
+                        className="custom-input"
                         type="time"
                         placeholder="Get off work time"
                         value={getOffWorkTime}
