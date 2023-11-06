@@ -4,7 +4,7 @@ import DataFetcher from "./DataFetcher";
 import DataSender from "./DataSender";
 import RatingScreen from "./RatingScreen";
 import { useNavigate } from "react-router-dom";
-import "./styles/MyAppointmentScreen.css"
+import "./styles/MyAppointmentScreen.css";
 
 const MyAppointmentScreen = ({
   user,
@@ -89,8 +89,7 @@ const MyAppointmentScreen = ({
 
   return (
     <div className="appointments-container">
-      <h1 className="appointment-title">My Appointments</h1>
-      <br />
+      <h3 className="appointment-title">My Appointments</h3>
       {loading ? (
         <h2>Loading...</h2>
       ) : (
@@ -98,7 +97,8 @@ const MyAppointmentScreen = ({
           {upcomingAppointments.length > 0 &&
             <div className="upcoming-container">
               <h2>Upcoming Appointments</h2>
-              <Table
+              <Table 
+                className="table-upcoming"
                 data={upcomingAppointments}
                 autoHeight
                 width={1000}
@@ -152,7 +152,9 @@ const MyAppointmentScreen = ({
                   <Table.HeaderCell>Cancel</Table.HeaderCell>
                   <Table.Cell>
                     {rowData => (
-                      <button onClick={() => handleCancelAppointment(rowData.id)}>
+                        <button 
+                          className="cancel-button"
+                          onClick={() => handleCancelAppointment(rowData.id)}>
                         Cancel
                       </button>
                     )}
@@ -166,6 +168,7 @@ const MyAppointmentScreen = ({
             <div className="past-container">
               <h2>Past Appointments</h2>
               <Table
+                className="table-pastAppointment"
                 data={pastAppointments}
                 autoHeight
                 width={1000}
@@ -219,7 +222,9 @@ const MyAppointmentScreen = ({
                   <Table.HeaderCell>Rate</Table.HeaderCell>
                   <Table.Cell>
                     {rowData => (
-                      <button onClick={() => handleRateAppointment(rowData.id)}>
+                      <button 
+                        className = "rate-button"
+                        onClick={() => handleRateAppointment(rowData.id)}>
                         Rate
                       </button>
                     )}
