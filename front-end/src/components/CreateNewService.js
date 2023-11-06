@@ -10,7 +10,6 @@ const CreateNewService = () => {
     const [duration, setDuration] = useState('');
     const [price, setPrice] = useState('');
     const [servicePicture, setServicePicture] = useState("");
-    const [serviceProvider, setServiceProvider] = useState("");
     const dataSender = new DataSender();
     const navigate = useNavigate();
 

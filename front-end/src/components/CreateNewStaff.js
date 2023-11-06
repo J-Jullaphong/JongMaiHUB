@@ -12,7 +12,6 @@ const CreateNewStaff = () => {
     const [startWorkTime, setStartWorkTime] = useState('');
     const [getOffWorkTime, setGetOffWorkTime] = useState('');
     const [profilePicture, setProfilePicture] = useState("");
-    const [service_provider, setServiceProvider] = useState("");
     const [service, setService] = useState(3);
     const dataSender = new DataSender();
     const navigate = useNavigate();
