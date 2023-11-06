@@ -157,6 +157,7 @@ const ProviderManagement = ({ user }) => {
                         <div>
                             <h5>Open: </h5>
                             <Input
+                                type="time"
                                 placeholder="Opening Time"
                                 value={openingTime}
                                 onChange={(value) => setOpeningTime(value)}
@@ -165,6 +166,7 @@ const ProviderManagement = ({ user }) => {
                         <div>
                             <h5>Close: </h5>
                             <Input
+                                type="time"
                                 placeholder="Closing Time"
                                 value={closingTime}
                                 onChange={(value) => setClosingTime(value)}

@@ -155,6 +155,7 @@ const StaffManagement = ({ customerData }) => {
                     <div>
                         <h5>Start work time: </h5>
                         <Input
+                            type="time"
                             placeholder="Start work time"
                             value={startWorkTime}
                             onChange={(value) => setStartWorkTime(value)}
@@ -163,6 +164,7 @@ const StaffManagement = ({ customerData }) => {
                     <div>
                         <h5>Get off work time: </h5>
                         <Input
+                            type="time"
                             placeholder="Get off work time"
                             value={getOffWorkTime}
                             onChange={(value) => setGetOffWorkTime(value)}

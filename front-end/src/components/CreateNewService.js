@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Input, Button, Panel } from 'rsuite';
+import { Input, Button, Panel, InputGroup } from 'rsuite';
 import DataSender from './DataSender';
 import { useParams, useNavigate } from 'react-router-dom';
 
@@ -12,6 +12,10 @@ const CreateNewService = () => {
     const [servicePicture, setServicePicture] = useState("");
     const dataSender = new DataSender();
     const navigate = useNavigate();
+    const styles = {
+        width: 300,
+        marginBottom: 10
+    };
 
 
     const addServiceInfo = () => {
@@ -75,19 +79,26 @@ const CreateNewService = () => {
             </div>
             <div>
                 <h5>Duration: </h5>
-                <Input
-                    placeholder="Duration"
-                    value={duration}
-                    onChange={(value) => setDuration(value)}
-                />
+                <InputGroup inside style={styles}>
+                    <Input
+                        type="int"
+                        placeholder="Duration"
+                        value={duration}
+                        onChange={(value) => setDuration(value)}
+                    />
+                    <InputGroup.Addon>minute</InputGroup.Addon>
+                </InputGroup>
             </div>
             <div>
                 <h5>Price: </h5>
-                <Input
-                    placeholder="Price"
-                    value={price}
-                    onChange={(value) => setPrice(value)}
-                />
+                <InputGroup inside style={styles}>
+                    <Input
+                        placeholder="Price"
+                        value={price}
+                        onChange={(value) => setPrice(value)}
+                    />
+                    <InputGroup.Addon>฿</InputGroup.Addon>
+                </InputGroup>
             </div>
             <Button appearance="primary" onClick={addServiceInfo}>
                 Create new service
