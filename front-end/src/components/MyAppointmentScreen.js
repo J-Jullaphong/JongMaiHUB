@@ -89,20 +89,19 @@ const MyAppointmentScreen = ({
 
   return (
     <div className="appointments-container">
-      <h3 className="appointment-title">My Appointments</h3>
+      <h2 className="appointment-title">My Appointments</h2>
       {loading ? (
         <h2>Loading...</h2>
       ) : (
         <>
           {upcomingAppointments.length > 0 &&
             <div className="upcoming-container">
-              <h2>Upcoming Appointments</h2>
+              <h5>Upcoming Appointments</h5>
               <Table 
                 className="table-upcoming"
                 data={upcomingAppointments}
                 autoHeight
                 width={1000}
-                style={{ marginTop: '20px' }}
               >
                 <Table.Column
                   width={200}
@@ -148,11 +147,11 @@ const MyAppointmentScreen = ({
                 </Table.Column>
                 <Table.Column
                   width={200}
-                  align="center">
+                  >
                   <Table.HeaderCell>Cancel</Table.HeaderCell>
                   <Table.Cell>
                     {rowData => (
-                        <button 
+                        <button
                           className="cancel-button"
                           onClick={() => handleCancelAppointment(rowData.id)}>
                         Cancel
@@ -166,13 +165,12 @@ const MyAppointmentScreen = ({
 
           {pastAppointments.length > 0 &&
             <div className="past-container">
-              <h2>Past Appointments</h2>
+              <h5>Past Appointments</h5>
               <Table
                 className="table-pastAppointment"
                 data={pastAppointments}
                 autoHeight
                 width={1000}
-                style={{ marginTop: '20px' }}
               >
                 <Table.Column
                   width={200}
