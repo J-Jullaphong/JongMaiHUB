@@ -1,6 +1,44 @@
 import React, { Component } from "react";
-import { Carousel } from "rsuite";
+import { Carousel, Panel, List, Row, Col, Button } from "rsuite";
 import "./styles/HubScreen.css";
+
+const data = {
+    name: "Service Name",
+    type: "Service Type",
+    rating: "Service Rating",
+  };
+
+const handleCardClick = () => {
+    alert("Clicked!");
+};
+
+const Card = () => (
+    <Panel 
+        shaded 
+        bordered 
+        style={{ 
+            display: 'inline-block', 
+            width: 360,
+            cursor:'pointer',
+            transition: 'background-color 0.2s',
+            backgroundColor: 'white',
+            }}
+        onClick={handleCardClick}
+    >
+        <table className="card" style={{ width: '100%' }}>
+            <tr>
+                <td style={{ padding: '10px'}}>
+                    <img src="https://via.placeholder.com/100x100" height="100" width="100" alt="Image" />
+                </td>
+                <td style={{ verticalAlign: 'top', padding: '10px', textAlign: 'left'}}>
+                    <p>{data.name}</p>
+                    <p>{data.type}</p>
+                    <p>{data.rating}</p>
+                </td>
+            </tr>
+        </table>
+    </Panel>
+);
 
 class HubScreen extends Component {
     render() {
@@ -17,6 +55,22 @@ class HubScreen extends Component {
                 </div>
                 <div className="group">
                     <h2>Recommended Services</h2>
+                </div>
+                <div className="recommend-panel">
+                <Row>
+                    <Col md={6} sm={12}>
+                        <Card />
+                    </Col>
+                    <Col md={6} sm={12}>
+                        <Card />
+                    </Col>
+                    <Col md={6} sm={12}>
+                        <Card />
+                    </Col>
+                    <Col md={6} sm={12}>
+                      <Card />
+                    </Col>
+                </Row>
                 </div>
             </div>
         );

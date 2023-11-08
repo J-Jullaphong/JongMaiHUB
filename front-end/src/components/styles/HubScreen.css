@@ -11,3 +11,26 @@
 .popular-carousel img {
     object-fit: cover;
 }
+
+.recommend-panel {
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+.card {
+    width: 100%;
+  }
+  
+  .card td:first-child {
+    width: 33.33%;
+  }
+  
+  .card td:last-child {
+    width: 66.66%;
+  }
+  
+  .card td {
+    padding: 10px;
+    vertical-align: top;
+    text-align: left;
+  }
