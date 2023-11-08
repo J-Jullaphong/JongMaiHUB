@@ -48,6 +48,11 @@ const ServiceManagement = () => {
     }, [serviceData, serviceId]);
 
     const updateServiceInfo = () => {
+        if (!name || !type || !duration || !price || !servicePicture) { 
+            window.alert('Please fill in all input fields.');
+            return;
+        }
+
         const shouldUpdate = window.confirm('Are you sure you want to update service information?');
 
         if (shouldUpdate) {
@@ -80,7 +85,7 @@ const ServiceManagement = () => {
     return (
         <div>
             {loading ? (
-                <Loader center content="Loading..." vertical />
+                <h2>Loading...</h2>
             ) : (
                 <Panel header={<h3>Service Information: {service ? service.name : ''}</h3>}>
                     <div>

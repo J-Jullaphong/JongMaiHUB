@@ -78,6 +78,11 @@ const StaffManagement = ({ customerData }) => {
     };
 
     const updateStaffInfo = () => {
+        if (!name || !specialty || !background || !startWorkTime || !getOffWorkTime || !profilePicture) {
+            window.alert('Please fill in all input fields.');
+            return;
+        }
+
         const shouldUpdate = window.confirm('Are you sure you want to update staff information?');
 
         if (shouldUpdate) {
@@ -90,6 +95,7 @@ const StaffManagement = ({ customerData }) => {
                 profile_picture: profilePicture,
             };
 
+            window.alert('Successfully updated staff.');
             dataSender.updateStaffData(updatedStaffData, staff.uid).then(() => {
                 console.log('Staff information updated.');
             });
@@ -117,7 +123,7 @@ const StaffManagement = ({ customerData }) => {
     return (
         <div>
             {loading ? (
-                <Loader center content="Loading..." vertical />
+                <h2>Loading...</h2>
             ) : (
                 <Panel header={<h3>Staff Information: {staff ? staff.name : ''}</h3>}>
                     <div>

@@ -42,8 +42,12 @@ const MyAppointmentScreen = ({
   }, [user, appointments]);
 
   const handleCancelAppointment = (appointmentId) => {
-    dataSender.deleteAppointment(appointmentId);
-    navigate(`/my-appointment`);
+    const shouldDelete = window.confirm('Are you sure you want to cancel this appointment?');
+    if (shouldDelete) {
+      dataSender.deleteAppointment(appointmentId);
+      window.alert('Successfully cancel appointment.');
+      navigate(`/my-appointment`);
+    }
   };
 
   const handleRateAppointment = (appointmentId) => {

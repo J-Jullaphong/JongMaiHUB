@@ -15,6 +15,7 @@ const ProviderManagement = ({ user }) => {
     const [profilePicture, setProfilePicture] = useState('');
     const [coverPicture, setCoverPicture] = useState('');
     const [loading, setLoading] = useState(true);
+    const [loadProvider, setLoadProvider] = useState(true);
     const [serviceData, setServiceData] = useState([]);
     const [providerData, setProviderData] = useState([]);
     const [staffData, setStaffData] = useState([]);
@@ -24,40 +25,43 @@ const ProviderManagement = ({ user }) => {
     const dataFetcher = new DataFetcher();
 
     useEffect(() => {
-        if (loading) {
-            try {
-                const fetchData = async () => {
-                    const serviceData = await dataFetcher.getServiceByServiceProvider(user.getUID());
-                    const providerData = await dataFetcher.getServiceProviderData(user.getUID());
-                    const staffData = await dataFetcher.getStaffByServiceProvider(user.getUID());
+        try {
+            const fetchData = async () => {
+                const serviceData = await dataFetcher.getServiceByServiceProvider(user.getUID());
+                const providerData = await dataFetcher.getServiceProviderData(user.getUID());
+                const staffData = await dataFetcher.getStaffByServiceProvider(user.getUID());
 
-                    setServiceData(serviceData);
-                    setProviderData(providerData);
-                    setStaffData(staffData);
-
-                    if (user.isProvider) {
-                        if (providerData) {
-                            setCurrentProvider(providerData);
-                            setUid(providerData.uid);
-                            setName(providerData.name);
-                            setLocation(providerData.location);
-                            setOpeningTime(providerData.opening_time);
-                            setClosingTime(providerData.closing_time);
-                            setProfilePicture(providerData.profile_picture);
-                            setCoverPicture(providerData.cover_picture);
-                        }
-                    }
-                    setLoading(false);
-                };
-                fetchData();
-            } catch (error) {
-                console.error(error);
+                setServiceData(serviceData);
+                setProviderData(providerData);
+                setStaffData(staffData);
                 setLoading(false);
-            }
+
+                if (user.isProvider && loadProvider) {
+                    if (providerData) {
+                        setCurrentProvider(providerData);
+                        setUid(providerData.uid);
+                        setName(providerData.name);
+                        setLocation(providerData.location);
+                        setOpeningTime(providerData.opening_time);
+                        setClosingTime(providerData.closing_time);
+                        setProfilePicture(providerData.profile_picture);
+                        setCoverPicture(providerData.cover_picture);
+                    }
+                }
+                setLoadProvider(false);
+            };
+            fetchData();
+        } catch (error) {
+            console.error(error);
+            setLoading(false);
         }
     }, [user.isProvider, serviceData, providerData, staffData, loading]);
 
     const updateProviderInfo = () => {
+        if (!name || !location || !openingTime || !closingTime || !profilePicture || !profilePicture) {
+            window.alert('Please fill in all input fields.');
+            return;
+        }
         const shouldUpdate = window.confirm('Are you sure you want to update provider information?');
 
         if (shouldUpdate) {
@@ -71,9 +75,11 @@ const ProviderManagement = ({ user }) => {
                 cover_picture: coverPicture,
             };
 
+            window.alert('Successfully updated provider.');
             dataSender.updateServiceProviderData(providerData, currentProvider.uid).then(() => {
                 console.log('Provider information updated.');
             });
+            setLoadProvider(true);
         }
     };
 
@@ -109,7 +115,7 @@ const ProviderManagement = ({ user }) => {
         const shouldDelete = window.confirm('Are you sure you want to delete this staff member?');
         if (shouldDelete) {
             dataSender.deleteStaff(staffUid);
-            setLoading(true);
+            window.alert('Successfully deleted staff.');
             navigate(`/provider-management`);
         }
     };
@@ -118,7 +124,7 @@ const ProviderManagement = ({ user }) => {
         const shouldDelete = window.confirm('Are you sure you want to delete this service?');
         if (shouldDelete) {
             dataSender.deleteService(serviceId);
-            setLoading(true);
+            window.alert('Successfully deleted service.');
             navigate(`/provider-management`);
         }
     };
@@ -126,7 +132,7 @@ const ProviderManagement = ({ user }) => {
     return (
         <div className="ProviderManagement">
             {loading ? (
-                <Loader center content="Loading..." vertical />
+                <h2>Loading...</h2>
             ) : (
                 <>
                     <Panel header={<h3>Current Provider Information</h3>}>
@@ -137,7 +143,7 @@ const ProviderManagement = ({ user }) => {
                                 alt="Profile Picture"
                                 className="custom-picture"
                             />
-                            <br/>
+                            <br />
                             <input
                                 className="custom-input"
                                 type="file"

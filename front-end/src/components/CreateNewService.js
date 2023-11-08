@@ -20,6 +20,11 @@ const CreateNewService = () => {
 
 
     const addServiceInfo = () => {
+        if (!name || !type || !duration || !price || !servicePicture) {
+            window.alert('Please fill in all input fields.');
+            return;
+        }
+
         const shouldAddService = window.confirm('Are you sure you want to add this service?');
 
         if (shouldAddService) {
@@ -32,6 +37,7 @@ const CreateNewService = () => {
                 service_provider: providerId,
             };
 
+            window.alert('Successfully added service.');
             dataSender.submitServiceData(NewServiceData).then(() => {
                 console.log('Service information added.');
                 navigate('/provider-management');

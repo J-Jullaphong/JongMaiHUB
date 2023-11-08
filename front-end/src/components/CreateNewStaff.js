@@ -19,6 +19,10 @@ const CreateNewStaff = () => {
 
 
     const addStaffInfo = () => {
+        if (!name || !specialty || !background || !startWorkTime || !getOffWorkTime || !profilePicture) {
+            window.alert('Please fill in all input fields.');
+            return;
+        }
         const shouldAddStaff = window.confirm('Are you sure you want to add this staff member?');
 
         if (shouldAddStaff) {
@@ -33,7 +37,7 @@ const CreateNewStaff = () => {
                 service_provider: providerId,
                 service: service,
             };
-
+            window.alert('Successfully added staff.');
             dataSender.submitStaffData(NewStaffData).then(() => {
                 console.log('Staff information added.');
                 navigate('/provider-management');
