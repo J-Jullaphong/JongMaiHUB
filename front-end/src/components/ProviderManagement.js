@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Input, Button, Panel, Table, Loader } from 'rsuite';
 import DataSender from './DataSender';
 import DataFetcher from './DataFetcher';
-import "./styles/InputButton.css";
+import "./styles/ProviderManagement.css";
 import { useNavigate } from 'react-router-dom';
 
 const ProviderManagement = ({ user }) => {
@@ -130,154 +130,205 @@ const ProviderManagement = ({ user }) => {
     };
 
     return (
-        <div className="ProviderManagement">
+        <div className="provider-management">
             {loading ? (
                 <h2>Loading...</h2>
             ) : (
                 <>
-                    <Panel header={<h3>Current Provider Information</h3>}>
-                        <div>
-                            <h5>Profile picture: </h5>
-                            <img
-                                src={profilePicture}
-                                alt="Profile Picture"
-                                className="custom-picture"
-                            />
-                            <br />
-                            <input
-                                className="custom-input"
-                                type="file"
-                                accept="image/*"
-                                onChange={uploadImage}
-                            />
+                    <Panel
+                        className="provider-information"
+                        header={<h3>Current Provider Information</h3>}
+                    >
+                        <div className="input-fields">
+                            <div>
+                                <h5>Profile picture</h5>
+                                <img
+                                    src={profilePicture}
+                                    alt="Profile Picture"
+                                    className="custom-picture"
+                                />
+                                <br />
+                                <input
+                                    className="custom-input"
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={uploadImage}
+                                />
+                            </div>
+                            <div className="input-flied">
+                                <h5>Name</h5>
+                                <Input
+                                    className="custom-input"
+                                    placeholder="Name"
+                                    value={name}
+                                    onChange={(value) => setName(value)}
+                                />
+                            </div>
+                            <div className="input-flied">
+                                <h5>Location</h5>
+                                <Input
+                                    className="custom-input"
+                                    placeholder="Location"
+                                    value={location}
+                                    onChange={(value) => setLocation(value)}
+                                />
+                            </div>
+                            <div className="input-flied">
+                                <h5>Open Time</h5>
+                                <Input
+                                    className="custom-input"
+                                    type="time"
+                                    placeholder="Opening Time"
+                                    value={openingTime}
+                                    onChange={(value) => setOpeningTime(value)}
+                                />
+                            </div>
+                            <div className="input-flied">
+                                <h5>Close Time</h5>
+                                <Input
+                                    className="custom-input"
+                                    type="time"
+                                    placeholder="Closing Time"
+                                    value={closingTime}
+                                    onChange={(value) => setClosingTime(value)}
+                                />
+                            </div>
                         </div>
-                        <div>
-                            <h5>Name: </h5>
-                            <Input
-                                className="custom-input"
-                                placeholder="Name"
-                                value={name}
-                                onChange={(value) => setName(value)}
-                            />
-                        </div>
-                        <div>
-                            <h5>Location: </h5>
-                            <Input
-                                className="custom-input"
-                                placeholder="Location"
-                                value={location}
-                                onChange={(value) => setLocation(value)}
-                            />
-                        </div>
-                        <div>
-                            <h5>Open: </h5>
-                            <Input
-                                className="custom-input"
-                                type="time"
-                                placeholder="Opening Time"
-                                value={openingTime}
-                                onChange={(value) => setOpeningTime(value)}
-                            />
-                        </div>
-                        <div>
-                            <h5>Close: </h5>
-                            <Input
-                                className="custom-input"
-                                type="time"
-                                placeholder="Closing Time"
-                                value={closingTime}
-                                onChange={(value) => setClosingTime(value)}
-                            />
-                        </div>
-                        <Button appearance="primary" onClick={updateProviderInfo}>
+                        <br />
+                        <Button
+                            className="add-button"
+                            appearance="primary"
+                            onClick={updateProviderInfo}>
                             Update Information
                         </Button>
                     </Panel>
 
-                    <Panel header={<h3>Staff in this provider</h3>}>
+                    <Panel
+                        className="staff-container"
+                        header={<h3>Staff in this provider</h3>}
+                    >
                         <Table
                             data={staffData}
                             autoHeight
                             width={1000}
                         >
-                            <Table.Column width={200}>
+                            <Table.Column
+                                width={200}
+                                align="center">
                                 <Table.HeaderCell>Staff name</Table.HeaderCell>
                                 <Table.Cell dataKey="name" />
                             </Table.Column>
-                            <Table.Column width={200}>
+                            <Table.Column
+                                width={200}
+                                align="center">
                                 <Table.HeaderCell>Specialty</Table.HeaderCell>
                                 <Table.Cell dataKey="specialty" />
                             </Table.Column>
-                            <Table.Column width={200}>
+                            <Table.Column
+                                width={200}
+                                align="center">
                                 <Table.HeaderCell>Service</Table.HeaderCell>
                                 <Table.Cell dataKey="service" />
                             </Table.Column>
-                            <Table.Column width={200}>
+                            <Table.Column
+                                width={200}
+                                align="center">
                                 <Table.HeaderCell>Update</Table.HeaderCell>
                                 <Table.Cell>
                                     {rowData => (
-                                        <button onClick={() => handleStaffSelection(rowData.uid)}>
+                                        <Button
+                                            className="update-button"
+                                            onClick={() => handleStaffSelection(rowData.uid)}>
                                             Update
-                                        </button>
+                                        </Button>
                                     )}
                                 </Table.Cell>
                             </Table.Column>
-                            <Table.Column width={200}>
+                            <Table.Column
+                                width={200}
+                                align="center">
                                 <Table.HeaderCell>Delete</Table.HeaderCell>
                                 <Table.Cell>
                                     {rowData => (
-                                        <button onClick={() => deleteStaffSelection(rowData.uid)}>
+                                        <Button
+                                            className="delete-button"
+                                            onClick={() => deleteStaffSelection(rowData.uid)}>
                                             Delete
-                                        </button>
+                                        </Button>
                                     )}
                                 </Table.Cell>
                             </Table.Column>
                         </Table>
-                        <Button appearance="primary" onClick={() => addNewStaff(currentProvider.uid)}>
+                        <br />
+                        <Button
+                            className="add-button"
+                            appearance="primary"
+                            onClick={() => addNewStaff(currentProvider.uid)}>
                             Add Staff
                         </Button>
                     </Panel>
 
-                    <Panel header={<h3>Service in this provider</h3>}>
+                    <Panel
+                        className="service-container"
+                        header={<h3>Service in this provider</h3>}
+                    >
                         <Table
                             data={serviceData}
                             autoHeight
                             width={1000}
                         >
-                            <Table.Column width={200}>
+                            <Table.Column
+                                width={200}
+                                align="center">
                                 <Table.HeaderCell>Service name</Table.HeaderCell>
                                 <Table.Cell dataKey="name" />
                             </Table.Column>
-                            <Table.Column width={200}>
+                            <Table.Column
+                                width={200}
+                                align="center">
                                 <Table.HeaderCell>Service duration</Table.HeaderCell>
                                 <Table.Cell dataKey="duration" />
                             </Table.Column>
-                            <Table.Column width={200}>
+                            <Table.Column
+                                width={200}
+                                align="center">
                                 <Table.HeaderCell>Service price</Table.HeaderCell>
                                 <Table.Cell dataKey="price" />
                             </Table.Column>
-                            <Table.Column width={200}>
+                            <Table.Column
+                                width={200}
+                                align="center">
                                 <Table.HeaderCell>Update</Table.HeaderCell>
                                 <Table.Cell>
                                     {rowData => (
-                                        <button onClick={() => handleServiceSelection(rowData.id)}>
+                                        <Button
+                                            className="update-button"
+                                            onClick={() => handleServiceSelection(rowData.id)}>
                                             Update
-                                        </button>
+                                        </Button>
                                     )}
                                 </Table.Cell>
                             </Table.Column>
-                            <Table.Column width={200}>
+                            <Table.Column
+                                width={200}
+                                align="center">
                                 <Table.HeaderCell>Delete</Table.HeaderCell>
                                 <Table.Cell>
                                     {rowData => (
-                                        <button onClick={() => deleteServiceSelection(rowData.id)}>
+                                        <Button
+                                            className="delete-button"
+                                            onClick={() => deleteServiceSelection(rowData.id)}>
                                             Delete
-                                        </button>
+                                        </Button>
                                     )}
                                 </Table.Cell>
                             </Table.Column>
                         </Table>
-                        <Button appearance="primary" onClick={() => addNewService(currentProvider.uid)}>
+                        <br />
+                        <Button
+                            className="add-button"
+                            appearance="primary"
+                            onClick={() => addNewService(currentProvider.uid)}>
                             Add Service
                         </Button>
                     </Panel>
