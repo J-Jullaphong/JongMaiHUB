@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Input, Button, Panel, Loader } from 'rsuite';
-import DataSender from './DataSender';
+import { Input, Button, Panel, Loader, InputGroup } from 'rsuite';
 import { useParams } from 'react-router-dom';
+import "./styles/InputButton.css";
+import DataSender from './DataSender';
 import DataFetcher from './DataFetcher';
 
 const ServiceManagement = () => {
@@ -16,6 +17,10 @@ const ServiceManagement = () => {
     const dataSender = new DataSender();
     const dataFetcher = new DataFetcher();
     const { serviceId } = useParams();
+    const styles = {
+        width: 300,
+        marginBottom: 10
+    };
 
     useEffect(() => {
         if (service === null) {
@@ -43,6 +48,11 @@ const ServiceManagement = () => {
     }, [serviceData, serviceId]);
 
     const updateServiceInfo = () => {
+        if (!name || !type || !duration || !price || !servicePicture) { 
+            window.alert('Please fill in all input fields.');
+            return;
+        }
+
         const shouldUpdate = window.confirm('Are you sure you want to update service information?');
 
         if (shouldUpdate) {
@@ -75,39 +85,67 @@ const ServiceManagement = () => {
     return (
         <div>
             {loading ? (
-                <Loader center content="Loading..." vertical />
+                <h2>Loading...</h2>
             ) : (
-                <Panel header={`Service Management: ${service ? service.name : ''}`}>
-                    <h3>Service Information:</h3>
-                    <img src={servicePicture} alt="No service picture" />
+                <Panel header={<h3>Service Information: {service ? service.name : ''}</h3>}>
                     <div>
-                        <label>Service Picture</label>
+                        <h5>Service picture: </h5>
+                        <img
+                            src={servicePicture}
+                            alt="No service picture"
+                            className="custom-picture"
+                        />
+                        <br />
                         <input
+                            className="custom-input"
                             type="file"
                             accept="image/*"
                             onChange={uploadImage}
                         />
                     </div>
-                    <Input
-                        placeholder="Name"
-                        value={name}
-                        onChange={(value) => setName(value)}
-                    />
-                    <Input
-                        placeholder="Type"
-                        value={type}
-                        onChange={(value) => setType(value)}
-                    />
-                    <Input
-                        placeholder="Duration"
-                        value={duration}
-                        onChange={(value) => setDuration(value)}
-                    />
-                    <Input
-                        placeholder="Price"
-                        value={price}
-                        onChange={(value) => setPrice(value)}
-                    />
+                    <div>
+                        <h5>Name: </h5>
+                        <Input
+                            className="custom-input"
+                            placeholder="Name"
+                            value={name}
+                            onChange={(value) => setName(value)}
+                        />
+                    </div>
+                    <div>
+                        <h5>Type: </h5>
+                        <Input
+                            className="custom-input"
+                            placeholder="Type"
+                            value={type}
+                            onChange={(value) => setType(value)}
+                        />
+                    </div>
+                    <div>
+                        <h5>Duration: </h5>
+                        <InputGroup inside style={styles}>
+                            <Input
+                                className="custom-input"
+                                type="int"
+                                placeholder="Duration"
+                                value={duration}
+                                onChange={(value) => setDuration(value)}
+                            />
+                            <InputGroup.Addon>minute</InputGroup.Addon>
+                        </InputGroup>
+                    </div>
+                    <div>
+                        <h5>Price: </h5>
+                        <InputGroup inside style={styles}>
+                            <Input
+                                className="custom-input"
+                                placeholder="Price"
+                                value={price}
+                                onChange={(value) => setPrice(value)}
+                            />
+                            <InputGroup.Addon>฿</InputGroup.Addon>
+                        </InputGroup>
+                    </div>
                     <Button appearance="primary" onClick={updateServiceInfo}>
                         Update Service Information
                     </Button>

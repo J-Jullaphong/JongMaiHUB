@@ -1,0 +1,48 @@
+.delete-button {
+    background-color: #f26030;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 1s;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    justify-content: center;
+}
+
+.delete-button:hover {
+    background-color: #e04a28;
+}
+
+.update-button {
+    background-color: #05cce2;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 1s;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.update-button:hover {
+    background-color: #035eb3;
+}
+
+.input-fields .input-flied {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 10px;
+}
+
+.custom-picture {
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 100%;
+    height: auto;
+}
+

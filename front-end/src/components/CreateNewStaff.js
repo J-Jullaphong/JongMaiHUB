@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Input, Button, Panel } from 'rsuite';
 import DataSender from './DataSender';
+import "./styles/InputButton.css";
 import { useParams, useNavigate } from 'react-router-dom';
 
 const CreateNewStaff = () => {
@@ -12,13 +13,16 @@ const CreateNewStaff = () => {
     const [startWorkTime, setStartWorkTime] = useState('');
     const [getOffWorkTime, setGetOffWorkTime] = useState('');
     const [profilePicture, setProfilePicture] = useState("");
-    const [service_provider, setServiceProvider] = useState("");
     const [service, setService] = useState(3);
     const dataSender = new DataSender();
     const navigate = useNavigate();
 
 
     const addStaffInfo = () => {
+        if (!name || !specialty || !background || !startWorkTime || !getOffWorkTime || !profilePicture) {
+            window.alert('Please fill in all input fields.');
+            return;
+        }
         const shouldAddStaff = window.confirm('Are you sure you want to add this staff member?');
 
         if (shouldAddStaff) {
@@ -33,7 +37,7 @@ const CreateNewStaff = () => {
                 service_provider: providerId,
                 service: service,
             };
-
+            window.alert('Successfully added staff.');
             dataSender.submitStaffData(NewStaffData).then(() => {
                 console.log('Staff information added.');
                 navigate('/provider-management');
@@ -55,49 +59,80 @@ const CreateNewStaff = () => {
 
     return (
         <div>
-            <Panel header={`Add new staff`}>
-                <h3>Staff Information</h3>
-                <img src={profilePicture} alt="Profile Picture" />
+            <Panel header={<h3>Add new staff</h3>}>
                 <div>
-                    <label>Profile Picture</label>
+                    <h5>Profile Picture: </h5>
+                    <img 
+                        src={profilePicture} 
+                        alt="No profile picture" 
+                        className="custom-picture"
+                    />
+                    <br />
                     <input
+                        className="custom-input"
                         type="file"
                         accept="image/*"
                         onChange={uploadImage}
                     />
                 </div>
-                <Input
-                    placeholder="Uid"
-                    value={uid}
-                    onChange={(value) => setUid(value)}
-                />
-                <Input
-                    placeholder="Name"
-                    value={name}
-                    onChange={(value) => setName(value)}
-                />
-                <Input
-                    placeholder="Specialty"
-                    value={specialty}
-                    onChange={(value) => setSpecialty(value)}
-                />
-                <Input
-                    placeholder="Background"
-                    value={background}
-                    onChange={(value) => setBackground(value)}
-                />
-                <Input
-                    placeholder="Start Work Time"
-                    value={startWorkTime}
-                    onChange={(value) => setStartWorkTime(value)}
-                />
-                <Input
-                    placeholder="Get Off Work Time"
-                    value={getOffWorkTime}
-                    onChange={(value) => setGetOffWorkTime(value)}
-                />
+                <div>
+                    <h5>UID: </h5>
+                    <Input
+                        className="custom-input"
+                        placeholder="Uid"
+                        value={uid}
+                        onChange={(value) => setUid(value)}
+                    />
+                </div>
+                <div>
+                    <h5>Name: </h5>
+                    <Input
+                        className="custom-input"
+                        placeholder="Name"
+                        value={name}
+                        onChange={(value) => setName(value)}
+                    />
+                </div>
+                <div>
+                    <h5>Specialty: </h5>
+                    <Input
+                        className="custom-input"
+                        placeholder="Specialty"
+                        value={specialty}
+                        onChange={(value) => setSpecialty(value)}
+                    />
+                </div>
+                <div>
+                    <h5>Background: </h5>
+                    <Input
+                        className="custom-input"
+                        placeholder="Background"
+                        value={background}
+                        onChange={(value) => setBackground(value)}
+                    />
+                </div>
+                <div>
+                    <h5>Start work time: </h5>
+                    <Input
+                        className="custom-input"
+                        type="time"
+                        placeholder="Start work time"
+                        value={startWorkTime}
+                        onChange={(value) => setStartWorkTime(value)}
+                    />
+                </div>
+                <div>
+                    <h5>Get off work time: </h5>
+                    <Input
+                        className="custom-input"
+                        type="time"
+                        placeholder="Get off work time"
+                        value={getOffWorkTime}
+                        onChange={(value) => setGetOffWorkTime(value)}
+                    />
+                </div>
                 <Button appearance="primary" onClick={addStaffInfo}>
-                    Add Staff Information
+                    Add new staff
                 </Button>
             </Panel>
         </div>

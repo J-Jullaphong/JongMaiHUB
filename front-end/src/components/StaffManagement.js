@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Input, Button, Panel, Calendar, Loader } from 'rsuite';
-import DataSender from './DataSender';
 import { useParams } from 'react-router-dom';
+import "./styles/InputButton.css";
+import DataSender from './DataSender';
 import DataFetcher from './DataFetcher';
 
 const StaffManagement = ({ customerData }) => {
@@ -77,6 +78,11 @@ const StaffManagement = ({ customerData }) => {
     };
 
     const updateStaffInfo = () => {
+        if (!name || !specialty || !background || !startWorkTime || !getOffWorkTime || !profilePicture) {
+            window.alert('Please fill in all input fields.');
+            return;
+        }
+
         const shouldUpdate = window.confirm('Are you sure you want to update staff information?');
 
         if (shouldUpdate) {
@@ -89,6 +95,7 @@ const StaffManagement = ({ customerData }) => {
                 profile_picture: profilePicture,
             };
 
+            window.alert('Successfully updated staff.');
             dataSender.updateStaffData(updatedStaffData, staff.uid).then(() => {
                 console.log('Staff information updated.');
             });
@@ -116,55 +123,67 @@ const StaffManagement = ({ customerData }) => {
     return (
         <div>
             {loading ? (
-                <Loader center content="Loading..." vertical />
+                <h2>Loading...</h2>
             ) : (
-                <Panel header={`Staff Management: ${staff ? staff.name : ''}`}>
-                    <h3>Staff Information:</h3>
-                    <img src={profilePicture} alt="Profile Picture" />
+                <Panel header={<h3>Staff Information: {staff ? staff.name : ''}</h3>}>
                     <div>
-                        <label>Profile Picture</label>
+                        <h5>Profile picture: </h5>
+                        <img
+                            src={profilePicture}
+                            alt="Profile Picture"
+                            className="custom-picture"
+                        />
+                        <br />
                         <input
+                            className="custom-input"
                             type="file"
                             accept="image/*"
                             onChange={uploadImage}
                         />
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <h5 style={{ marginRight: '10px' }}>Name:</h5>
+                    <div>
+                        <h5>Name: </h5>
                         <Input
+                            className="custom-input"
                             placeholder="Name"
                             value={name}
                             onChange={(value) => setName(value)}
                         />
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <h5 style={{ marginRight: '10px' }}>Specialty:</h5>
+                    <div>
+                        <h5>Specialty: </h5>
                         <Input
+                            className="custom-input"
                             placeholder="Specialty"
                             value={specialty}
                             onChange={(value) => setSpecialty(value)}
                         />
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <h5 style={{ marginRight: '10px' }}>Background:</h5>
+                    <div>
+                        <h5>Background: </h5>
                         <Input
+                            className="custom-input"
                             placeholder="Background"
                             value={background}
                             onChange={(value) => setBackground(value)}
                         />
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <h5 style={{ marginRight: '10px' }}>Start Work Time:</h5>
+                    <div>
+                        <h5>Start work time: </h5>
                         <Input
-                            placeholder="Start Work Time"
+                            className="custom-input"
+                            type="time"
+                            placeholder="Start work time"
                             value={startWorkTime}
                             onChange={(value) => setStartWorkTime(value)}
                         />
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <h5 style={{ marginRight: '10px' }}>Get Off  Time:</h5>
+                    <div>
+                        <h5>Get off work time: </h5>
                         <Input
-                            placeholder="Get Off Time"
+                            className="custom-input"
+                            type="time"
+                            placeholder="Get off work time"
                             value={getOffWorkTime}
                             onChange={(value) => setGetOffWorkTime(value)}
                         />
@@ -173,7 +192,7 @@ const StaffManagement = ({ customerData }) => {
                         Update Staff Information
                     </Button>
                     <hr />
-                    <h3>Booked Times for {selectedDate.toDateString()}:</h3>
+                    <h3>Booked times: </h3>
                     <Calendar
                         value={selectedDate}
                         onChange={handleDateChange}
@@ -185,7 +204,6 @@ const StaffManagement = ({ customerData }) => {
                                     appointment.staff === staffUid &&
                                     new Date(appointment.date_time).toDateString() === dateString
                             );
-
                             if (appointmentsOnDate.length > 0) {
                                 return (
                                     <div>
