@@ -15,6 +15,9 @@
 .recommend-panel {
     padding-left: 10%;
     padding-right: 10%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .card {
