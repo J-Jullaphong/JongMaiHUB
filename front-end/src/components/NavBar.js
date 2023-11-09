@@ -16,12 +16,15 @@ const NavBar = ({ user, isUserAuthenticated, serviceData }) => {
   const uniqueServiceTypes = Array.from(
     new Set(serviceData.map((service) => service.type))
   );
+  const [isProvider, setIsProvider] = useState(false);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    const handleUserChange = () => {
+    const handleUserChange = async () => {
       setIsAuthenticated(user.getName() !== null);
+      const IsProviderStatus = await user.isProvider;
+      setIsProvider(IsProviderStatus);
     };
 
     user.addListener(handleUserChange);
@@ -87,12 +90,24 @@ const NavBar = ({ user, isUserAuthenticated, serviceData }) => {
                   My appointment
                 </a>
               </Nav.Item>
+              { isProvider ?(
+                <Nav.Item>
+                  <a
+                    onClick={() => {
+                      navigate("/provider-management");
+                    }}
+                    style={{
+                      textDecoration: "none",
+                      color: "#000000",
+                    }}
+                  >
+                    Provider Management
+                  </a>
+                </Nav.Item>
+              ) : null}
               <Nav.Item>
                 <a
-                  onClick={() => {
-                    handleSignOut();
-                    navigate("/");
-                  }}
+                  onClick={handleSignOut}
                   style={{
                     textDecoration: "none",
                     color: "#F26030",
