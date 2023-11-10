@@ -100,7 +100,7 @@ const App = () => {
                         } 
                     />
                     <Route 
-                        path="/staff-management/:staffUid" 
+                        path="/staff-management/:providerId/:staffUid/" 
                         element={
                             <StaffManagement 
                                 user={user} 
@@ -110,7 +110,7 @@ const App = () => {
                         } 
                     />
                     <Route 
-                        path="/service-management/:serviceId" 
+                        path="/service-management/:providerId/:serviceId/" 
                         element={
                             <ServiceManagement 
                                 user={user} 

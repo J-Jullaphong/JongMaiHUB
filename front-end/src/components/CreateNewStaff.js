@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { Input, Button, Panel } from 'rsuite';
+import React, { useState, useEffect } from 'react';
+import { Input, Button, Panel, InputPicker } from 'rsuite';
 import DataSender from './DataSender';
+import DataFetcher from './DataFetcher';
 import "./styles/InputButton.css";
 import { useParams, useNavigate } from 'react-router-dom';
 
@@ -13,18 +14,32 @@ const CreateNewStaff = () => {
     const [startWorkTime, setStartWorkTime] = useState('');
     const [getOffWorkTime, setGetOffWorkTime] = useState('');
     const [profilePicture, setProfilePicture] = useState("");
-    const [service, setService] = useState(3);
+    const [service, setService] = useState('');
+    const [serviceData, setServiceData] = useState('');
     const dataSender = new DataSender();
     const navigate = useNavigate();
+    const dataFetcher = new DataFetcher();
 
+    useEffect(() => {
+        try {
+            const fetchData = async () => {
+                const serviceData = await dataFetcher.getServiceByServiceProvider(providerId);
+                console.log("service", serviceData)
+                const transformedServiceData = serviceData.map(item => ({ label: item.name, value: item.id }));
+                setServiceData(transformedServiceData);
+            };
+            fetchData();
+        } catch (error) {
+            console.error(error);
+        }
+    }, [serviceData]);
 
     const addStaffInfo = () => {
-        if (!name || !specialty || !background || !startWorkTime || !getOffWorkTime || !profilePicture) {
+        if (!name || !specialty || !background || !startWorkTime || !getOffWorkTime || !profilePicture || !service) {
             window.alert('Please fill in all input fields.');
             return;
         }
         const shouldAddStaff = window.confirm('Are you sure you want to add this staff member?');
-
         if (shouldAddStaff) {
             const NewStaffData = {
                 uid: uid,
@@ -43,6 +58,11 @@ const CreateNewStaff = () => {
                 navigate('/provider-management');
             });
         }
+    };
+
+    const updateService = (value) => {
+        const selected = serviceData.find(service => service.id === value);
+        setService(selected);
     };
 
     const uploadImage = async (event) => {
@@ -91,6 +111,14 @@ const CreateNewStaff = () => {
                         placeholder="Name"
                         value={name}
                         onChange={(value) => setName(value)}
+                    />
+                </div>
+                <div>
+                    <h5>Service: </h5>
+                    <InputPicker
+                        className="custom-input"
+                        data={serviceData}
+                        onChange={updateService}
                     />
                 </div>
                 <div>
