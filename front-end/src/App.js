@@ -120,7 +120,9 @@ const App = () => {
                     />
                     <Route 
                         path="/add-staff/:providerId/" 
-                        element={<CreateNewStaff/> } 
+                        element={<CreateNewStaff
+                            customerData={customerData} 
+                        /> } 
                     />
                     <Route 
                         path="/add-service/:providerId/" 

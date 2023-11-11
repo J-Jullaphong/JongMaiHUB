@@ -5,16 +5,16 @@ import DataFetcher from './DataFetcher';
 import "./styles/InputButton.css";
 import { useParams, useNavigate } from 'react-router-dom';
 
-const CreateNewStaff = () => {
+const CreateNewStaff = ({ customerData }) => {
     const { providerId } = useParams();
     const [uid, setUid] = useState('');
-    const [name, setName] = useState('');
     const [specialty, setSpecialty] = useState('');
     const [background, setBackground] = useState('');
     const [startWorkTime, setStartWorkTime] = useState('');
     const [getOffWorkTime, setGetOffWorkTime] = useState('');
-    const [profilePicture, setProfilePicture] = useState("");
+    const [profilePicture, setProfilePicture] = useState('');
     const [service, setService] = useState('');
+    const [selectStaff, setSelectStaff] = useState('');
     const [serviceData, setServiceData] = useState('');
     const dataSender = new DataSender();
     const navigate = useNavigate();
@@ -24,9 +24,10 @@ const CreateNewStaff = () => {
         try {
             const fetchData = async () => {
                 const serviceData = await dataFetcher.getServiceByServiceProvider(providerId);
-                console.log("service", serviceData)
                 const transformedServiceData = serviceData.map(item => ({ label: item.name, value: item.id }));
+                const transformedSelectStaff = customerData.map(item => ({ label: item.name, value: item.uid }));
                 setServiceData(transformedServiceData);
+                setSelectStaff(transformedSelectStaff);
             };
             fetchData();
         } catch (error) {
@@ -35,7 +36,9 @@ const CreateNewStaff = () => {
     }, [serviceData]);
 
     const addStaffInfo = () => {
-        if (!name || !specialty || !background || !startWorkTime || !getOffWorkTime || !profilePicture || !service) {
+        if (!uid || !specialty || !background || !startWorkTime || !getOffWorkTime || !profilePicture || !service) {
+            console.log("uid",  uid)
+            console.log("service", service)
             window.alert('Please fill in all input fields.');
             return;
         }
@@ -43,7 +46,7 @@ const CreateNewStaff = () => {
         if (shouldAddStaff) {
             const NewStaffData = {
                 uid: uid,
-                name: name,
+                name: getNameByUid(uid),
                 specialty: specialty,
                 background: background,
                 start_work_time: startWorkTime,
@@ -60,9 +63,9 @@ const CreateNewStaff = () => {
         }
     };
 
-    const updateService = (value) => {
-        const selected = serviceData.find(service => service.id === value);
-        setService(selected);
+    const getNameByUid = (customerUid) => {
+        const customer = customerData.find(customer => customer.uid === customerUid);
+        return customer ? customer.name : "";
     };
 
     const uploadImage = async (event) => {
@@ -96,21 +99,12 @@ const CreateNewStaff = () => {
                     />
                 </div>
                 <div>
-                    <h5>UID: </h5>
-                    <Input
+                    <h5>Name: </h5>
+                    <InputPicker
                         className="custom-input"
-                        placeholder="Uid"
+                        data={selectStaff}
                         value={uid}
                         onChange={(value) => setUid(value)}
-                    />
-                </div>
-                <div>
-                    <h5>Name: </h5>
-                    <Input
-                        className="custom-input"
-                        placeholder="Name"
-                        value={name}
-                        onChange={(value) => setName(value)}
                     />
                 </div>
                 <div>
@@ -118,7 +112,8 @@ const CreateNewStaff = () => {
                     <InputPicker
                         className="custom-input"
                         data={serviceData}
-                        onChange={updateService}
+                        value={service}
+                        onChange={(value) => setService(value)}
                     />
                 </div>
                 <div>

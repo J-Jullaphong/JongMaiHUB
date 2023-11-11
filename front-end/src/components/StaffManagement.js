@@ -109,11 +109,6 @@ const StaffManagement = ({ customerData }) => {
         }
     };
 
-    const updateService = (value) => {
-        const selected = serviceData.find(service => service.id === value);
-        setService(selected);
-    };
-
     const uploadImage = async (event) => {
         const file = event.target.files[0];
         if (file) {
@@ -168,7 +163,7 @@ const StaffManagement = ({ customerData }) => {
                             className="custom-input"
                             data={serviceData} 
                             value={service}
-                            onChange={updateService} 
+                            onChange={(value) => setService(value)} 
                         />
                     </div>
                     <div>
