@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Input, Button, Panel, Table, Loader } from 'rsuite';
+import { Input, Button, Panel, Table } from 'rsuite';
 import DataSender from './DataSender';
 import DataFetcher from './DataFetcher';
 import "./styles/ProviderManagement.css";
@@ -103,12 +103,12 @@ const ProviderManagement = ({ user }) => {
         navigate(`/add-service/${providerId}`);
     };
 
-    const handleStaffSelection = (staffUid) => {
-        navigate(`/staff-management/${staffUid}`);
+    const handleStaffSelection = (providerId, staffUid) => {
+        navigate(`/staff-management/${providerId}/${staffUid}`);
     };
 
-    const handleServiceSelection = (serviceId) => {
-        navigate(`/service-management/${serviceId}`);
+    const handleServiceSelection = (providerId, serviceId) => {
+    navigate(`/service-management/${providerId}/${serviceId}`);
     };
 
     const deleteStaffSelection = (staffUid) => {
@@ -238,7 +238,7 @@ const ProviderManagement = ({ user }) => {
                                     {rowData => (
                                         <Button
                                             className="update-button"
-                                            onClick={() => handleStaffSelection(rowData.uid)}>
+                                                onClick={() => handleStaffSelection(currentProvider.uid, rowData.uid)}>
                                             Update
                                         </Button>
                                     )}
@@ -252,7 +252,7 @@ const ProviderManagement = ({ user }) => {
                                     {rowData => (
                                         <Button
                                             className="delete-button"
-                                            onClick={() => deleteStaffSelection(rowData.uid)}>
+                                                onClick={() => deleteStaffSelection(rowData.uid)}>
                                             Delete
                                         </Button>
                                     )}
@@ -303,7 +303,7 @@ const ProviderManagement = ({ user }) => {
                                     {rowData => (
                                         <Button
                                             className="update-button"
-                                            onClick={() => handleServiceSelection(rowData.id)}>
+                                                onClick={() => handleServiceSelection(currentProvider.uid, rowData.id)}>
                                             Update
                                         </Button>
                                     )}

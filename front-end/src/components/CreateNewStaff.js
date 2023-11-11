@@ -1,34 +1,52 @@
-import React, { useState } from 'react';
-import { Input, Button, Panel } from 'rsuite';
+import React, { useState, useEffect } from 'react';
+import { Input, Button, Panel, InputPicker } from 'rsuite';
 import DataSender from './DataSender';
+import DataFetcher from './DataFetcher';
 import "./styles/InputButton.css";
 import { useParams, useNavigate } from 'react-router-dom';
 
-const CreateNewStaff = () => {
+const CreateNewStaff = ({ customerData }) => {
     const { providerId } = useParams();
     const [uid, setUid] = useState('');
-    const [name, setName] = useState('');
     const [specialty, setSpecialty] = useState('');
     const [background, setBackground] = useState('');
     const [startWorkTime, setStartWorkTime] = useState('');
     const [getOffWorkTime, setGetOffWorkTime] = useState('');
-    const [profilePicture, setProfilePicture] = useState("");
-    const [service, setService] = useState(3);
+    const [profilePicture, setProfilePicture] = useState('');
+    const [service, setService] = useState('');
+    const [selectStaff, setSelectStaff] = useState('');
+    const [serviceData, setServiceData] = useState('');
     const dataSender = new DataSender();
     const navigate = useNavigate();
+    const dataFetcher = new DataFetcher();
 
+    useEffect(() => {
+        try {
+            const fetchData = async () => {
+                const serviceData = await dataFetcher.getServiceByServiceProvider(providerId);
+                const transformedServiceData = serviceData.map(item => ({ label: item.name, value: item.id }));
+                const transformedSelectStaff = customerData.map(item => ({ label: item.name, value: item.uid }));
+                setServiceData(transformedServiceData);
+                setSelectStaff(transformedSelectStaff);
+            };
+            fetchData();
+        } catch (error) {
+            console.error(error);
+        }
+    }, [serviceData]);
 
     const addStaffInfo = () => {
-        if (!name || !specialty || !background || !startWorkTime || !getOffWorkTime || !profilePicture) {
+        if (!uid || !specialty || !background || !startWorkTime || !getOffWorkTime || !profilePicture || !service) {
+            console.log("uid",  uid)
+            console.log("service", service)
             window.alert('Please fill in all input fields.');
             return;
         }
         const shouldAddStaff = window.confirm('Are you sure you want to add this staff member?');
-
         if (shouldAddStaff) {
             const NewStaffData = {
                 uid: uid,
-                name: name,
+                name: getNameByUid(uid),
                 specialty: specialty,
                 background: background,
                 start_work_time: startWorkTime,
@@ -43,6 +61,11 @@ const CreateNewStaff = () => {
                 navigate('/provider-management');
             });
         }
+    };
+
+    const getNameByUid = (customerUid) => {
+        const customer = customerData.find(customer => customer.uid === customerUid);
+        return customer ? customer.name : "";
     };
 
     const uploadImage = async (event) => {
@@ -76,21 +99,21 @@ const CreateNewStaff = () => {
                     />
                 </div>
                 <div>
-                    <h5>UID: </h5>
-                    <Input
+                    <h5>Name: </h5>
+                    <InputPicker
                         className="custom-input"
-                        placeholder="Uid"
+                        data={selectStaff}
                         value={uid}
                         onChange={(value) => setUid(value)}
                     />
                 </div>
                 <div>
-                    <h5>Name: </h5>
-                    <Input
+                    <h5>Service: </h5>
+                    <InputPicker
                         className="custom-input"
-                        placeholder="Name"
-                        value={name}
-                        onChange={(value) => setName(value)}
+                        data={serviceData}
+                        value={service}
+                        onChange={(value) => setService(value)}
                     />
                 </div>
                 <div>

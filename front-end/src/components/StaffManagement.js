@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Input, Button, Panel, Calendar, Loader } from 'rsuite';
+import { Input, Button, Panel, Calendar, InputPicker } from 'rsuite';
 import { useParams } from 'react-router-dom';
 import "./styles/InputButton.css";
 import DataSender from './DataSender';
@@ -14,12 +14,14 @@ const StaffManagement = ({ customerData }) => {
     const [startWorkTime, setStartWorkTime] = useState('');
     const [getOffWorkTime, setGetOffWorkTime] = useState('');
     const [profilePicture, setProfilePicture] = useState('');
+    const [service, setService] = useState('');
     const [selectedDate, setSelectedDate] = useState(new Date());
-    const [staffData, setStaffData] = useState([]);
-    const [appointmentData, setAppointmentData] = useState([]);
+    const [staffData, setStaffData] = useState('');
+    const [serviceData, setServiceData] = useState('');
+    const [appointmentData, setAppointmentData] = useState('');
     const dataFetcher = new DataFetcher();
     const dataSender = new DataSender();
-    const { staffUid } = useParams();
+    const { staffUid, providerId } = useParams();
 
     useEffect(() => {
         if (staff === null) {
@@ -27,8 +29,11 @@ const StaffManagement = ({ customerData }) => {
                 const fetchStaffData = async () => {
                     const staffData = await dataFetcher.getStaffData(staffUid);
                     const appointmentData = await dataFetcher.getAppointmentByStaff(staffUid);
+                    const serviceData = await dataFetcher.getServiceByServiceProvider(providerId);
+                    const transformedServiceData = serviceData.map(item => ({ label: item.name, value: item.id }));
                     setStaffData(staffData);
                     setAppointmentData(appointmentData);
+                    setServiceData(transformedServiceData);
                     if (staffData) {
                         setStaff(staffData);
                         setName(staffData.name);
@@ -37,6 +42,7 @@ const StaffManagement = ({ customerData }) => {
                         setStartWorkTime(staffData.start_work_time);
                         setGetOffWorkTime(staffData.get_off_work_time);
                         setProfilePicture(staffData.profile_picture);
+                        setService(staffData.service)
                     }
                     setLoading(false);
                 };
@@ -78,7 +84,7 @@ const StaffManagement = ({ customerData }) => {
     };
 
     const updateStaffInfo = () => {
-        if (!name || !specialty || !background || !startWorkTime || !getOffWorkTime || !profilePicture) {
+        if (!name || !specialty || !background || !startWorkTime || !getOffWorkTime || !profilePicture || !service) {
             window.alert('Please fill in all input fields.');
             return;
         }
@@ -93,6 +99,7 @@ const StaffManagement = ({ customerData }) => {
                 start_work_time: startWorkTime,
                 get_off_work_time: getOffWorkTime,
                 profile_picture: profilePicture,
+                service: service,
             };
 
             window.alert('Successfully updated staff.');
@@ -148,6 +155,15 @@ const StaffManagement = ({ customerData }) => {
                             placeholder="Name"
                             value={name}
                             onChange={(value) => setName(value)}
+                        />
+                    </div>
+                    <div>
+                        <h5>Service: </h5>
+                        <InputPicker 
+                            className="custom-input"
+                            data={serviceData} 
+                            value={service}
+                            onChange={(value) => setService(value)} 
                         />
                     </div>
                     <div>
