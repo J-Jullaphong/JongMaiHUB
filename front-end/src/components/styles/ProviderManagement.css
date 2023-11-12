@@ -1,4 +1,35 @@
-.delete-button {
+.provider-management .provider-loading {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: #f7f7f7;
+}
+
+.staff-container {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: #f7f7f7;
+}
+
+.provider-title {
+    font-size: 32px;
+    margin: 20px 0;
+    text-align: center;
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.provider-delete-button {
     background-color: #f26030;
     color: #fff;
     border: none;
@@ -12,11 +43,11 @@
     justify-content: center;
 }
 
-.delete-button:hover {
+.provider-delete-button:hover {
     background-color: #e04a28;
 }
 
-.update-button {
+.provider-update-button {
     background-color: #05cce2;
     color: #fff;
     border: none;
@@ -29,20 +60,76 @@
     transform: translate(-50%, -50%);
 }
 
-.update-button:hover {
+.provider-update-button:hover {
     background-color: #035eb3;
 }
 
-.input-fields .input-flied {
+.provider-input-fields .provider-input-flied {
     display: inline-block;
     vertical-align: top;
     margin-right: 10px;
 }
 
-.custom-picture {
+.provider-custom-picture {
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     max-width: 100%;
     height: auto;
+    width: 400px;
+    height: 300px;
 }
 
+.provider-custom-input {
+    width: 800px;
+}
+
+.provider-management {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: #f7f7f7;
+}
+
+.provider-information,
+.service-container,
+.staff-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.service-container:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.staff-container:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.provider-content-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.provider-picture-container {
+    text-align: center;
+}
+
+.provider-input-container {
+    width: 60%;
+}
+
+.provider-input-field {
+    margin-bottom: 15px;
+}

@@ -15,6 +15,7 @@ import ServiceManagement from "./components/ServiceManagement";
 import CreateNewService from "./components/CreateNewService";
 import CreateNewStaff from "./components/CreateNewStaff";
 import MyAppointmentScreen from "./components/MyAppointmentScreen";
+import CustomerManagement from "./components/CustomerManagement";
 
 const App = () => {
     const user = User.getInstance();
@@ -88,6 +89,14 @@ const App = () => {
                                 serviceData={serviceData}
                                 providerData={providerData}
                                 staffData={staffData}
+                            />
+                        }
+                    />
+                    <Route
+                        path="/customer-management"
+                        element={
+                            <CustomerManagement
+                                user={user}
                             />
                         }
                     />

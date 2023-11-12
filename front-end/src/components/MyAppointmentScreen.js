@@ -95,7 +95,7 @@ const MyAppointmentScreen = ({
     <div className="appointments-container">
       <h2 className="appointment-title">My Appointments</h2>
       {loading ? (
-        <h2>Loading...</h2>
+        <h2 className="loading">Loading...</h2>
       ) : (
         <>
           {upcomingAppointments.length > 0 &&

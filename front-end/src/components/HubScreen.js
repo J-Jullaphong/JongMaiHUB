@@ -178,7 +178,7 @@ const HubScreen = () => {
   }, []);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <h2 className="loading">Loading...</h2>;
   }
 
   return (

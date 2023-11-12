@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Input, Button, Panel, Table } from 'rsuite';
 import DataSender from './DataSender';
 import DataFetcher from './DataFetcher';
-import "./styles/ProviderManagement.css";
 import { useNavigate } from 'react-router-dom';
+import "./styles/ProviderManagement.css";
 
 const ProviderManagement = ({ user }) => {
     const [currentProvider, setCurrentProvider] = useState(null);
@@ -108,7 +108,7 @@ const ProviderManagement = ({ user }) => {
     };
 
     const handleServiceSelection = (providerId, serviceId) => {
-    navigate(`/service-management/${providerId}/${serviceId}`);
+        navigate(`/service-management/${providerId}/${serviceId}`);
     };
 
     const deleteStaffSelection = (staffUid) => {
@@ -131,81 +131,83 @@ const ProviderManagement = ({ user }) => {
 
     return (
         <div className="provider-management">
+            <h2 className="provider-title">Provider Management</h2>
             {loading ? (
-                <h2>Loading...</h2>
+                <h2 className="provider-loading">Loading...</h2>
             ) : (
                 <>
-                    <Panel
-                        className="provider-information"
-                        header={<h3>Current Provider Information</h3>}
-                    >
-                        <div className="input-fields">
-                            <div>
-                                <h5>Profile picture</h5>
-                                <img
-                                    src={profilePicture}
-                                    alt="Profile Picture"
-                                    className="custom-picture"
-                                />
-                                <br />
-                                <input
-                                    className="custom-input"
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={uploadImage}
-                                />
+                        <Panel 
+                            className="provider-information"
+                            header={<h3 className="provider-title">INFORMATION</h3>}
+                            >
+                            <div className="provider-content-container">
+                                <div className="provider-picture-container">
+                                    <h5>Profile picture</h5>
+                                    <img
+                                        src={profilePicture}
+                                        alt="Profile Picture"
+                                        className="provider-custom-picture"
+                                    />
+                                    <br />
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={uploadImage}
+                                    />
+                                </div>
+                                <div className="provider-input-container">
+                                    <div className="provider-input-field">
+                                        <h5>Name</h5>
+                                        <Input
+                                            className="provider-custom-input"
+                                            placeholder="Name"
+                                            value={name}
+                                            onChange={(value) => setName(value)}
+                                        />
+                                    </div>
+                                    <div className="provider-input-field">
+                                        <h5>Location</h5>
+                                        <Input
+                                            className="provider-custom-input"
+                                            placeholder="Location"
+                                            value={location}
+                                            onChange={(value) => setLocation(value)}
+                                        />
+                                    </div>
+                                    <div className="provider-input-field">
+                                        <h5>Open Time</h5>
+                                        <Input
+                                            className="provider-custom-input"
+                                            type="time"
+                                            placeholder="Opening Time"
+                                            value={openingTime}
+                                            onChange={(value) => setOpeningTime(value)}
+                                        />
+                                    </div>
+                                    <div className="provider-input-field">
+                                        <h5>Close Time</h5>
+                                        <Input
+                                            className="provider-custom-input"
+                                            type="time"
+                                            placeholder="Closing Time"
+                                            value={closingTime}
+                                            onChange={(value) => setClosingTime(value)}
+                                        />
+                                    </div>
+                                </div>
                             </div>
-                            <div className="input-flied">
-                                <h5>Name</h5>
-                                <Input
-                                    className="custom-input"
-                                    placeholder="Name"
-                                    value={name}
-                                    onChange={(value) => setName(value)}
-                                />
-                            </div>
-                            <div className="input-flied">
-                                <h5>Location</h5>
-                                <Input
-                                    className="custom-input"
-                                    placeholder="Location"
-                                    value={location}
-                                    onChange={(value) => setLocation(value)}
-                                />
-                            </div>
-                            <div className="input-flied">
-                                <h5>Open Time</h5>
-                                <Input
-                                    className="custom-input"
-                                    type="time"
-                                    placeholder="Opening Time"
-                                    value={openingTime}
-                                    onChange={(value) => setOpeningTime(value)}
-                                />
-                            </div>
-                            <div className="input-flied">
-                                <h5>Close Time</h5>
-                                <Input
-                                    className="custom-input"
-                                    type="time"
-                                    placeholder="Closing Time"
-                                    value={closingTime}
-                                    onChange={(value) => setClosingTime(value)}
-                                />
-                            </div>
-                        </div>
-                        <br />
-                        <Button
-                            className="add-button"
-                            appearance="primary"
-                            onClick={updateProviderInfo}>
-                            Update Information
-                        </Button>
-                    </Panel>
+                            <br />
+                            <Button
+                                className="provider-add-button"
+                                appearance="primary"
+                                onClick={updateProviderInfo}>
+                                Update Information
+                            </Button>
+                        </Panel>
 
                     <Panel
                         className="staff-container"
-                        header={<h3>Staff in this provider</h3>}
+                        header={<h3 className="provider-title">STAFF IN THIS PROVIDER</h3>}
                     >
                         <Table
                             data={staffData}
@@ -237,8 +239,8 @@ const ProviderManagement = ({ user }) => {
                                 <Table.Cell>
                                     {rowData => (
                                         <Button
-                                            className="update-button"
-                                                onClick={() => handleStaffSelection(currentProvider.uid, rowData.uid)}>
+                                            className="provider-update-button"
+                                            onClick={() => handleStaffSelection(currentProvider.uid, rowData.uid)}>
                                             Update
                                         </Button>
                                     )}
@@ -251,8 +253,8 @@ const ProviderManagement = ({ user }) => {
                                 <Table.Cell>
                                     {rowData => (
                                         <Button
-                                            className="delete-button"
-                                                onClick={() => deleteStaffSelection(rowData.uid)}>
+                                            className="provider-delete-button"
+                                            onClick={() => deleteStaffSelection(rowData.uid)}>
                                             Delete
                                         </Button>
                                     )}
@@ -261,7 +263,7 @@ const ProviderManagement = ({ user }) => {
                         </Table>
                         <br />
                         <Button
-                            className="add-button"
+                            className="provider-add-button"
                             appearance="primary"
                             onClick={() => addNewStaff(currentProvider.uid)}>
                             Add Staff
@@ -270,7 +272,7 @@ const ProviderManagement = ({ user }) => {
 
                     <Panel
                         className="service-container"
-                        header={<h3>Service in this provider</h3>}
+                        header={<h3 className="provider-title">SERVICE IN THIS PROVIDER</h3>}
                     >
                         <Table
                             data={serviceData}
@@ -302,8 +304,8 @@ const ProviderManagement = ({ user }) => {
                                 <Table.Cell>
                                     {rowData => (
                                         <Button
-                                            className="update-button"
-                                                onClick={() => handleServiceSelection(currentProvider.uid, rowData.id)}>
+                                            className="provider-update-button"
+                                            onClick={() => handleServiceSelection(currentProvider.uid, rowData.id)}>
                                             Update
                                         </Button>
                                     )}
@@ -316,7 +318,7 @@ const ProviderManagement = ({ user }) => {
                                 <Table.Cell>
                                     {rowData => (
                                         <Button
-                                            className="delete-button"
+                                            className="provider-delete-button"
                                             onClick={() => deleteServiceSelection(rowData.id)}>
                                             Delete
                                         </Button>
@@ -326,7 +328,7 @@ const ProviderManagement = ({ user }) => {
                         </Table>
                         <br />
                         <Button
-                            className="add-button"
+                            className="provider-add-button"
                             appearance="primary"
                             onClick={() => addNewService(currentProvider.uid)}>
                             Add Service

@@ -85,7 +85,7 @@ const ServiceManagement = () => {
     return (
         <div>
             {loading ? (
-                <h2>Loading...</h2>
+                <h2 className="loading">Loading...</h2>
             ) : (
                 <Panel header={<h3>Service Information: {service ? service.name : ''}</h3>}>
                     <div>

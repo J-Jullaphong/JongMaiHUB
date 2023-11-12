@@ -1,3 +1,13 @@
+.loading {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: #f7f7f7;
+}
+
 .appointments-container {
     width: 100vw;
     display: flex;
@@ -9,7 +19,6 @@
 }
 
 .appointments-container .appointment-title {
-    font-size: 24px;
     font-weight: bold;
     margin-bottom: 20px;
     text-align: center;
@@ -73,7 +82,6 @@
     transition: background-color 1s;
     position: absolute;
     top: 50%;
-    /*transform: translateY(-50%);*/
     transform: translate(-50%, -50%);
 }
 
@@ -82,13 +90,11 @@
 }
 
 .appointment-title {
-    font-size: 32px;
     margin: 20px 0;
     text-align: center;
     color: #333;
     text-transform: uppercase;
     letter-spacing: 2px;
-    font-weight: bold;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
