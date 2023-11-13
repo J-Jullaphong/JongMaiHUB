@@ -60,7 +60,7 @@ describe("Provider Management", () => {
 
     it("should display provider information and update button", async () => {
         render(<ProviderManagement user={USER} />);
-        expect(await screen.findByText("Current Provider Information")).toBeInTheDocument();
+        expect(await screen.findByText("Provider Management")).toBeInTheDocument();
         expect(await screen.findByText("Profile picture")).toBeInTheDocument();
         expect(await screen.findByText("Name")).toBeInTheDocument();
         expect(await screen.findByText("Location")).toBeInTheDocument();
@@ -70,7 +70,7 @@ describe("Provider Management", () => {
 
     it("should display staff information table and add staff button", async () => {
         render(<ProviderManagement user={USER} />);
-        expect(await screen.findByText("Staff in this provider")).toBeInTheDocument();
+        expect(await screen.findByText("STAFF IN THIS PROVIDER")).toBeInTheDocument();
         expect(await screen.findByText("Staff name")).toBeInTheDocument();
         expect(await screen.findByText("Specialty")).toBeInTheDocument();
         expect(await screen.findByText("Service")).toBeInTheDocument();
@@ -79,7 +79,7 @@ describe("Provider Management", () => {
 
     it("should display service information table and add service button", async () => {
         render(<ProviderManagement user={USER} />);
-        expect(await screen.findByText("Service in this provider")).toBeInTheDocument();
+        expect(await screen.findByText("SERVICE IN THIS PROVIDER")).toBeInTheDocument();
         expect(await screen.findByText("Service name")).toBeInTheDocument();
         expect(await screen.findByText("Service duration")).toBeInTheDocument();
         expect(await screen.findByText("Service price")).toBeInTheDocument();

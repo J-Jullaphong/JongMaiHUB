@@ -60,7 +60,7 @@ const CustomerManagement = ({ user }) => {
 
     return (
         <div className="provider-management">
-            <h2 className="provider-title">Current User Information</h2>
+            <h2 className="provider-title">USER MANAGEMENT</h2>
             {loading ? (
                 <h2 className="provider-loading">Loading...</h2>
             ) : (
