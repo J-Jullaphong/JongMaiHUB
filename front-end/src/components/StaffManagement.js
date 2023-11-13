@@ -130,7 +130,7 @@ const StaffManagement = ({ customerData }) => {
     return (
         <div>
             {loading ? (
-                <h2>Loading...</h2>
+                <h2 className="loading">Loading...</h2>
             ) : (
                 <Panel header={<h3>Staff Information: {staff ? staff.name : ''}</h3>}>
                     <div>

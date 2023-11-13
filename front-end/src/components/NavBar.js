@@ -80,6 +80,19 @@ const NavBar = ({ user, isUserAuthenticated, serviceData }) => {
               <Nav.Item>
                 <a
                   onClick={() => {
+                    navigate("/customer-management");
+                  }}
+                  style={{
+                    textDecoration: "none",
+                    color: "#000000",
+                  }}
+                >
+                  User Management
+                </a>
+              </Nav.Item>
+              <Nav.Item>
+                <a
+                  onClick={() => {
                     navigate("/my-appointment");
                   }}
                   style={{
