@@ -7,8 +7,20 @@
     padding: 20px;
 }
 
+.group {
+    width: 100vw;
+    padding: 1vw 5vw;
+}
+
+.popular-carousel {
+    padding-left: 10%;
+    padding-right: 10%;
+    cursor: pointer;
+    position: relative;
+}
+
 .carousel-item {
-  position: relative;
+    position: relative;
 }
 
 .popular-carousel img {
@@ -18,15 +30,15 @@
 }
 
 .carousel-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-  text-align: center;
-  font-size: 40px;
-  font-weight: bold;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    font-size: 55px;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .card {
@@ -39,33 +51,21 @@
     transform: scale(1.02);
 }
 
-.card .panel-container {
-    display: flex;
-    width: 100%;
+.card td:first-child {
+    width: 33.33%;
 }
 
-.card .left-content {
-    flex: 1;
+.card td:last-child {
+    width: 66.66%;
+}
+
+.card td {
     padding: 10px;
-}
-
-.card .right-content {
-    flex: 2;
     vertical-align: top;
-    padding: 10px;
     text-align: left;
 }
 
 .card img {
     border-radius: 30%;
-}
-
-.hub-title {
-    margin: 20px 0;
-    text-align: center;
-    color: #333;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    font-weight: bold;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    object-fit: cover;
 }

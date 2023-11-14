@@ -22,6 +22,8 @@ const StaffManagement = ({ customerData }) => {
     const dataFetcher = new DataFetcher();
     const dataSender = new DataSender();
     const { staffUid, providerId } = useParams();
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
 
     useEffect(() => {
         if (staff === null) {
@@ -127,6 +129,23 @@ const StaffManagement = ({ customerData }) => {
         return customer ? customer.name : 'Unknown';
     };
 
+
+    const handleSearch = () => {
+        const filteredCustomers = customerData.filter((customer) =>
+            customer.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+
+        const customersWithAppointments = filteredCustomers.filter((customer) =>
+            appointmentData.some((appointment) => appointment.customer === customer.uid)
+        );
+
+        setSearchResults(customersWithAppointments);
+    };
+
+    const displayCustomerInfo = (customer) => {
+        alert(`Customer Name: ${customer.name}\nEmail: ${customer.email}\nPhone: ${customer.phone}`);
+    };
+
     return (
         <div className="provider-management">
             <h2 className="provider-title">Staff Information: {staff ? staff.name : ''}</h2>
@@ -139,84 +158,84 @@ const StaffManagement = ({ customerData }) => {
                     <div
                         className="provider-content-container">
                         <div className="provider-picture-container">
-                        <h5>Profile picture</h5>
-                        <img
-                            src={profilePicture}
-                            alt="Profile Picture"
-                            className="provider-custom-picture"
-                        />
-                        <br />
-                        <input
-                            type="file"
-                            accept="image/*"
-                            onChange={uploadImage}
-                        />
-                    </div>
-                    <div
-                        className="provider-input-container">
-                        <div
-                            className="provider-input-field">
-                            <h5>Name</h5>
-                            <Input
-                                className="provider-custom-input"
-                                placeholder="Name"
-                                value={name}
-                                onChange={(value) => setName(value)}
+                            <h5>Profile picture</h5>
+                            <img
+                                src={profilePicture}
+                                alt="Profile Picture"
+                                className="provider-custom-picture"
+                            />
+                            <br />
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={uploadImage}
                             />
                         </div>
                         <div
-                            className="provider-input-field">
-                            <h5>Service</h5>
-                            <InputPicker
-                                className="provider-custom-input"
-                                data={serviceData}
-                                value={service}
-                                onChange={(value) => setService(value)}
-                            />
+                            className="provider-input-container">
+                            <div
+                                className="provider-input-field">
+                                <h5>Name</h5>
+                                <Input
+                                    className="provider-custom-input"
+                                    placeholder="Name"
+                                    value={name}
+                                    onChange={(value) => setName(value)}
+                                />
+                            </div>
+                            <div
+                                className="provider-input-field">
+                                <h5>Service</h5>
+                                <InputPicker
+                                    className="provider-custom-input"
+                                    data={serviceData}
+                                    value={service}
+                                    onChange={(value) => setService(value)}
+                                />
+                            </div>
+                            <div
+                                className="provider-input-field">
+                                <h5>Specialty</h5>
+                                <Input
+                                    className="provider-custom-input"
+                                    placeholder="Specialty"
+                                    value={specialty}
+                                    onChange={(value) => setSpecialty(value)}
+                                />
+                            </div>
+                            <div
+                                className="provider-input-field">
+                                <h5>Background</h5>
+                                <Input
+                                    className="provider-custom-input"
+                                    placeholder="Background"
+                                    value={background}
+                                    onChange={(value) => setBackground(value)}
+                                />
+                            </div>
+                            <div
+                                className="provider-input-field">
+                                <h5>Start work time</h5>
+                                <Input
+                                    className="provider-custom-input"
+                                    type="time"
+                                    placeholder="Start work time"
+                                    value={startWorkTime}
+                                    onChange={(value) => setStartWorkTime(value)}
+                                />
+                            </div>
+                            <div
+                                className="provider-input-field">
+                                <h5>Get off work time</h5>
+                                <Input
+                                    className="provider-custom-input"
+                                    type="time"
+                                    placeholder="Get off work time"
+                                    value={getOffWorkTime}
+                                    onChange={(value) => setGetOffWorkTime(value)}
+                                />
+                            </div>
                         </div>
-                        <div
-                            className="provider-input-field">
-                            <h5>Specialty</h5>
-                            <Input
-                                className="provider-custom-input"
-                                placeholder="Specialty"
-                                value={specialty}
-                                onChange={(value) => setSpecialty(value)}
-                            />
-                        </div>
-                        <div
-                            className="provider-input-field">
-                            <h5>Background</h5>
-                            <Input
-                                className="provider-custom-input"
-                                placeholder="Background"
-                                value={background}
-                                onChange={(value) => setBackground(value)}
-                            />
-                        </div>
-                        <div
-                            className="provider-input-field">
-                            <h5>Start work time</h5>
-                            <Input
-                                className="provider-custom-input"
-                                type="time"
-                                placeholder="Start work time"
-                                value={startWorkTime}
-                                onChange={(value) => setStartWorkTime(value)}
-                            />
-                        </div>
-                        <div
-                            className="provider-input-field">
-                            <h5>Get off work time</h5>
-                            <Input
-                                className="provider-custom-input"
-                                type="time"
-                                placeholder="Get off work time"
-                                value={getOffWorkTime}
-                                onChange={(value) => setGetOffWorkTime(value)}
-                            />
-                        </div>
-                    </div>
                     </div>
                     <br />
                     <Button appearance="primary" onClick={updateStaffInfo}
@@ -259,6 +278,30 @@ const StaffManagement = ({ customerData }) => {
                             }
                         }}
                     />
+                    <div className="search-container">
+                        <h3>Search Customer</h3>
+                        <Input
+                            placeholder="Enter customer name"
+                            value={searchTerm}
+                            onChange={(value) => setSearchTerm(value)}
+                        />
+                        <br />
+                        <Button onClick={handleSearch} appearance="primary">
+                            Search
+                        </Button>
+                        {searchResults.length > 0 && (
+                            <div>
+                                <h4>Matching Customers</h4>
+                                <ul>
+                                    {searchResults.map((customer) => (
+                                        <p key={customer.uid} onClick={() => displayCustomerInfo(customer)}>
+                                            {customer.name}
+                                        </p>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+                    </div>
                 </Panel>
             )}
         </div>

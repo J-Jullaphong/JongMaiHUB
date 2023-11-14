@@ -95,6 +95,11 @@ const ProviderManagement = ({ user }) => {
         }
     };
 
+    const getServiceNameById = (serviceId) => {
+        const service = serviceData.find((service) => service.id === serviceId);
+        return service ? service.name : 'Unknown';
+    };
+
     const addNewStaff = (providerId) => {
         navigate(`/add-staff/${providerId}`);
     };
@@ -230,7 +235,13 @@ const ProviderManagement = ({ user }) => {
                                 width={200}
                                 align="center">
                                 <Table.HeaderCell>Service</Table.HeaderCell>
-                                <Table.Cell dataKey="service" />
+                                    <Table.Cell>
+                                        {rowData => (
+                                            <p>
+                                                {getServiceNameById(rowData.service)}
+                                            </p>
+                                        )}
+                                    </Table.Cell>
                             </Table.Column>
                             <Table.Column
                                 width={200}

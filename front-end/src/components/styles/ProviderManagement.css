@@ -5,7 +5,6 @@
     align-items: center;
     justify-content: center;
     padding: 20px;
-    background-color: #f7f7f7;
 }
 
 .staff-container {
@@ -15,11 +14,9 @@
     align-items: center;
     justify-content: center;
     padding: 20px;
-    background-color: #f7f7f7;
 }
 
 .provider-title {
-    font-size: 32px;
     margin: 20px 0;
     text-align: center;
     color: #333;
@@ -89,7 +86,6 @@
     align-items: center;
     justify-content: center;
     padding: 20px;
-    background-color: #f7f7f7;
 }
 
 .provider-information,
@@ -131,4 +127,49 @@
 
 .provider-input-field {
     margin-bottom: 15px;
+}
+
+.search-container {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.search-container h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.search-container Input {
+    width: 80%;
+    margin-right: 10px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.search-container Button {
+    padding: 8px 15px;
+}
+
+.search-container ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+.search-container p {
+    cursor: pointer;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    transition: background-color 0.2s;
+}
+
+.search-container p:hover {
+    background-color: #f0f0f0;
 }
