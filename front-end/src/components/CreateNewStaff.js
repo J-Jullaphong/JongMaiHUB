@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Input, Button, Panel, InputPicker } from 'rsuite';
 import DataSender from './DataSender';
 import DataFetcher from './DataFetcher';
-import "./styles/InputButton.css";
+import "./styles/ProviderManagement.css";
 import { useParams, useNavigate } from 'react-router-dom';
 
 const CreateNewStaff = ({ customerData }) => {

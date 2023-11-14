@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Input, Button, Panel, InputGroup } from 'rsuite';
 import DataSender from './DataSender';
-import "./styles/InputButton.css";
+import "./styles/ProviderManagement.css";
 import { useParams, useNavigate } from 'react-router-dom';
 
 const CreateNewService = () => {

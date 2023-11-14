@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Input, Button, Panel, Calendar, InputPicker } from 'rsuite';
 import { useParams } from 'react-router-dom';
-import "./styles/InputButton.css";
+import "./styles/ProviderManagement.css";
 import DataSender from './DataSender';
 import DataFetcher from './DataFetcher';
 

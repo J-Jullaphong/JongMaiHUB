@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Input, Button, Panel, Loader, InputGroup } from 'rsuite';
 import { useParams } from 'react-router-dom';
-import "./styles/InputButton.css";
+import "./styles/ProviderManagement.css";
 import DataSender from './DataSender';
 import DataFetcher from './DataFetcher';
 
@@ -64,6 +64,7 @@ const ServiceManagement = () => {
                 service_picture: servicePicture,
             };
 
+            window.alert('Successfully updated service.');
             dataSender.updateServiceData(updatedServiceData, service.id).then(() => {
                 console.log('Service information updated.');
             });
@@ -93,7 +94,7 @@ const ServiceManagement = () => {
                 >
                     <div
                         className="provider-content-container">
-                        <div className="provider-picture-container">
+                        <div>
                             <h5>Service picture</h5>
                             <img
                                 src={servicePicture}
