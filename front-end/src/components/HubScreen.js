@@ -56,13 +56,13 @@ const HubScreen = () => {
           }}
           onClick={() => handleServiceClick(service)}
         >
-          <table style={{ width: "100%" }}>
+          <table style={{ width: "80%" }}>
             <tr>
               <td style={{ padding: "10px" }}>
                 <img
                   src={service.service_picture}
-                  height="100"
-                  width="100"
+                  height="100px"
+                  width="100px"
                   alt="Image"
                 />
               </td>
@@ -184,7 +184,7 @@ const HubScreen = () => {
   return (
     <div className="container">
       <div className="group">
-        <h2>Popular Services</h2>
+        <h3 className="hub-title">Popular Services</h3>
       </div>
         <div className="popular-carousel">
           <Carousel autoplay style={{ borderRadius: 50, height: "50vh" }}>
@@ -199,7 +199,7 @@ const HubScreen = () => {
           </Carousel>
         </div>
       <div className="group">
-        <h2>Recommended Services</h2>
+        <h3 className="hub-title">Recommended Services</h3>
       </div>
       <div className="recommend-panel">
         <Row>
