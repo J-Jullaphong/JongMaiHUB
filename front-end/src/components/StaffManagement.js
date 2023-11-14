@@ -128,87 +128,103 @@ const StaffManagement = ({ customerData }) => {
     };
 
     return (
-        <div>
+        <div className="provider-management">
+            <h2 className="provider-title">Staff Information: {staff ? staff.name : ''}</h2>
             {loading ? (
-                <h2 className="loading">Loading...</h2>
+                <h2 className="provider-loading">Loading...</h2>
             ) : (
-                <Panel header={<h3>Staff Information: {staff ? staff.name : ''}</h3>}>
-                    <div>
-                        <h5>Profile picture: </h5>
+                <Panel
+                    className="provider-information"
+                >
+                    <div
+                        className="provider-content-container">
+                        <div className="provider-picture-container">
+                        <h5>Profile picture</h5>
                         <img
                             src={profilePicture}
                             alt="Profile Picture"
-                            className="custom-picture"
+                            className="provider-custom-picture"
                         />
                         <br />
                         <input
-                            className="custom-input"
                             type="file"
                             accept="image/*"
                             onChange={uploadImage}
                         />
                     </div>
-                    <div>
-                        <h5>Name: </h5>
-                        <Input
-                            className="custom-input"
-                            placeholder="Name"
-                            value={name}
-                            onChange={(value) => setName(value)}
-                        />
+                    <div
+                        className="provider-input-container">
+                        <div
+                            className="provider-input-field">
+                            <h5>Name</h5>
+                            <Input
+                                className="provider-custom-input"
+                                placeholder="Name"
+                                value={name}
+                                onChange={(value) => setName(value)}
+                            />
+                        </div>
+                        <div
+                            className="provider-input-field">
+                            <h5>Service</h5>
+                            <InputPicker
+                                className="provider-custom-input"
+                                data={serviceData}
+                                value={service}
+                                onChange={(value) => setService(value)}
+                            />
+                        </div>
+                        <div
+                            className="provider-input-field">
+                            <h5>Specialty</h5>
+                            <Input
+                                className="provider-custom-input"
+                                placeholder="Specialty"
+                                value={specialty}
+                                onChange={(value) => setSpecialty(value)}
+                            />
+                        </div>
+                        <div
+                            className="provider-input-field">
+                            <h5>Background</h5>
+                            <Input
+                                className="provider-custom-input"
+                                placeholder="Background"
+                                value={background}
+                                onChange={(value) => setBackground(value)}
+                            />
+                        </div>
+                        <div
+                            className="provider-input-field">
+                            <h5>Start work time</h5>
+                            <Input
+                                className="provider-custom-input"
+                                type="time"
+                                placeholder="Start work time"
+                                value={startWorkTime}
+                                onChange={(value) => setStartWorkTime(value)}
+                            />
+                        </div>
+                        <div
+                            className="provider-input-field">
+                            <h5>Get off work time</h5>
+                            <Input
+                                className="provider-custom-input"
+                                type="time"
+                                placeholder="Get off work time"
+                                value={getOffWorkTime}
+                                onChange={(value) => setGetOffWorkTime(value)}
+                            />
+                        </div>
                     </div>
-                    <div>
-                        <h5>Service: </h5>
-                        <InputPicker 
-                            className="custom-input"
-                            data={serviceData} 
-                            value={service}
-                            onChange={(value) => setService(value)} 
-                        />
                     </div>
-                    <div>
-                        <h5>Specialty: </h5>
-                        <Input
-                            className="custom-input"
-                            placeholder="Specialty"
-                            value={specialty}
-                            onChange={(value) => setSpecialty(value)}
-                        />
-                    </div>
-                    <div>
-                        <h5>Background: </h5>
-                        <Input
-                            className="custom-input"
-                            placeholder="Background"
-                            value={background}
-                            onChange={(value) => setBackground(value)}
-                        />
-                    </div>
-                    <div>
-                        <h5>Start work time: </h5>
-                        <Input
-                            className="custom-input"
-                            type="time"
-                            placeholder="Start work time"
-                            value={startWorkTime}
-                            onChange={(value) => setStartWorkTime(value)}
-                        />
-                    </div>
-                    <div>
-                        <h5>Get off work time: </h5>
-                        <Input
-                            className="custom-input"
-                            type="time"
-                            placeholder="Get off work time"
-                            value={getOffWorkTime}
-                            onChange={(value) => setGetOffWorkTime(value)}
-                        />
-                    </div>
-                    <Button appearance="primary" onClick={updateStaffInfo}>
+                    <br />
+                    <Button appearance="primary" onClick={updateStaffInfo}
+                        className="provider-add-button">
                         Update Staff Information
                     </Button>
                     <hr />
-                    <h3>Booked times: </h3>
+                    <h3>Booked times</h3>
                     <Calendar
                         value={selectedDate}
                         onChange={handleDateChange}
@@ -222,7 +238,7 @@ const StaffManagement = ({ customerData }) => {
                             );
                             if (appointmentsOnDate.length > 0) {
                                 return (
-                                    <div>
+                                    <div style={{ position: 'relative', padding: '5px', background: '#e6e6e6', borderRadius: '5px' }}>
                                         {appointmentsOnDate.map((appointment, index) => {
                                             const appointmentTime = new Date(appointment.date_time);
                                             const nameCustomer = getCustomerNameById(appointment.customer);
@@ -231,7 +247,7 @@ const StaffManagement = ({ customerData }) => {
                                                 minute: '2-digit',
                                             });
                                             return (
-                                                <div key={index}>
+                                                <div key={index} style={{ margin: '5px 0', color: '#333' }}>
                                                     {timeString} - {nameCustomer}
                                                 </div>
                                             );

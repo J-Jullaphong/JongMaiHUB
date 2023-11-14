@@ -48,7 +48,7 @@ const ServiceManagement = () => {
     }, [serviceData, serviceId]);
 
     const updateServiceInfo = () => {
-        if (!name || !type || !duration || !price || !servicePicture) { 
+        if (!name || !type || !duration || !price || !servicePicture) {
             window.alert('Please fill in all input fields.');
             return;
         }
@@ -83,69 +83,82 @@ const ServiceManagement = () => {
     };
 
     return (
-        <div>
+        <div className="provider-management">
+            <h2 className="provider-title">Service Information: {service ? service.name : ''}</h2>
             {loading ? (
-                <h2 className="loading">Loading...</h2>
+                <h2 className="provider-loading">Loading...</h2>
             ) : (
-                <Panel header={<h3>Service Information: {service ? service.name : ''}</h3>}>
-                    <div>
-                        <h5>Service picture: </h5>
-                        <img
-                            src={servicePicture}
-                            alt="No service picture"
-                            className="custom-picture"
-                        />
-                        <br />
-                        <input
-                            className="custom-input"
-                            type="file"
-                            accept="image/*"
-                            onChange={uploadImage}
-                        />
-                    </div>
-                    <div>
-                        <h5>Name: </h5>
-                        <Input
-                            className="custom-input"
-                            placeholder="Name"
-                            value={name}
-                            onChange={(value) => setName(value)}
-                        />
-                    </div>
-                    <div>
-                        <h5>Type: </h5>
-                        <Input
-                            className="custom-input"
-                            placeholder="Type"
-                            value={type}
-                            onChange={(value) => setType(value)}
-                        />
-                    </div>
-                    <div>
-                        <h5>Duration: </h5>
-                        <InputGroup inside style={styles}>
-                            <Input
-                                className="custom-input"
-                                type="int"
-                                placeholder="Duration"
-                                value={duration}
-                                onChange={(value) => setDuration(value)}
+                <Panel
+                    className="provider-information"
+                >
+                    <div
+                        className="provider-content-container">
+                        <div className="provider-picture-container">
+                            <h5>Service picture</h5>
+                            <img
+                                src={servicePicture}
+                                alt="No service picture"
+                                className="provider-custom-picture"
                             />
-                            <InputGroup.Addon>minute</InputGroup.Addon>
-                        </InputGroup>
-                    </div>
-                    <div>
-                        <h5>Price: </h5>
-                        <InputGroup inside style={styles}>
-                            <Input
-                                className="custom-input"
-                                placeholder="Price"
-                                value={price}
-                                onChange={(value) => setPrice(value)}
+                            <br />
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={uploadImage}
                             />
-                            <InputGroup.Addon>฿</InputGroup.Addon>
-                        </InputGroup>
+                        </div>
+                        <div
+                            className="provider-input-container">
+                            <div
+                                className="provider-input-field">
+                                <h5>Name</h5>
+                                <Input
+                                    className="provider-custom-input"
+                                    placeholder="Name"
+                                    value={name}
+                                    onChange={(value) => setName(value)}
+                                />
+                            </div>
+                            <div
+                                className="provider-input-field">
+                                <h5>Type</h5>
+                                <Input
+                                    className="provider-custom-input"
+                                    placeholder="Type"
+                                    value={type}
+                                    onChange={(value) => setType(value)}
+                                />
+                            </div>
+                            <div
+                                className="provider-input-field">
+                                <h5>Duration</h5>
+                                <InputGroup inside style={styles}>
+                                    <Input
+                                        className="provider-custom-input"
+                                        type="int"
+                                        placeholder="Duration"
+                                        value={duration}
+                                        onChange={(value) => setDuration(value)}
+                                    />
+                                    <InputGroup.Addon>minute</InputGroup.Addon>
+                                </InputGroup>
+                            </div>
+                            <div
+                                className="provider-input-field">
+                                <h5>Price</h5>
+                                <InputGroup inside style={styles}>
+                                    <Input
+                                        className="provider-custom-input"
+                                        placeholder="Price"
+                                        value={price}
+                                        onChange={(value) => setPrice(value)}
+                                    />
+                                    <InputGroup.Addon>฿</InputGroup.Addon>
+                                </InputGroup>
+                            </div>
+                        </div>
                     </div>
+                    <br />
                     <Button appearance="primary" onClick={updateServiceInfo}>
                         Update Service Information
                     </Button>

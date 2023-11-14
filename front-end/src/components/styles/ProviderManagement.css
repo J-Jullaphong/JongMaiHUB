@@ -73,10 +73,9 @@
 .provider-custom-picture {
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    max-width: 100%;
-    height: auto;
-    width: 400px;
-    height: 300px;
+    max-width: 85%;
+    height: 400px;
+    width: auto;
 }
 
 .provider-custom-input {

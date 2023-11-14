@@ -37,7 +37,7 @@ const CreateNewStaff = ({ customerData }) => {
 
     const addStaffInfo = () => {
         if (!uid || !specialty || !background || !startWorkTime || !getOffWorkTime || !profilePicture || !service) {
-            console.log("uid",  uid)
+            console.log("uid", uid)
             console.log("service", service)
             window.alert('Please fill in all input fields.');
             return;
@@ -81,79 +81,92 @@ const CreateNewStaff = ({ customerData }) => {
     };
 
     return (
-        <div>
-            <Panel header={<h3>Add new staff</h3>}>
-                <div>
-                    <h5>Profile Picture: </h5>
-                    <img 
-                        src={profilePicture} 
-                        alt="No profile picture" 
-                        className="custom-picture"
-                    />
-                    <br />
-                    <input
-                        className="custom-input"
-                        type="file"
-                        accept="image/*"
-                        onChange={uploadImage}
-                    />
+        <div className="provider-management">
+            <h2 className="provider-title">Add New Staff</h2>
+            <Panel className="provider-information">
+                <div
+                    className="provider-content-container">
+                    <div className="provider-picture-container">
+                        <h5>Profile picture</h5>
+                        <img
+                            src={profilePicture}
+                            alt="No profile picture"
+                            className="provider-custom-picture"
+                        />
+                        <br />
+                        <input
+                            type="file"
+                            accept="image/*"
+                            onChange={uploadImage}
+                        />
+                    </div>
+                    <div
+                        className="provider-input-container">
+                        <div
+                            className="provider-input-field">
+                            <h5>Name</h5>
+                            <InputPicker
+                                className="provider-custom-input"
+                                data={selectStaff}
+                                value={uid}
+                                onChange={(value) => setUid(value)}
+                            />
+                        </div>
+                        <div
+                            className="provider-input-field">
+                            <h5>Service</h5>
+                            <InputPicker
+                                className="provider-custom-input"
+                                data={serviceData}
+                                value={service}
+                                onChange={(value) => setService(value)}
+                            />
+                        </div>
+                        <div
+                            className="provider-input-field">
+                            <h5>Specialty</h5>
+                            <Input
+                                className="provider-custom-input"
+                                placeholder="Specialty"
+                                value={specialty}
+                                onChange={(value) => setSpecialty(value)}
+                            />
+                        </div>
+                        <div
+                            className="provider-input-field">
+                            <h5>Background</h5>
+                            <Input
+                                className="provider-custom-input"
+                                placeholder="Background"
+                                value={background}
+                                onChange={(value) => setBackground(value)}
+                            />
+                        </div>
+                        <div
+                            className="provider-input-field">
+                            <h5>Start work time</h5>
+                            <Input
+                                className="provider-custom-input"
+                                type="time"
+                                placeholder="Start work time"
+                                value={startWorkTime}
+                                onChange={(value) => setStartWorkTime(value)}
+                            />
+                        </div>
+                        <div
+                            className="provider-input-field">
+                            <h5>Get off work time</h5>
+                            <Input
+                                className="provider-custom-input"
+                                type="time"
+                                placeholder="Get off work time"
+                                value={getOffWorkTime}
+                                onChange={(value) => setGetOffWorkTime(value)}
+                            />
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <h5>Name: </h5>
-                    <InputPicker
-                        className="custom-input"
-                        data={selectStaff}
-                        value={uid}
-                        onChange={(value) => setUid(value)}
-                    />
-                </div>
-                <div>
-                    <h5>Service: </h5>
-                    <InputPicker
-                        className="custom-input"
-                        data={serviceData}
-                        value={service}
-                        onChange={(value) => setService(value)}
-                    />
-                </div>
-                <div>
-                    <h5>Specialty: </h5>
-                    <Input
-                        className="custom-input"
-                        placeholder="Specialty"
-                        value={specialty}
-                        onChange={(value) => setSpecialty(value)}
-                    />
-                </div>
-                <div>
-                    <h5>Background: </h5>
-                    <Input
-                        className="custom-input"
-                        placeholder="Background"
-                        value={background}
-                        onChange={(value) => setBackground(value)}
-                    />
-                </div>
-                <div>
-                    <h5>Start work time: </h5>
-                    <Input
-                        className="custom-input"
-                        type="time"
-                        placeholder="Start work time"
-                        value={startWorkTime}
-                        onChange={(value) => setStartWorkTime(value)}
-                    />
-                </div>
-                <div>
-                    <h5>Get off work time: </h5>
-                    <Input
-                        className="custom-input"
-                        type="time"
-                        placeholder="Get off work time"
-                        value={getOffWorkTime}
-                        onChange={(value) => setGetOffWorkTime(value)}
-                    />
-                </div>
+                <br />
                 <Button appearance="primary" onClick={addStaffInfo}>
                     Add new staff
                 </Button>
