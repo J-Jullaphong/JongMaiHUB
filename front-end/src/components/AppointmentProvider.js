@@ -3,28 +3,27 @@ import { Table, Calendar, Button } from "rsuite";
 import DataFetcher from "./DataFetcher";
 import { useParams } from 'react-router-dom';
 
-const AppointmentStaff = ({
+const AppointmentProvider = ({
     user,
     serviceData,
-    providerData,
-    customerData,
-}) => {
+    staffData,
+    customerData }) => {
     const [appointments, setAppointments] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedAppointment, setSelectedAppointment] = useState([]);
     const [filterType, setFilterType] = useState("all");
-    const { staffUid } = useParams();
+    const { providerUid } = useParams();
 
     useEffect(() => {
         const fetchData = async () => {
             const dataFetcher = new DataFetcher();
             try {
-                const [StaffAppointmentData] = await Promise.all([
-                    dataFetcher.getAppointmentByStaff(staffUid),
+                const [ProviderAppointmentData] = await Promise.all([
+                    dataFetcher.getAppointmentByProvider(providerUid),
                 ]);
 
-                const sortedData = StaffAppointmentData.sort((a, b) => {
+                const sortedData = ProviderAppointmentData.sort((a, b) => {
                     return new Date(a.date_time) - new Date(b.date_time);
                 });
                 setAppointments(sortedData);
@@ -120,7 +119,7 @@ const AppointmentStaff = ({
 
     return (
         <div className="appointments-container">
-            <h2 className="appointment-title">Staff Appointments</h2>
+            <h2 className="appointment-title">Provider Appointments</h2>
             <div className="filter-buttons">
                 <Button onClick={() => handleFilterChange("all")} appearance={filterType === "all" ? "primary" : "default"}>All</Button>
                 <Button onClick={() => handleFilterChange("today")} appearance={filterType === "today" ? "primary" : "default"}>Today</Button>
@@ -143,7 +142,6 @@ const AppointmentStaff = ({
                                 const dateString = date.toDateString();
                                 const appointmentsOnDate = appointments.filter(
                                     (appointment) =>
-                                        appointment.staff === staffUid &&
                                         new Date(appointment.date_time).toDateString() === dateString
                                 );
                                 const numberOfAppointments = appointmentsOnDate.length;
@@ -163,6 +161,7 @@ const AppointmentStaff = ({
                             }}
                         />
                     </div>
+
                     {selectedAppointment.length > 0 &&
                         <div className="upcoming-container">
                             <h5>Appointments</h5>
@@ -175,12 +174,11 @@ const AppointmentStaff = ({
                                 <Table.Column
                                     width={200}
                                     align="center">
-                                    <Table.HeaderCell>Provider</Table.HeaderCell>
+                                    <Table.HeaderCell>Service</Table.HeaderCell>
                                     <Table.Cell>
                                         {rowData => {
-                                            const service = serviceData.find(service => service.id === rowData.service);
-                                            const provider = providerData.find(provider => provider.uid === service.service_provider);
-                                            return provider ? provider.name : '';
+                                            const staff = staffData.find(staff => staff.uid === rowData.staff);
+                                            return staff ? staff.name : '';
                                         }}
                                     </Table.Cell>
                                 </Table.Column>
@@ -247,5 +245,4 @@ const AppointmentStaff = ({
     );
 };
 
-export default AppointmentStaff;
-
+export default AppointmentProvider;

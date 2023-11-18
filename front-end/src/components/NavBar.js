@@ -99,7 +99,7 @@ const NavBar = ({ user, isUserAuthenticated, serviceData }) => {
               <Nav.Item>
                 <a
                   onClick={() => {
-                    navigate("/my-appointment");
+                    navigate("/My-appointment");
                   }}
                   style={{
                     textDecoration: "none",
@@ -110,11 +110,11 @@ const NavBar = ({ user, isUserAuthenticated, serviceData }) => {
                 </a>
               </Nav.Item>
               {isProvider ? (
-                <Nav.Item>
+                <><Nav.Item>
                   <a
                     onClick={() => {
                       navigate("/provider-management");
-                    }}
+                    } }
                     style={{
                       textDecoration: "none",
                       color: "#000000",
@@ -122,7 +122,19 @@ const NavBar = ({ user, isUserAuthenticated, serviceData }) => {
                   >
                     Provider Management
                   </a>
-                </Nav.Item>
+                </Nav.Item><Nav.Item>
+                    <a
+                      onClick={() => {
+                        navigate(`/appointment-provider/${uid}`);
+                      } }
+                      style={{
+                        textDecoration: "none",
+                        color: "#000000",
+                      }}
+                    >
+                      Provider Appointment
+                    </a>
+                  </Nav.Item></>
               ) : isStaff ? (
                 <Nav.Item>
                   <a
