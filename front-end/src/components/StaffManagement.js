@@ -5,7 +5,7 @@ import "./styles/ProviderManagement.css";
 import DataSender from './DataSender';
 import DataFetcher from './DataFetcher';
 
-const StaffManagement = ({ customerData }) => {
+const StaffManagement = () => {
     const [loading, setLoading] = useState(true);
     const [staff, setStaff] = useState(null);
     const [name, setName] = useState('');
@@ -17,7 +17,6 @@ const StaffManagement = ({ customerData }) => {
     const [service, setService] = useState('');
     const [staffData, setStaffData] = useState('');
     const [serviceData, setServiceData] = useState('');
-    const [appointmentData, setAppointmentData] = useState('');
     const dataFetcher = new DataFetcher();
     const dataSender = new DataSender();
     const { staffUid, providerId } = useParams();
@@ -27,11 +26,9 @@ const StaffManagement = ({ customerData }) => {
             try {
                 const fetchStaffData = async () => {
                     const staffData = await dataFetcher.getStaffData(staffUid);
-                    const appointmentData = await dataFetcher.getAppointmentByStaff(staffUid);
                     const serviceData = await dataFetcher.getServiceByServiceProvider(providerId);
                     const transformedServiceData = serviceData.map(item => ({ label: item.name, value: item.id }));
                     setStaffData(staffData);
-                    setAppointmentData(appointmentData);
                     setServiceData(transformedServiceData);
                     if (staffData) {
                         setStaff(staffData);

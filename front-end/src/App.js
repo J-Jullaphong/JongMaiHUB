@@ -113,11 +113,7 @@ const App = () => {
                     <Route 
                         path="/staff-management/:providerId/:staffUid/" 
                         element={
-                            <StaffManagement 
-                                user={user} 
-                                staffData={staffData} 
-                                customerData={customerData} 
-                            />
+                            <StaffManagement />
                         } 
                     />
                     <Route 
