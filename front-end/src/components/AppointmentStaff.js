@@ -14,19 +14,22 @@ const AppointmentStaff = ({
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedAppointment, setSelectedAppointment] = useState([]);
     const [filterType, setFilterType] = useState("all");
+    const [staff, setStaff] = useState('');
     const { staffUid } = useParams();
 
     useEffect(() => {
         const fetchData = async () => {
             const dataFetcher = new DataFetcher();
             try {
-                const [StaffAppointmentData] = await Promise.all([
+                const [StaffData, StaffAppointmentData] = await Promise.all([
+                    dataFetcher.getStaffData(staffUid),
                     dataFetcher.getAppointmentByStaff(staffUid),
                 ]);
 
                 const sortedData = StaffAppointmentData.sort((a, b) => {
                     return new Date(a.date_time) - new Date(b.date_time);
                 });
+                setStaff(StaffData);
                 setAppointments(sortedData);
                 setSelectedAppointment(sortedData.filter(
                     (sortedData) => new Date(sortedData.date_time) >= new Date()
@@ -67,11 +70,6 @@ const AppointmentStaff = ({
         const minutes = String(date.getMinutes()).padStart(2, "0");
 
         return `${day} ${month} ${year} ${hours}:${minutes}`;
-    };
-
-    const getCustomerNameById = (customerId) => {
-        const customer = customerData.find((customer) => customer.uid === customerId);
-        return customer ? customer.name : 'Unknown';
     };
 
     const handleFilterChange = (type, date) => {
@@ -120,7 +118,7 @@ const AppointmentStaff = ({
 
     return (
         <div className="appointments-container">
-            <h2 className="appointment-title">Staff Appointments</h2>
+            <h2 className="appointment-title">Staff Appointments : {staff ? staff.name : ''}</h2>
             <div className="filter-buttons">
                 <Button onClick={() => handleFilterChange("all")} appearance={filterType === "all" ? "primary" : "default"}>All</Button>
                 <Button onClick={() => handleFilterChange("today")} appearance={filterType === "today" ? "primary" : "default"}>Today</Button>

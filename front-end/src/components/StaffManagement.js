@@ -96,12 +96,6 @@ const StaffManagement = ({ customerData }) => {
         }
     };
 
-    const getCustomerNameById = (customerId) => {
-        const customer = customerData.find((customer) => customer.uid === customerId);
-        console.log(customer);
-        return customer ? customer.name : 'Unknown';
-    };
-
     return (
         <div className="provider-management">
             <h2 className="provider-title">Staff Information: {staff ? staff.name : ''}</h2>
