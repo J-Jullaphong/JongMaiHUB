@@ -25,8 +25,8 @@ const ProviderManagement = ({ user }) => {
     const dataFetcher = new DataFetcher();
 
     useEffect(() => {
-            const fetchData = async () => {
-                try {
+        const fetchData = async () => {
+            try {
                 const [serviceData, providerData, staffData] = await Promise.all([
                     dataFetcher.getServiceByServiceProvider(user.getUID()),
                     dataFetcher.getServiceProviderData(user.getUID()),
@@ -50,12 +50,12 @@ const ProviderManagement = ({ user }) => {
                         setCoverPicture(providerData.cover_picture);
                     }
                 }
-                    setLoadProvider(false);
-                } catch (error) {
-                    console.error(error);
-                } finally {
-                    setLoading(false);
-                }
+                setLoadProvider(false);
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setLoading(false);
+            }
         };
         fetchData();
     }, [user.isProvider, serviceData, providerData, staffData, loading]);
@@ -121,6 +121,10 @@ const ProviderManagement = ({ user }) => {
         navigate(`/staff-management/${providerId}/${staffUid}`);
     };
 
+    const handleStaffAppointment = (staffUid) => {
+        navigate(`/appointment-staff/${staffUid}`);
+    };
+
     const handleServiceSelection = (providerId, serviceId) => {
         navigate(`/service-management/${providerId}/${serviceId}`);
     };
@@ -150,74 +154,74 @@ const ProviderManagement = ({ user }) => {
                 <h2 className="provider-loading">Loading...</h2>
             ) : (
                 <>
-                        <Panel 
-                            className="provider-information"
-                            header={<h3 className="provider-title">INFORMATION</h3>}
-                            >
-                            <div className="provider-content-container">
-                                <div className="provider-picture-container">
-                                    <h5>Profile picture</h5>
-                                    <img
-                                        src={profilePicture}
-                                        alt="Profile Picture"
-                                        className="provider-custom-picture"
-                                    />
-                                    <br />
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        onChange={uploadImage}
+                    <Panel
+                        className="provider-information"
+                        header={<h3 className="provider-title">INFORMATION</h3>}
+                    >
+                        <div className="provider-content-container">
+                            <div className="provider-picture-container">
+                                <h5>Profile picture</h5>
+                                <img
+                                    src={profilePicture}
+                                    alt="Profile Picture"
+                                    className="provider-custom-picture"
+                                />
+                                <br />
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={uploadImage}
+                                />
+                            </div>
+                            <div className="provider-input-container">
+                                <div className="provider-input-field">
+                                    <h5>Name</h5>
+                                    <Input
+                                        className="provider-custom-input"
+                                        placeholder="Name"
+                                        value={name}
+                                        onChange={(value) => setName(value)}
                                     />
                                 </div>
-                                <div className="provider-input-container">
-                                    <div className="provider-input-field">
-                                        <h5>Name</h5>
-                                        <Input
-                                            className="provider-custom-input"
-                                            placeholder="Name"
-                                            value={name}
-                                            onChange={(value) => setName(value)}
-                                        />
-                                    </div>
-                                    <div className="provider-input-field">
-                                        <h5>Location</h5>
-                                        <Input
-                                            className="provider-custom-input"
-                                            placeholder="Location"
-                                            value={location}
-                                            onChange={(value) => setLocation(value)}
-                                        />
-                                    </div>
-                                    <div className="provider-input-field">
-                                        <h5>Open Time</h5>
-                                        <Input
-                                            className="provider-custom-input"
-                                            type="time"
-                                            placeholder="Opening Time"
-                                            value={openingTime}
-                                            onChange={(value) => setOpeningTime(value)}
-                                        />
-                                    </div>
-                                    <div className="provider-input-field">
-                                        <h5>Close Time</h5>
-                                        <Input
-                                            className="provider-custom-input"
-                                            type="time"
-                                            placeholder="Closing Time"
-                                            value={closingTime}
-                                            onChange={(value) => setClosingTime(value)}
-                                        />
-                                    </div>
+                                <div className="provider-input-field">
+                                    <h5>Location</h5>
+                                    <Input
+                                        className="provider-custom-input"
+                                        placeholder="Location"
+                                        value={location}
+                                        onChange={(value) => setLocation(value)}
+                                    />
+                                </div>
+                                <div className="provider-input-field">
+                                    <h5>Open Time</h5>
+                                    <Input
+                                        className="provider-custom-input"
+                                        type="time"
+                                        placeholder="Opening Time"
+                                        value={openingTime}
+                                        onChange={(value) => setOpeningTime(value)}
+                                    />
+                                </div>
+                                <div className="provider-input-field">
+                                    <h5>Close Time</h5>
+                                    <Input
+                                        className="provider-custom-input"
+                                        type="time"
+                                        placeholder="Closing Time"
+                                        value={closingTime}
+                                        onChange={(value) => setClosingTime(value)}
+                                    />
                                 </div>
                             </div>
-                            <br />
-                            <Button
-                                className="provider-add-button"
-                                appearance="primary"
-                                onClick={updateProviderInfo}>
-                                Update Information
-                            </Button>
-                        </Panel>
+                        </div>
+                        <br />
+                        <Button
+                            className="provider-add-button"
+                            appearance="primary"
+                            onClick={updateProviderInfo}>
+                            Update Information
+                        </Button>
+                    </Panel>
 
                     <Panel
                         className="staff-container"
@@ -237,20 +241,28 @@ const ProviderManagement = ({ user }) => {
                             <Table.Column
                                 width={200}
                                 align="center">
-                                <Table.HeaderCell>Specialty</Table.HeaderCell>
-                                <Table.Cell dataKey="specialty" />
+                                <Table.HeaderCell>Service</Table.HeaderCell>
+                                <Table.Cell>
+                                    {rowData => (
+                                        <p>
+                                            {getServiceNameById(rowData.service)}
+                                        </p>
+                                    )}
+                                </Table.Cell>
                             </Table.Column>
                             <Table.Column
                                 width={200}
                                 align="center">
-                                <Table.HeaderCell>Service</Table.HeaderCell>
-                                    <Table.Cell>
-                                        {rowData => (
-                                            <p>
-                                                {getServiceNameById(rowData.service)}
-                                            </p>
-                                        )}
-                                    </Table.Cell>
+                                <Table.HeaderCell>View Appointment</Table.HeaderCell>
+                                <Table.Cell>
+                                    {rowData => (
+                                        <Button
+                                            className="provider-view-button"
+                                            onClick={() => handleStaffAppointment(rowData.uid)}>
+                                            View
+                                        </Button>
+                                    )}
+                                </Table.Cell>
                             </Table.Column>
                             <Table.Column
                                 width={200}

@@ -69,6 +69,10 @@ class DataFetcher extends Component {
     async getAppointmentByCustomer(customerKey) {
         return this.fetchData("appointment", "", `customer=${customerKey}`);
     }
+
+    async getAppointmentByCustomer(staffKey) {
+        return this.fetchData("appointment", "", `staff=${staffKey}`);
+    }
 }
 
 export default DataFetcher;

@@ -61,6 +61,23 @@
     background-color: #035eb3;
 }
 
+.provider-view-button {
+    background-color: #95e205;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 1s;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.provider-view-button:hover {
+    background-color: #9b6913;
+}
+
 .provider-input-fields .provider-input-flied {
     display: inline-block;
     vertical-align: top;
