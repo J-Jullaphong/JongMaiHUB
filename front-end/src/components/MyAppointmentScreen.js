@@ -42,17 +42,19 @@ const MyAppointmentScreen = ({
   }, [user, appointments]);
 
   const handleCancelAppointment = (appointmentId) => {
-    const shouldDelete = window.confirm('Are you sure you want to cancel this appointment?');
+    const shouldDelete = window.confirm(
+      "Are you sure you want to cancel this appointment?"
+    );
     if (shouldDelete) {
       dataSender.deleteAppointment(appointmentId);
-      window.alert('Successfully cancel appointment.');
+      window.alert("Successfully cancel appointment.");
       navigate(`/my-appointment`);
     }
   };
 
   const handleRateAppointment = (appointmentId) => {
     setOpen(true);
-    setSelectedAppointment(appointmentId)
+    setSelectedAppointment(appointmentId);
   };
 
   const handleClose = () => setOpen(false);
@@ -98,66 +100,65 @@ const MyAppointmentScreen = ({
         <h2 className="loading">Loading...</h2>
       ) : (
         <>
-          {upcomingAppointments.length > 0 &&
+          {upcomingAppointments.length > 0 && (
             <div className="upcoming-container">
               <h5>Upcoming Appointments</h5>
-              <Table 
+              <Table
                 className="table-upcoming"
                 data={upcomingAppointments}
                 autoHeight
                 width={1000}
               >
-                <Table.Column
-                  width={200}
-                  align="center">
+                <Table.Column width={200} align="center">
                   <Table.HeaderCell>Provider</Table.HeaderCell>
                   <Table.Cell>
-                    {rowData => {
-                      const service = serviceData.find(service => service.id === rowData.service);
-                      const provider = providerData.find(provider => provider.uid === service.service_provider);
-                      return provider ? provider.name : '';
+                    {(rowData) => {
+                      const service = serviceData.find(
+                        (service) => service.id === rowData.service
+                      );
+                      const provider = providerData.find(
+                        (provider) => provider.uid === service.service_provider
+                      );
+                      return provider ? provider.name : "";
                     }}
                   </Table.Cell>
                 </Table.Column>
-                <Table.Column
-                  width={200}
-                  align="center">
+                <Table.Column width={200} align="center">
                   <Table.HeaderCell>Service</Table.HeaderCell>
                   <Table.Cell>
-                    {rowData => {
-                      const service = serviceData.find(service => service.id === rowData.service);
-                      return service ? service.name : '';
+                    {(rowData) => {
+                      const service = serviceData.find(
+                        (service) => service.id === rowData.service
+                      );
+                      return service ? service.name : "";
                     }}
                   </Table.Cell>
                 </Table.Column>
-                <Table.Column
-                  width={200}
-                  align="center">
+                <Table.Column width={200} align="center">
                   <Table.HeaderCell>Staff</Table.HeaderCell>
                   <Table.Cell>
-                    {rowData => {
-                      const staff = staffData.find(staff => staff.uid === rowData.staff);
-                      return staff ? staff.name : '';
+                    {(rowData) => {
+                      const staff = staffData.find(
+                        (staff) => staff.uid === rowData.staff
+                      );
+                      return staff ? staff.name : "";
                     }}
                   </Table.Cell>
                 </Table.Column>
-                <Table.Column
-                  width={200}
-                  align="center">
+                <Table.Column width={200} align="center">
                   <Table.HeaderCell>Start</Table.HeaderCell>
                   <Table.Cell>
-                    {rowData => formatDateTime(rowData.date_time)}
+                    {(rowData) => formatDateTime(rowData.date_time)}
                   </Table.Cell>
                 </Table.Column>
-                <Table.Column
-                  width={200}
-                  >
+                <Table.Column width={200}>
                   <Table.HeaderCell>Cancel</Table.HeaderCell>
                   <Table.Cell>
-                    {rowData => (
-                        <button
-                          className="cancel-button"
-                          onClick={() => handleCancelAppointment(rowData.id)}>
+                    {(rowData) => (
+                      <button
+                        className="cancel-button"
+                        onClick={() => handleCancelAppointment(rowData.id)}
+                      >
                         Cancel
                       </button>
                     )}
@@ -165,9 +166,9 @@ const MyAppointmentScreen = ({
                 </Table.Column>
               </Table>
             </div>
-          }
+          )}
 
-          {pastAppointments.length > 0 &&
+          {pastAppointments.length > 0 && (
             <div className="past-container">
               <h5>Past Appointments</h5>
               <Table
@@ -176,57 +177,56 @@ const MyAppointmentScreen = ({
                 autoHeight
                 width={1000}
               >
-                <Table.Column
-                  width={200}
-                  align="center">
+                <Table.Column width={200} align="center">
                   <Table.HeaderCell>Provider</Table.HeaderCell>
                   <Table.Cell>
-                    {rowData => {
-                      const service = serviceData.find(service => service.id === rowData.service);
-                      const provider = providerData.find(provider => provider.uid === service.service_provider);
-                      return provider ? provider.name : '';
+                    {(rowData) => {
+                      const service = serviceData.find(
+                        (service) => service.id === rowData.service
+                      );
+                      const provider = providerData.find(
+                        (provider) => provider.uid === service.service_provider
+                      );
+                      return provider ? provider.name : "";
                     }}
                   </Table.Cell>
                 </Table.Column>
-                <Table.Column
-                  width={200}
-                  align="center">
+                <Table.Column width={200} align="center">
                   <Table.HeaderCell>Service</Table.HeaderCell>
                   <Table.Cell>
-                    {rowData => {
-                      const service = serviceData.find(service => service.id === rowData.service);
-                      return service ? service.name : '';
+                    {(rowData) => {
+                      const service = serviceData.find(
+                        (service) => service.id === rowData.service
+                      );
+                      return service ? service.name : "";
                     }}
                   </Table.Cell>
                 </Table.Column>
-                <Table.Column
-                  width={200}
-                  align="center">
+                <Table.Column width={200} align="center">
                   <Table.HeaderCell>Staff</Table.HeaderCell>
                   <Table.Cell>
-                    {rowData => {
-                      const staff = staffData.find(staff => staff.uid === rowData.staff);
-                      return staff ? staff.name : '';
+                    {(rowData) => {
+                      const staff = staffData.find(
+                        (staff) => staff.uid === rowData.staff
+                      );
+                      return staff ? staff.name : "";
                     }}
                   </Table.Cell>
                 </Table.Column>
-                <Table.Column
-                  width={200}
-                  align="center">
+                <Table.Column width={200} align="center">
                   <Table.HeaderCell>Start</Table.HeaderCell>
                   <Table.Cell>
-                    {rowData => formatDateTime(rowData.date_time)}
+                    {(rowData) => formatDateTime(rowData.date_time)}
                   </Table.Cell>
                 </Table.Column>
-                <Table.Column
-                  width={200}
-                  align="center">
+                <Table.Column width={200} align="center">
                   <Table.HeaderCell>Rate</Table.HeaderCell>
                   <Table.Cell>
-                    {rowData => (
-                      <button 
-                        className = "rate-button"
-                        onClick={() => handleRateAppointment(rowData.id)}>
+                    {(rowData) => (
+                      <button
+                        className="rate-button"
+                        onClick={() => handleRateAppointment(rowData.id)}
+                      >
                         Rate
                       </button>
                     )}
@@ -234,11 +234,12 @@ const MyAppointmentScreen = ({
                 </Table.Column>
               </Table>
             </div>
-          }
+          )}
 
-          {pastAppointments.length === 0 && upcomingAppointments.length === 0 &&
-            <h2>Sorry, You don't have any appointments.</h2>
-          }
+          {pastAppointments.length === 0 &&
+            upcomingAppointments.length === 0 && (
+              <h2>Sorry, You don't have any appointments.</h2>
+            )}
 
           <Modal open={open} onClose={handleClose}>
             <Modal.Header>Please Rate</Modal.Header>

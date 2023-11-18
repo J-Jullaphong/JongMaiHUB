@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Modal, Star, Button, Rate } from "rsuite";
-import DataFetcher from "./DataFetcher";
+import { Modal, Button, Rate } from "rsuite";
 import DataSender from "./DataSender";
 
 const RatingScreen = ({ appointmentId }) => {
@@ -8,8 +7,7 @@ const RatingScreen = ({ appointmentId }) => {
   const [ratingState, setRatingState] = useState(1);
   const dataSender = new DataSender();
 
-  console.log("Appointment ID", appointmentId)
-
+  console.log("Appointment ID", appointmentId);
 
   const handleRatingChange = (rating) => {
     setRating(rating);
@@ -36,7 +34,6 @@ const RatingScreen = ({ appointmentId }) => {
       }
     }
   };
-
 
   const displayStateOne = () => {
     return (

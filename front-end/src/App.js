@@ -18,141 +18,130 @@ import MyAppointmentScreen from "./components/MyAppointmentScreen";
 import CustomerManagement from "./components/CustomerManagement";
 
 const App = () => {
-    const user = User.getInstance();
-    const [userAuthenticated, setUserAuthenticated] = useState(user.getName() !== null);
-    const [serviceData, setServiceData] = useState([]);
-    const [providerData, setProviderData] = useState([]);
-    const [staffData, setStaffData] = useState([]);
-    const [customerData, setCustomerData] = useState([]);
-    const navigate = useNavigate(); 
+  const user = User.getInstance();
+  const [userAuthenticated, setUserAuthenticated] = useState(
+    user.getName() !== null
+  );
+  const [serviceData, setServiceData] = useState([]);
+  const [providerData, setProviderData] = useState([]);
+  const [staffData, setStaffData] = useState([]);
+  const [customerData, setCustomerData] = useState([]);
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const dataFetcher = new DataFetcher();
-            try {
-                const [serviceData, providerData, staffData, customerData] = await Promise.all([
-                    dataFetcher.getServiceData(),
-                    dataFetcher.getServiceProviderData(),
-                    dataFetcher.getStaffData(),
-                    dataFetcher.getCustomerData()
-                ]);
-                setServiceData(serviceData);
-                setProviderData(providerData);
-                setStaffData(staffData);
-                setCustomerData(customerData);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-        fetchData();
-        navigate("/login")
-    }, []);
-
-    const handleAuthenticationChange = (authenticated) => {
-        setUserAuthenticated(authenticated);
+  useEffect(() => {
+    const fetchData = async () => {
+      const dataFetcher = new DataFetcher();
+      try {
+        const [serviceData, providerData, staffData, customerData] =
+          await Promise.all([
+            dataFetcher.getServiceData(),
+            dataFetcher.getServiceProviderData(),
+            dataFetcher.getStaffData(),
+            dataFetcher.getCustomerData(),
+          ]);
+        setServiceData(serviceData);
+        setProviderData(providerData);
+        setStaffData(staffData);
+        setCustomerData(customerData);
+      } catch (error) {
+        console.error(error);
+      }
     };
+    fetchData();
+    navigate("/login");
+  }, []);
 
-    return (
-        <div className="App">
-            <header className="app-header">
-                <NavBar 
-                    user={user} 
-                    isUserAuthenticated={userAuthenticated} 
-                    serviceData={serviceData} 
-                />
-                <Routes>
-                    <Route path="/" element={<HubScreen />} />
-                    <Route
-                        path="/login"
-                        element={
-                            <Authenticator
-                                user={user}
-                                onAuthenticationChange={handleAuthenticationChange}
-                            />
-                        }
-                    />
-                    <Route
-                        path="/search"
-                        element={
-                            <SearchScreen
-                                serviceData={serviceData}
-                                providerData={providerData}
-                            />
-                        }
-                    />
-                    <Route
-                        path="/:providerUrl/:serviceUrl/"
-                        element={
-                            <ServiceDetail
-                                user={user}
-                                isUserAuthenticated={userAuthenticated}
-                                serviceData={serviceData}
-                                providerData={providerData}
-                                staffData={staffData}
-                            />
-                        }
-                    />
-                    <Route
-                        path="/customer-management"
-                        element={
-                            <CustomerManagement
-                                user={user}
-                            />
-                        }
-                    />
-                    <Route 
-                        path="/provider-management" 
-                        element={
-                            <ProviderManagement 
-                                user={user} 
-                            />
-                        } 
-                    />
-                    <Route 
-                        path="/staff-management/:providerId/:staffUid/" 
-                        element={
-                            <StaffManagement 
-                                user={user} 
-                                staffData={staffData} 
-                                customerData={customerData} 
-                            />
-                        } 
-                    />
-                    <Route 
-                        path="/service-management/:providerId/:serviceId/" 
-                        element={
-                            <ServiceManagement 
-                                user={user} 
-                                serviceData={serviceData} 
-                            />
-                        } 
-                    />
-                    <Route 
-                        path="/add-staff/:providerId/" 
-                        element={<CreateNewStaff
-                            customerData={customerData} 
-                        /> } 
-                    />
-                    <Route 
-                        path="/add-service/:providerId/" 
-                        element={<CreateNewService/>} 
-                    />
-                    <Route 
-                        path="/my-appointment" 
-                        element={ 
-                            <MyAppointmentScreen 
-                                user={user} 
-                                serviceData={serviceData} 
-                                providerData={providerData} 
-                                staffData={staffData}
-                            />
-                        }
-                    />
-                </Routes>
-            </header>
-        </div>
-    );
+  const handleAuthenticationChange = (authenticated) => {
+    setUserAuthenticated(authenticated);
+  };
 
+  return (
+    <div className="App">
+      <header className="app-header">
+        <NavBar
+          user={user}
+          isUserAuthenticated={userAuthenticated}
+          serviceData={serviceData}
+        />
+        <Routes>
+          <Route path="/" element={<HubScreen />} />
+          <Route
+            path="/login"
+            element={
+              <Authenticator
+                user={user}
+                onAuthenticationChange={handleAuthenticationChange}
+              />
+            }
+          />
+          <Route
+            path="/search"
+            element={
+              <SearchScreen
+                serviceData={serviceData}
+                providerData={providerData}
+              />
+            }
+          />
+          <Route
+            path="/:providerUrl/:serviceUrl/"
+            element={
+              <ServiceDetail
+                user={user}
+                isUserAuthenticated={userAuthenticated}
+                serviceData={serviceData}
+                providerData={providerData}
+                staffData={staffData}
+              />
+            }
+          />
+          <Route
+            path="/customer-management"
+            element={<CustomerManagement user={user} />}
+          />
+          <Route
+            path="/provider-management"
+            element={<ProviderManagement user={user} />}
+          />
+          <Route
+            path="/staff-management/:providerId/:staffUid/"
+            element={
+              <StaffManagement
+                user={user}
+                staffData={staffData}
+                customerData={customerData}
+              />
+            }
+          />
+          <Route
+            path="/service-management/:providerId/:serviceId/"
+            element={
+              <ServiceManagement user={user} serviceData={serviceData} />
+            }
+          />
+          <Route
+            path="/add-staff/:providerId/"
+            element={<CreateNewStaff customerData={customerData} />}
+          />
+          <Route
+            path="/add-service/:providerId/"
+            element={<CreateNewService />}
+          />
+          <Route
+            path="/my-appointment"
+            element={
+              <MyAppointmentScreen
+                user={user}
+                serviceData={serviceData}
+                providerData={providerData}
+                staffData={staffData}
+              />
+            }
+          />
+        </Routes>
+      </header>
+    </div>
+  );
 };
 
 export default App;

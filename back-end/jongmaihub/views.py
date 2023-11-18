@@ -1,6 +1,9 @@
-from rest_framework import generics
-from .serializers import *
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import generics
+
+from .models import ServiceProvider, Service, Staff, Customer, Appointment, Rating
+from .serializers import ServiceProviderSerializer, ServiceSerializer, StaffSerializer, CustomerSerializer, \
+    AppointmentSerializer, RatingSerializer
 
 
 class ListServiceProvider(generics.ListCreateAPIView):
