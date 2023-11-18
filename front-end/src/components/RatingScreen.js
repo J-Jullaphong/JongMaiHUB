@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Button, Rate } from "rsuite";
 import DataSender from "./DataSender";
-import FrownIcon from '@rsuite/icons/legacy/FrownO';
-import MehIcon from '@rsuite/icons/legacy/MehO';
-import SmileIcon from '@rsuite/icons/legacy/SmileO';
+import FrownIcon from "@rsuite/icons/legacy/FrownO";
+import MehIcon from "@rsuite/icons/legacy/MehO";
+import SmileIcon from "@rsuite/icons/legacy/SmileO";
 
 const RatingScreen = ({ appointmentId }) => {
   const [rating1, setRating1] = useState(2.5);
@@ -41,15 +41,15 @@ const RatingScreen = ({ appointmentId }) => {
 
   const renderCharacter = (value, index) => {
     if (value < index + 0.5) {
-      return <MehIcon style={{ color: '#ffd400' }} />;
+      return <MehIcon style={{ color: "#ffd400" }} />;
     }
     if (value < 2.5) {
-      return <FrownIcon style={{ color: '#ff6961' }} />;
+      return <FrownIcon style={{ color: "#ff6961" }} />;
     }
     if (value < 4) {
-      return <MehIcon style={{ color: '#ffd400' }} />;
+      return <MehIcon style={{ color: "#ffd400" }} />;
     }
-    return <SmileIcon style={{ color: '#77dd77' }} />;
+    return <SmileIcon style={{ color: "#77dd77" }} />;
   };
 
   const createFooter = () => {
@@ -85,14 +85,15 @@ const RatingScreen = ({ appointmentId }) => {
   };
 
   const display = () => {
-    if (ratingState === 1) return (
-      <div>
-        {displayStateOne(rating1, setRating1, "Service")}
-        {displayStateOne(rating2, setRating2, "Staff")}
-        {displayStateOne(rating3, setRating3, "Something Related")}
-        {createFooter()}
-      </div>
-    );
+    if (ratingState === 1)
+      return (
+        <div>
+          {displayStateOne(rating1, setRating1, "Service")}
+          {displayStateOne(rating2, setRating2, "Staff")}
+          {displayStateOne(rating3, setRating3, "Something Related")}
+          {createFooter()}
+        </div>
+      );
     else if (ratingState === 2) return displayStateTwo();
   };
 
