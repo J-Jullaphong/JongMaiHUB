@@ -1,26 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { Modal, Star, Button, Rate } from "rsuite";
-import DataFetcher from "./DataFetcher";
+import { Modal, Button, Rate } from "rsuite";
 import DataSender from "./DataSender";
+import FrownIcon from '@rsuite/icons/legacy/FrownO';
+import MehIcon from '@rsuite/icons/legacy/MehO';
+import SmileIcon from '@rsuite/icons/legacy/SmileO';
 
 const RatingScreen = ({ appointmentId }) => {
-  const [rating, setRating] = useState(2.5);
+  const [rating1, setRating1] = useState(2.5);
+  const [rating2, setRating2] = useState(2.5);
+  const [rating3, setRating3] = useState(2.5);
   const [ratingState, setRatingState] = useState(1);
   const dataSender = new DataSender();
 
-  console.log("Appointment ID", appointmentId)
-
-
-  const handleRatingChange = (rating) => {
+  const handleRatingChange = (rating, setRating) => {
     setRating(rating);
   };
 
   const handleSubmitRating = async () => {
-    const formattedRating = rating.toFixed(1);
+    const averageRating = ((rating1 + rating2 + rating3) / 3).toFixed(1);
     const formData = {
       appointment: appointmentId,
-      rating: formattedRating,
+      rating: averageRating,
     };
+
     try {
       await dataSender.submitRatingData(formData);
       console.log("Rating submitted successfully.");
@@ -37,17 +39,38 @@ const RatingScreen = ({ appointmentId }) => {
     }
   };
 
+  const renderCharacter = (value, index) => {
+    if (value < index + 0.5) {
+      return <MehIcon style={{ color: '#ffd400' }} />;
+    }
+    if (value < 2.5) {
+      return <FrownIcon style={{ color: '#ff6961' }} />;
+    }
+    if (value < 4) {
+      return <MehIcon style={{ color: '#ffd400' }} />;
+    }
+    return <SmileIcon style={{ color: '#77dd77' }} />;
+  };
 
-  const displayStateOne = () => {
+  const createFooter = () => {
+    return (
+      <Modal.Footer>
+        <Button onClick={handleSubmitRating}>Rate</Button>
+      </Modal.Footer>
+    );
+  };
+
+  const displayStateOne = (rating, setRating, label) => {
     return (
       <div>
+        <h4>{label}</h4>
         <Rate
           defaultValue={rating}
           allowHalf
-          onChange={handleRatingChange}
+          onChange={(value) => handleRatingChange(value, setRating)}
           value={rating}
+          renderCharacter={renderCharacter}
         />
-        {createFooter()}
       </div>
     );
   };
@@ -55,25 +78,21 @@ const RatingScreen = ({ appointmentId }) => {
   const displayStateTwo = () => {
     return (
       <div>
-        <h3>Your Rating has been recorded.</h3>
+        <h3>Your Ratings have been recorded.</h3>
         <h4>You may close this window.</h4>
-        {createFooter()}
       </div>
     );
   };
 
-  const createFooter = () => {
-    let content;
-    if (ratingState === 1) {
-      content = <Button onClick={handleSubmitRating}>Rate</Button>;
-    } else if (ratingState === 2) {
-      content = null;
-    }
-    return <Modal.Footer>{content}</Modal.Footer>;
-  };
-
   const display = () => {
-    if (ratingState === 1) return displayStateOne();
+    if (ratingState === 1) return (
+      <div>
+        {displayStateOne(rating1, setRating1, "Satisfaction")}
+        {displayStateOne(rating2, setRating2, "Staff Politeness")}
+        {displayStateOne(rating3, setRating3, "Environment")}
+        {createFooter()}
+      </div>
+    );
     else if (ratingState === 2) return displayStateTwo();
   };
 
@@ -83,4 +102,5 @@ const RatingScreen = ({ appointmentId }) => {
 
   return display();
 };
+
 export default RatingScreen;
