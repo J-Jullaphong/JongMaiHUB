@@ -25,6 +25,16 @@ const CreateNewService = () => {
             return;
         }
 
+        if (!Number.isInteger(Number(duration))) {
+            window.alert('Duration must be a valid integer.');
+            return;
+        }
+
+        if (!/^\d+(\.\d{1,2})?$/.test(price)) {
+            window.alert('Price must be a valid integer or float with up to two decimal places.');
+            return;
+        }
+
         const shouldAddService = window.confirm('Are you sure you want to add this service?');
 
         if (shouldAddService) {

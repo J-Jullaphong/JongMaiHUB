@@ -91,6 +91,11 @@ const StaffManagement = ({ customerData }) => {
             return;
         }
 
+        if (startWorkTime >= getOffWorkTime) {
+            window.alert('Start work time must be earlier than get off work time.');
+            return;
+        }
+
         const shouldUpdate = window.confirm('Are you sure you want to update staff information?');
 
         if (shouldUpdate) {
@@ -143,7 +148,7 @@ const StaffManagement = ({ customerData }) => {
     };
 
     const displayCustomerInfo = (customer) => {
-        alert(`Customer Name: ${customer.name}\nEmail: ${customer.email}\nPhone: ${customer.phone}`);
+        alert(`Customer Name: ${customer.name}\nEmail: ${customer.email}\nPhone: ${customer.phone_number}`);
     };
 
     return (

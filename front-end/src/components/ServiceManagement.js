@@ -52,7 +52,17 @@ const ServiceManagement = () => {
             window.alert('Please fill in all input fields.');
             return;
         }
+        
+        if (!Number.isInteger(Number(duration))) {
+            window.alert('Duration must be a valid integer.');
+            return;
+        }
 
+        if (!/^\d+(\.\d{1,2})?$/.test(price)) {
+            window.alert('Price must be a valid integer or float with up to two decimal places.');
+            return;
+        }
+        
         const shouldUpdate = window.confirm('Are you sure you want to update service information?');
 
         if (shouldUpdate) {

@@ -25,11 +25,13 @@ const ProviderManagement = ({ user }) => {
     const dataFetcher = new DataFetcher();
 
     useEffect(() => {
-        try {
             const fetchData = async () => {
-                const serviceData = await dataFetcher.getServiceByServiceProvider(user.getUID());
-                const providerData = await dataFetcher.getServiceProviderData(user.getUID());
-                const staffData = await dataFetcher.getStaffByServiceProvider(user.getUID());
+                try {
+                const [serviceData, providerData, staffData] = await Promise.all([
+                    dataFetcher.getServiceByServiceProvider(user.getUID()),
+                    dataFetcher.getServiceProviderData(user.getUID()),
+                    dataFetcher.getStaffByServiceProvider(user.getUID()),
+                ]);
 
                 setServiceData(serviceData);
                 setProviderData(providerData);
@@ -48,13 +50,14 @@ const ProviderManagement = ({ user }) => {
                         setCoverPicture(providerData.cover_picture);
                     }
                 }
-                setLoadProvider(false);
-            };
-            fetchData();
-        } catch (error) {
-            console.error(error);
-            setLoading(false);
-        }
+                    setLoadProvider(false);
+                } catch (error) {
+                    console.error(error);
+                } finally {
+                    setLoading(false);
+                }
+        };
+        fetchData();
     }, [user.isProvider, serviceData, providerData, staffData, loading]);
 
     const updateProviderInfo = () => {
@@ -62,6 +65,12 @@ const ProviderManagement = ({ user }) => {
             window.alert('Please fill in all input fields.');
             return;
         }
+
+        if (openingTime >= closingTime) {
+            window.alert('Opening time must be earlier than closing time.');
+            return;
+        }
+
         const shouldUpdate = window.confirm('Are you sure you want to update provider information?');
 
         if (shouldUpdate) {

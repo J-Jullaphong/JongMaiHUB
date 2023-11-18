@@ -21,27 +21,31 @@ const CreateNewStaff = ({ customerData }) => {
     const dataFetcher = new DataFetcher();
 
     useEffect(() => {
-        try {
             const fetchData = async () => {
+                try {
                 const serviceData = await dataFetcher.getServiceByServiceProvider(providerId);
                 const transformedServiceData = serviceData.map(item => ({ label: item.name, value: item.id }));
                 const transformedSelectStaff = customerData.map(item => ({ label: item.name, value: item.uid }));
                 setServiceData(transformedServiceData);
                 setSelectStaff(transformedSelectStaff);
-            };
-            fetchData();
-        } catch (error) {
+            } catch (error) {
             console.error(error);
-        }
+            }
+        };
+        fetchData();
     }, [serviceData]);
 
     const addStaffInfo = () => {
         if (!uid || !specialty || !background || !startWorkTime || !getOffWorkTime || !profilePicture || !service) {
-            console.log("uid", uid)
-            console.log("service", service)
             window.alert('Please fill in all input fields.');
             return;
         }
+
+        if (startWorkTime >= getOffWorkTime) {
+            window.alert('Start work time must be earlier than get off work time.');
+            return;
+        }
+
         const shouldAddStaff = window.confirm('Are you sure you want to add this staff member?');
         if (shouldAddStaff) {
             const NewStaffData = {
