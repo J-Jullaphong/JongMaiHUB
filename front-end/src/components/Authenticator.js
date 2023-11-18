@@ -9,7 +9,7 @@ import DataFetcher from "./DataFetcher";
 import DataSender from "./DataSender";
 import LoginScreen from "./LoginScreen";
 
-const LINE_CLIENT_ID = "<% CLIENT-ID %>"
+const LINE_CLIENT_ID = "<% CLIENT-ID %>";
 const LINE_CLIENT_SECRET = "<% CLIENT-SECRET %>";
 
 const Authenticator = ({ user, onAuthenticationChange }) => {

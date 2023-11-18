@@ -7,7 +7,7 @@ import "./styles/LoginScreen.css";
 import LineAuth from "./LineAuth";
 import { Button } from "rsuite";
 
-const LINE_CLIENT_ID = "<% CLIENT-ID %>"
+const LINE_CLIENT_ID = "<% CLIENT-ID %>";
 
 const LoginScreen = () => {
   const navigate = useNavigate();

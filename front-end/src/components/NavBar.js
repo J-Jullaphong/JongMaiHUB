@@ -16,7 +16,7 @@ const NavBar = ({ user, isUserAuthenticated, serviceData }) => {
   const uniqueServiceTypes = Array.from(
     new Set(serviceData.map((service) => service.type))
   );
-  const [uid, setUid] = useState('');
+  const [uid, setUid] = useState("");
   const [isProvider, setIsProvider] = useState(false);
   const [isStaff, setIsStaff] = useState(false);
 
@@ -29,8 +29,8 @@ const NavBar = ({ user, isUserAuthenticated, serviceData }) => {
       const IsStaffStatus = await user.isStaff;
       const UidStatus = await user.uid;
       setIsProvider(IsProviderStatus);
-      setIsStaff(IsStaffStatus)
-      setUid(UidStatus)
+      setIsStaff(IsStaffStatus);
+      setUid(UidStatus);
     };
 
     user.addListener(handleUserChange);
@@ -110,23 +110,25 @@ const NavBar = ({ user, isUserAuthenticated, serviceData }) => {
                 </a>
               </Nav.Item>
               {isProvider ? (
-                <><Nav.Item>
-                  <a
-                    onClick={() => {
-                      navigate("/provider-management");
-                    } }
-                    style={{
-                      textDecoration: "none",
-                      color: "#000000",
-                    }}
-                  >
-                    Provider Management
-                  </a>
-                </Nav.Item><Nav.Item>
+                <>
+                  <Nav.Item>
+                    <a
+                      onClick={() => {
+                        navigate("/provider-management");
+                      }}
+                      style={{
+                        textDecoration: "none",
+                        color: "#000000",
+                      }}
+                    >
+                      Provider Management
+                    </a>
+                  </Nav.Item>
+                  <Nav.Item>
                     <a
                       onClick={() => {
                         navigate(`/appointment-provider/${uid}`);
-                      } }
+                      }}
                       style={{
                         textDecoration: "none",
                         color: "#000000",
@@ -134,12 +136,13 @@ const NavBar = ({ user, isUserAuthenticated, serviceData }) => {
                     >
                       Provider Appointment
                     </a>
-                  </Nav.Item></>
+                  </Nav.Item>
+                </>
               ) : isStaff ? (
                 <Nav.Item>
                   <a
                     onClick={() => {
-                        navigate(`/appointment-staff/${uid}`);
+                      navigate(`/appointment-staff/${uid}`);
                     }}
                     style={{
                       textDecoration: "none",

@@ -12,7 +12,9 @@ const HubScreen = () => {
   const [providerData, setProviderData] = useState([]);
   const [providerLists, setProviderLists] = useState([]);
   const [top4ServicesByRating, setTop4ServicesByRating] = useState([]);
-  const [top3ServicesByAppointments, setTop3ServicesByAppointments] = useState([]);
+  const [top3ServicesByAppointments, setTop3ServicesByAppointments] = useState(
+    []
+  );
   const navigate = useNavigate();
 
   const handleServiceClick = (service) => {
@@ -52,7 +54,7 @@ const HubScreen = () => {
             cursor: "pointer",
             transition: "background-color 0.2s",
             backgroundColor: "white",
-            borderRadius: "25px"
+            borderRadius: "25px",
           }}
           onClick={() => handleServiceClick(service)}
         >
@@ -74,7 +76,7 @@ const HubScreen = () => {
                 }}
               >
                 <h5>{service.name}</h5>
-                <br/>
+                <br />
                 <Rate
                   defaultValue={roundedRating(service.averageRating)}
                   allowHalf
@@ -92,12 +94,13 @@ const HubScreen = () => {
     const fetchData = async () => {
       const dataFetcher = new DataFetcher();
       try {
-        const [serviceData, appointmentData, ratingData, providerData] = await Promise.all([
-          dataFetcher.getServiceData(),
-          dataFetcher.getAppointmentData(),
-          dataFetcher.getRatingData(),
-          dataFetcher.getServiceProviderData(),
-        ]);
+        const [serviceData, appointmentData, ratingData, providerData] =
+          await Promise.all([
+            dataFetcher.getServiceData(),
+            dataFetcher.getAppointmentData(),
+            dataFetcher.getRatingData(),
+            dataFetcher.getServiceProviderData(),
+          ]);
 
         const appointmentCounts = {};
         appointmentData.forEach((appointment) => {
@@ -186,18 +189,22 @@ const HubScreen = () => {
       <div className="group">
         <h3 className="hub-title">Popular Services</h3>
       </div>
-        <div className="popular-carousel">
-          <Carousel autoplay style={{ borderRadius: 50, height: "50vh" }}>
-            {top3ServicesByAppointments.map((service) => (
-              <div key={service.id} onClick={() => handleServiceClick(service)} className="carousel-item">
-                <img src={service.service_picture} alt={service.name} />
-                <div className="carousel-text">
-                  <p>{service.name}</p>
-                </div>
+      <div className="popular-carousel">
+        <Carousel autoplay style={{ borderRadius: 50, height: "50vh" }}>
+          {top3ServicesByAppointments.map((service) => (
+            <div
+              key={service.id}
+              onClick={() => handleServiceClick(service)}
+              className="carousel-item"
+            >
+              <img src={service.service_picture} alt={service.name} />
+              <div className="carousel-text">
+                <p>{service.name}</p>
               </div>
-            ))}
-          </Carousel>
-        </div>
+            </div>
+          ))}
+        </Carousel>
+      </div>
       <div className="group">
         <h3 className="hub-title">Recommended Services</h3>
       </div>

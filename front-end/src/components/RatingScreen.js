@@ -8,8 +8,7 @@ const RatingScreen = ({ appointmentId }) => {
   const [ratingState, setRatingState] = useState(1);
   const dataSender = new DataSender();
 
-  console.log("Appointment ID", appointmentId)
-
+  console.log("Appointment ID", appointmentId);
 
   const handleRatingChange = (rating) => {
     setRating(rating);
@@ -36,7 +35,6 @@ const RatingScreen = ({ appointmentId }) => {
       }
     }
   };
-
 
   const displayStateOne = () => {
     return (
