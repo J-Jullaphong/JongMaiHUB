@@ -1,9 +1,8 @@
-import React, { useEffect, useState, forwardRef } from "react";
+import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Panel, Modal, Notification } from "rsuite";
+import { Panel, Modal } from "rsuite";
 import Reservation from "./Reservation";
 import "./styles/ServiceDetail.css";
-import firebase from "firebase/compat/app";
 
 const ServiceDetail = ({
   user,

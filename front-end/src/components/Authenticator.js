@@ -9,9 +9,6 @@ import DataFetcher from "./DataFetcher";
 import DataSender from "./DataSender";
 import LoginScreen from "./LoginScreen";
 
-const LINE_CLIENT_ID = "<% CLIENT-ID %>";
-const LINE_CLIENT_SECRET = "<% CLIENT-SECRET %>";
-
 const Authenticator = ({ user, onAuthenticationChange }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -49,9 +46,9 @@ const Authenticator = ({ user, onAuthenticationChange }) => {
         const requestBody = {
           grant_type: "authorization_code",
           code,
-          redirect_uri: "http://localhost:3000/login/",
-          client_id: LINE_CLIENT_ID,
-          client_secret: LINE_CLIENT_SECRET,
+          redirect_uri: process.env.REACT_APP_LINE_REDIRECT_URI,
+          client_id: process.env.REACT_APP_LINE_CLIENT_ID,
+          client_secret: process.env.REACT_APP_LINE_CLIENT_SECRET,
         };
 
         const requestConfig = {
@@ -62,7 +59,7 @@ const Authenticator = ({ user, onAuthenticationChange }) => {
 
         try {
           const response = await axios.post(
-            "https://api.line.me/oauth2/v2.1/token",
+            process.env.REACT_APP_LINE_AUTH_API_URL,
             qs.stringify(requestBody),
             requestConfig
           );

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Input, Button, Panel, Loader, InputGroup } from "rsuite";
+import { Input, Button, Panel, InputGroup } from "rsuite";
 import { useParams } from "react-router-dom";
 import "./styles/ProviderManagement.css";
 import DataSender from "./DataSender";

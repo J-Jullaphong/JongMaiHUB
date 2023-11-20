@@ -10,8 +10,7 @@ const LineAuth = ({ clientID, state, scope, redirectURI }) => {
       `scope=${scope}&` +
       `redirect_uri=${redirectURI}`;
 
-    const lineAuthoriseURL =
-      "https://access.line.me/oauth2/v2.1/authorize?" + query;
+    const lineAuthoriseURL = process.env.REACT_APP_LINE_AUTHORIZE_URL + query;
 
     window.location.href = lineAuthoriseURL;
   };

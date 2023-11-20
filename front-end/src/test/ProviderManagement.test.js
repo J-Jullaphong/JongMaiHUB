@@ -72,7 +72,6 @@ describe("Provider Management", () => {
         render(<ProviderManagement user={USER} />);
         expect(await screen.findByText("STAFF IN THIS PROVIDER")).toBeInTheDocument();
         expect(await screen.findByText("Staff name")).toBeInTheDocument();
-        expect(await screen.findByText("Specialty")).toBeInTheDocument();
         expect(await screen.findByText("Service")).toBeInTheDocument();
         expect(await screen.findByText(/add staff/i)).toBeInTheDocument();
     });

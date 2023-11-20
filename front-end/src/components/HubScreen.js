@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Carousel, Panel, List, Row, Col, Button, Rate } from "rsuite";
+import { Carousel, Panel, Row, Col, Rate } from "rsuite";
 import "./styles/HubScreen.css";
 import { useNavigate } from "react-router-dom";
 import DataFetcher from "./DataFetcher";
 
 const HubScreen = () => {
   const [loading, setLoading] = useState(true);
-  const [serviceData, setServiceData] = useState([]);
-  const [appointmentData, setAppointmentData] = useState([]);
-  const [ratingData, setRatingData] = useState([]);
-  const [providerData, setProviderData] = useState([]);
   const [providerLists, setProviderLists] = useState([]);
   const [top4ServicesByRating, setTop4ServicesByRating] = useState([]);
   const [top3ServicesByAppointments, setTop3ServicesByAppointments] = useState(
@@ -163,11 +159,7 @@ const HubScreen = () => {
           acc[provider.uid] = provider.name;
           return acc;
         }, {});
-
-        setServiceData(serviceData);
-        setAppointmentData(appointmentData);
-        setRatingData(ratingData);
-        setProviderData(providerData);
+        
         setProviderLists(providerLists);
         setTop4ServicesByRating(top4Services);
         setTop3ServicesByAppointments(top3ServicesByAppointments);

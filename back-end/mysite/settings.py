@@ -26,7 +26,7 @@ SECRET_KEY = config('SECRET_KEY', default='fake-secret-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool, default=False)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv(), default='*')
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
 
 # Application definition
@@ -55,9 +55,7 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',
-]
+CORS_ORIGIN_WHITELIST = config('CORS_ORIGIN_WHITELIST', cast=Csv())
 
 ROOT_URLCONF = 'mysite.urls'
 
@@ -88,8 +86,8 @@ DATABASES = {
     'ENGINE': 'django.db.backends.postgresql',
     'NAME': 'neondb',
     'USER': 'jongmaihub',
-    'PASSWORD': '<% PASSWORD %>',
-    'HOST': 'ep-little-bread-87488865.ap-southeast-1.aws.neon.tech',
+    'PASSWORD': config('DB_PASSWORD'),
+    'HOST': config('DB_HOST'),
     'PORT': '5432',
     'OPTIONS': {'sslmode': 'require'},
   }

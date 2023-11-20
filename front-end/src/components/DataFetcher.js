@@ -3,7 +3,7 @@ import axios from "axios";
 
 class DataFetcher extends Component {
   state = {
-    api: "http://localhost:8000/api/",
+    api: `${process.env.REACT_APP_BACKEND_API_URL}/`,
   };
 
   async fetchData(type, key = "", param = "") {
@@ -66,10 +66,6 @@ class DataFetcher extends Component {
 
   async getAppointmentByCustomer(customerKey) {
     return this.fetchData("appointment", "", `customer=${customerKey}`);
-  }
-
-  async getAppointmentByCustomer(staffKey) {
-    return this.fetchData("appointment", "", `staff=${staffKey}`);
   }
 
   async getAppointmentByProvider(providerKey) {

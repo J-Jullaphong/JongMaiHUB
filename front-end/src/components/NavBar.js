@@ -49,7 +49,11 @@ const NavBar = ({ user, isUserAuthenticated, serviceData }) => {
     <Navbar appearance="subtle">
       <Nav>
         <Nav.Item onClick={() => navigate("/")}>
-          <img src="images/jongmaihub-logo.png" alt="JongMaiHUB" width="150" />
+          <img
+            src="https://i.imgur.com/5Lk5ucD.png"
+            alt="JongMaiHUB"
+            width="150"
+          />
         </Nav.Item>
         <Nav.Item icon={<HomeIcon />} onClick={() => navigate("/")}>
           HUB

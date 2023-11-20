@@ -7,8 +7,6 @@ import "./styles/LoginScreen.css";
 import LineAuth from "./LineAuth";
 import { Button } from "rsuite";
 
-const LINE_CLIENT_ID = "<% CLIENT-ID %>";
-
 const LoginScreen = () => {
   const navigate = useNavigate();
 
@@ -35,13 +33,17 @@ const LoginScreen = () => {
       </div>
       <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
       <LineAuth
-        clientID={LINE_CLIENT_ID}
+        clientID={process.env.REACT_APP_LINE_CLIENT_ID}
         state={randomState(12)}
         scope="profile%20openid"
-        redirectURI="http://localhost:3000/login/"
+        redirectURI={process.env.REACT_APP_LINE_REDIRECT_URI}
       />
       <div className="button-container">
-        <Button appearance="primary" onClick={() => navigate("/")}>
+        <Button
+          className="guest-button"
+          appearance="primary"
+          onClick={() => navigate("/")}
+        >
           Continue as Guest
         </Button>
       </div>

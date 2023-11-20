@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Modal, Star, Button, Rate } from "rsuite";
-import DataFetcher from "./DataFetcher";
+import { Modal, Button, Rate } from "rsuite";
 import DataSender from "./DataSender";
 
 const RatingScreen = ({ appointmentId }) => {

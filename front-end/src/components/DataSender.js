@@ -3,7 +3,7 @@ import axios from "axios";
 
 class DataSender extends Component {
   state = {
-    api: "http://localhost:8000/api/",
+    api: `${process.env.REACT_APP_BACKEND_API_URL}/`,
   };
 
   convertImageToBase64(file) {
