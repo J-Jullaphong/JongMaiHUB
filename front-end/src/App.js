@@ -140,7 +140,6 @@ const App = () => {
               <AppointmentStaff
                 user={user}
                 serviceData={serviceData}
-                providerData={providerData}
                 customerData={customerData}
               />
             }
@@ -151,8 +150,8 @@ const App = () => {
               <AppointmentProvider
                 user={user}
                 serviceData={serviceData}
-                staffData={staffData}
                 customerData={customerData}
+                staffData={staffData}
               />
             }
           />
