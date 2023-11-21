@@ -88,9 +88,9 @@ const RatingScreen = ({ appointmentId }) => {
     if (ratingState === 1)
       return (
         <div>
-          {displayStateOne(rating1, setRating1, "Service")}
-          {displayStateOne(rating2, setRating2, "Staff")}
-          {displayStateOne(rating3, setRating3, "Something Related")}
+          {displayStateOne(rating1, setRating1, "Satisfaction")}
+          {displayStateOne(rating2, setRating2, "Staff Politeness")}
+          {displayStateOne(rating3, setRating3, "Environment")}
           {createFooter()}
         </div>
       );
