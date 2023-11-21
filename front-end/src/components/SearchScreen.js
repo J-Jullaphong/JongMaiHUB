@@ -81,7 +81,9 @@ const SearchScreen = ({ serviceData, providerData }) => {
         <div className="service-detail">
           <div style={{ display: "flex", alignItems: "center" }}></div>
           <div title="provider">
-            <h3>
+            <h3>{service.name}</h3>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <h5>{providerLists[service.service_provider][0]}</h5>
               <Avatar
                 className="Avatar"
                 circle
@@ -89,14 +91,11 @@ const SearchScreen = ({ serviceData, providerData }) => {
                 src={providerLists[service.service_provider][1]}
                 style={{
                   paddingLeft: "20px",
-                  paddingBottom: "20px",
                   marginRight: "1vw",
                 }}
                 size="md"
               />
-              {providerLists[service.service_provider][0]}
-            </h3>
-            <h5>{service.name}</h5>
+            </div>
           </div>
           <p>
             {service.type} | {service.duration} Minutes | {service.price} Baht

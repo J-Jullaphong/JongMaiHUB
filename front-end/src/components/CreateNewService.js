@@ -24,7 +24,7 @@ const CreateNewService = () => {
       return;
     }
 
-    if (!Number.isInteger(Number(duration))) {
+    if (!Number.isInteger(Number(duration)) || Number(duration) <= 0) {
       window.alert("Duration must be a valid integer.");
       return;
     }

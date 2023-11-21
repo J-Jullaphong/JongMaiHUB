@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Input, Button, Panel, Table } from "rsuite";
 import DataSender from "./DataSender";
 import DataFetcher from "./DataFetcher";
-import AppointmentProvider from "./AppointmentProvider";
 import { useNavigate } from "react-router-dom";
 import "./styles/ProviderManagement.css";
 

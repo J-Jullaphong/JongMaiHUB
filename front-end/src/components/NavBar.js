@@ -77,14 +77,16 @@ const NavBar = ({ user, isUserAuthenticated, serviceData }) => {
         </Nav.Item>
         {isAuthenticated ? (
           <>
-            <Nav.Item title="username">{user.getName()}</Nav.Item>
             <Nav.Menu
               icon={
-                <Avatar
-                  title="userprofile"
-                  circle
-                  src={user.getProfilePicture()}
-                />
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <Avatar
+                    title="userprofile"
+                    circle
+                    src={user.getProfilePicture()}
+                  />
+                  {user.getName()}
+                </div>
               }
             >
               <Nav.Item>
@@ -103,7 +105,7 @@ const NavBar = ({ user, isUserAuthenticated, serviceData }) => {
               <Nav.Item>
                 <a
                   onClick={() => {
-                    navigate("/My-appointment");
+                    navigate("/my-appointment");
                   }}
                   style={{
                     textDecoration: "none",
