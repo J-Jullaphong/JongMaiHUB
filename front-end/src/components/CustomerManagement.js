@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Input, Button, Panel } from "rsuite";
+import { Input, Button, Panel, TagInput } from "rsuite";
 import DataSender from "./DataSender";
 import DataFetcher from "./DataFetcher";
 import "./styles/ProviderManagement.css";
@@ -99,6 +99,10 @@ const CustomerManagement = ({ user }) => {
                   value={name}
                   onChange={(value) => setName(value)}
                 />
+              </div>
+              <div className="provider-input-flied">
+                <h5>User Tag</h5>
+                <TagInput readOnly defaultValue={[user.getUID().slice(-10)]} />
               </div>
               <div className="provider-input-flied">
                 <h5>Phone Number</h5>
