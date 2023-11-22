@@ -26,6 +26,7 @@
     object-fit: cover;
     border-radius: 15px;
     margin-right: 20px;
+    object-fit: cover;
 }
 
 .service .detail {
@@ -44,4 +45,19 @@
 .service:hover {
     transform: scale(1.02);
     transition: transform 0.2s ease;
+}
+
+.service-view-button {
+    background-color: #3689ef;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 1s;
+    position: absolute;
+}
+
+.service-view-button:hover {
+    background-color: #93e1f4;
 }

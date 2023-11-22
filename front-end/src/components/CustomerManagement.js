@@ -36,10 +36,28 @@ const CustomerManagement = ({ user }) => {
   }, [loading]);
 
   const updateCustomerInfo = () => {
-    if (!email || !phoneNumber) {
+    if (!name || !email || !phoneNumber) {
       window.alert("Please fill in all input fields.");
       return;
     }
+
+    if (name.length > 100) {
+      window.alert("User name must less than 100 character.");
+      return;
+    }
+
+    if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
+      window.alert("Please enter a valid email address.");
+      return;
+    }
+
+    if (!phoneNumber || !/^0\d{9}$/.test(phoneNumber)) {
+      window.alert(
+        "Please enter a valid phone number starting with 0 and having 10 digits."
+      );
+      return;
+    }
+
     const shouldUpdate = window.confirm(
       "Are you sure you want to update customer information?"
     );

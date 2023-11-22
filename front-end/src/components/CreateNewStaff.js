@@ -21,8 +21,8 @@ const CreateNewStaff = ({ customerData }) => {
   const dataFetcher = new DataFetcher();
 
   useEffect(() => {
-    try {
-      const fetchData = async () => {
+    const fetchData = async () => {
+      try {
         const serviceData = await dataFetcher.getServiceByServiceProvider(
           providerId
         );
@@ -36,11 +36,11 @@ const CreateNewStaff = ({ customerData }) => {
         }));
         setServiceData(transformedServiceData);
         setSelectStaff(transformedSelectStaff);
-      };
-      fetchData();
-    } catch (error) {
-      console.error(error);
-    }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
   }, [serviceData]);
 
   const addStaffInfo = () => {
@@ -53,11 +53,25 @@ const CreateNewStaff = ({ customerData }) => {
       !profilePicture ||
       !service
     ) {
-      console.log("uid", uid);
-      console.log("service", service);
       window.alert("Please fill in all input fields.");
       return;
     }
+
+    if (specialty.length > 100) {
+      window.alert("Staff specialty must less than 100 character.");
+      return;
+    }
+
+    if (background.length > 100) {
+      window.alert("Staff background must less than 500 character.");
+      return;
+    }
+
+    if (startWorkTime >= getOffWorkTime) {
+      window.alert("Start work time must be earlier than get off work time.");
+      return;
+    }
+
     const shouldAddStaff = window.confirm(
       "Are you sure you want to add this staff member?"
     );

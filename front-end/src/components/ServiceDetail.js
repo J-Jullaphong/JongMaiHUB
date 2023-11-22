@@ -48,7 +48,7 @@ const ServiceDetail = ({
         <h2>{service.name}</h2>
         <p>Duration: {service.duration} Minutes</p>
         <p>Price: {service.price} Baht</p>
-        <h3>Available Staffs</h3>
+        <h3>Available Staff</h3>
         <div className="staffs">
           {staffs.map((staff) => (
             <div className="staff-detail" key={staff.uid}>

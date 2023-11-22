@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import NavBar from "../components/NavBar";
 import User from "../components/User";
 
-const mockServiceData = [
+const SERVICE = [
   {
     id: 1,
     name: "Mock Hair Cut",
@@ -33,7 +33,7 @@ describe("Navbar when user is not logged in", () => {
     render(
       <NavBar
         user={User.getInstance()}
-        serviceData={mockServiceData}
+        serviceData={SERVICE}
         isUserAuthenticated={false}
       />
     );
@@ -51,12 +51,10 @@ describe("Navbar when user is not logged in", () => {
     render(
       <NavBar
         user={User.getInstance()}
-        serviceData={mockServiceData}
+        serviceData={SERVICE}
         isUserAuthenticated={false}
       />
     );
-    const userName = screen.queryByText(/username/i);
-    expect(userName).toBeNull();
     const userProfile = screen.queryByText(/userprofile/i);
     expect(userProfile).toBeNull();
   });

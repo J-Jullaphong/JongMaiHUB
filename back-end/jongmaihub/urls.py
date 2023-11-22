@@ -16,4 +16,5 @@ urlpatterns = [
     path('appointment/<int:pk>/', views.DetailAppointment.as_view()),
     path('rating/', views.ListRating.as_view()),
     path('rating/<int:pk>/', views.DetailRating.as_view()),
+    path('appointments-provider/<str:provider_uid>/', views.ListAppointmentsByProvider.as_view()),
 ]

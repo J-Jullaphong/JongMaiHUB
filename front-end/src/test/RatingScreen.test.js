@@ -4,11 +4,11 @@ import RatingScreen from "../components/RatingScreen";
 
 jest.mock("../components/DataSender");
 
-const mockAppointmentId = "mockAppointment001";
+const APPOINTMENT_ID = "mockAppointment001";
 
 describe("RatingScreen", () => {
   it("should display smiley faces for rating on state one.", () => {
-    render(<RatingScreen appointmentId={mockAppointmentId} />);
+    render(<RatingScreen appointmentId={APPOINTMENT_ID} />);
 
     const satisfaction = screen.getByText(/Satisfaction/i);
     const staffPoliteness = screen.getByText(/Staff Politeness/i);
@@ -22,7 +22,7 @@ describe("RatingScreen", () => {
   });
 
   it("should display confirmation message when clicking the rate button.", async () => {
-    render(<RatingScreen appointmentId={mockAppointmentId} />);
+    render(<RatingScreen appointmentId={APPOINTMENT_ID} />);
     const rateButton = screen.getByRole("button", { name: /Rate/i });
     fireEvent.click(rateButton);
 

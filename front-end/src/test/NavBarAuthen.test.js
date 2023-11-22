@@ -3,12 +3,12 @@ import { render, screen, fireEvent, getByTitle } from "@testing-library/react";
 import NavBar from "../components/NavBar";
 import User from "../components/User";
 
-const currentUserMock = User.getInstance();
-currentUserMock.setUID("Mock UID");
-currentUserMock.setName("Mock User");
-currentUserMock.setProfilePicture("data:image/jpeg;base64,mockProfilePicture");
+const USER = User.getInstance();
+USER.setUID("Mock UID");
+USER.setName("Mock User");
+USER.setProfilePicture("data:image/jpeg;base64,mockProfilePicture");
 
-const mockServiceData = [
+const SERVICE = [
   {
     id: 1,
     name: "Mock Hair Cut",
@@ -36,25 +36,15 @@ jest.mock("react-router-dom", () => ({
 describe("Navbar when user is logged in", () => {
   it("should display their name and profile", () => {
     render(
-      <NavBar
-        user={currentUserMock}
-        serviceData={mockServiceData}
-        isUserAuthenticated={true}
-      />
+      <NavBar user={USER} serviceData={SERVICE} isUserAuthenticated={true} />
     );
-    const userName = screen.getByTitle(/username/i);
-    expect(userName).toBeInTheDocument();
     const userProfile = screen.getByTitle(/userprofile/i);
     expect(userProfile).toBeInTheDocument();
   });
 
   it("should display sign out when clicks the profile", () => {
     render(
-      <NavBar
-        user={currentUserMock}
-        serviceData={mockServiceData}
-        isUserAuthenticated={true}
-      />
+      <NavBar user={USER} serviceData={SERVICE} isUserAuthenticated={true} />
     );
     fireEvent.click(screen.getByText(/Mock User/i));
     expect(screen.getByText(/sign out/i)).toBeInTheDocument();
