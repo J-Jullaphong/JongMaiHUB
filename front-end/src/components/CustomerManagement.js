@@ -75,12 +75,13 @@ const CustomerManagement = ({ user }) => {
         console.log("Customer information updated.");
       });
       setLoading(true);
+      user.setName(name);
     }
   };
 
   return (
     <div className="provider-management">
-      <h2 className="provider-title">USER MANAGEMENT</h2>
+      <h2 className="provider-title">MY PROFILE</h2>
       {loading ? (
         <h2 className="provider-loading">Loading...</h2>
       ) : (

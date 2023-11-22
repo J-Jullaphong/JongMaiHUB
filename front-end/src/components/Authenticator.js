@@ -81,31 +81,22 @@ const Authenticator = ({ user, onAuthenticationChange }) => {
     fetchLineToken();
   }, []);
 
-  const setUserData = (uid, userName, profilePic) => {
-    console.log("Setting user info:", uid, userName, profilePic);
+  const setUserData = async (uid, userName, profilePic) => {
+    const customerData = await dataFetcher.getCustomerData();
+    const fetchedCustomer = customerData.find(
+      (customer) => customer.uid === uid
+    );
+    if (!fetchedCustomer) {
+      const formData = { uid: uid, name: userName };
+      dataSender.submitCustomerData(formData);
+      user.setName(userName);
+    } else {
+      user.setName(fetchedCustomer.name);
+    }
     user.setUID(uid);
-    user.setName(userName);
     user.setProfilePicture(profilePic);
     user.setIsProvider(checkProviderStatus());
     user.setIsStaff(checkStaffStatus());
-    console.log(
-      "User info after setting:",
-      user.getUID(),
-      user.getName(),
-      user.getProfilePicture()
-    );
-    addCurrentUser(user);
-  };
-
-  const addCurrentUser = async (user) => {
-    const customers = await dataFetcher.getCustomerData();
-    const fetchedCustomer = customers.filter(
-      (customer) => customer.uid === user.getUID()
-    );
-    if (fetchedCustomer.length === 0) {
-      const formData = { uid: user.getUID(), name: user.getName() };
-      dataSender.submitCustomerData(formData);
-    }
   };
 
   const checkProviderStatus = async () => {
