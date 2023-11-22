@@ -5,7 +5,7 @@ import "./styles/ProviderManagement.css";
 import DataSender from "./DataSender";
 import DataFetcher from "./DataFetcher";
 
-const StaffManagement = ({ customerData }) => {
+const StaffManagement = () => {
   const [loading, setLoading] = useState(true);
   const [staff, setStaff] = useState(null);
   const [name, setName] = useState("");
@@ -14,25 +14,18 @@ const StaffManagement = ({ customerData }) => {
   const [startWorkTime, setStartWorkTime] = useState("");
   const [getOffWorkTime, setGetOffWorkTime] = useState("");
   const [profilePicture, setProfilePicture] = useState("");
-  const [service, setService] = useState("");
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [staffData, setStaffData] = useState("");
-  const [serviceData, setServiceData] = useState("");
-  const [appointmentData, setAppointmentData] = useState("");
+  const [service, setService] = useState([]);
+  const [staffData, setStaffData] = useState([]);
+  const [serviceData, setServiceData] = useState([]);
   const dataFetcher = new DataFetcher();
   const dataSender = new DataSender();
   const { staffUid, providerId } = useParams();
-  const [searchTerm, setSearchTerm] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {
     if (staff === null) {
       try {
         const fetchStaffData = async () => {
           const staffData = await dataFetcher.getStaffData(staffUid);
-          const appointmentData = await dataFetcher.getAppointmentByStaff(
-            staffUid
-          );
           const serviceData = await dataFetcher.getServiceByServiceProvider(
             providerId
           );
@@ -41,7 +34,6 @@ const StaffManagement = ({ customerData }) => {
             value: item.id,
           }));
           setStaffData(staffData);
-          setAppointmentData(appointmentData);
           setServiceData(transformedServiceData);
           if (staffData) {
             setStaff(staffData);
@@ -63,37 +55,6 @@ const StaffManagement = ({ customerData }) => {
     }
   }, [staffData, staffUid]);
 
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
-
-  const showAppointmentByDate = () => {
-    const dateString = selectedDate.toDateString();
-    const appointmentsOnDate = appointmentData.filter(
-      (appointment) =>
-        appointment.staff === staffUid &&
-        new Date(appointment.date_time).toDateString() === dateString
-    );
-
-    if (appointmentsOnDate.length > 0) {
-      const appointmentDetails = appointmentsOnDate.map(
-        (appointment, index) => {
-          const appointmentTime = new Date(appointment.date_time);
-          const nameCustomer = getCustomerNameById(appointment.customer);
-          const timeString = appointmentTime.toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-          });
-          return `${timeString} - ${nameCustomer}`;
-        }
-      );
-
-      alert(`Appointments on ${dateString}:\n${appointmentDetails.join("\n")}`);
-    } else {
-      alert(`No appointments on ${dateString}`);
-    }
-  };
-
   const updateStaffInfo = () => {
     if (
       !name ||
@@ -105,6 +66,26 @@ const StaffManagement = ({ customerData }) => {
       !service
     ) {
       window.alert("Please fill in all input fields.");
+      return;
+    }
+
+    if (name.length > 100) {
+      window.alert("Staff name must less than 100 character.");
+      return;
+    }
+
+    if (specialty.length > 100) {
+      window.alert("Staff specialty must less than 100 character.");
+      return;
+    }
+
+    if (background.length > 100) {
+      window.alert("Staff background must less than 500 character.");
+      return;
+    }
+
+    if (startWorkTime >= getOffWorkTime) {
+      window.alert("Start work time must be earlier than get off work time.");
       return;
     }
 
@@ -140,34 +121,6 @@ const StaffManagement = ({ customerData }) => {
         console.error("Error converting image to base64:", error);
       }
     }
-  };
-
-  const getCustomerNameById = (customerId) => {
-    const customer = customerData.find(
-      (customer) => customer.uid === customerId
-    );
-    console.log(customer);
-    return customer ? customer.name : "Unknown";
-  };
-
-  const handleSearch = () => {
-    const filteredCustomers = customerData.filter((customer) =>
-      customer.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-
-    const customersWithAppointments = filteredCustomers.filter((customer) =>
-      appointmentData.some(
-        (appointment) => appointment.customer === customer.uid
-      )
-    );
-
-    setSearchResults(customersWithAppointments);
-  };
-
-  const displayCustomerInfo = (customer) => {
-    alert(
-      `Customer Name: ${customer.name}\nEmail: ${customer.email}\nPhone: ${customer.phone_number}`
-    );
   };
 
   return (
@@ -257,84 +210,6 @@ const StaffManagement = ({ customerData }) => {
           >
             Update Staff Information
           </Button>
-          <hr />
-          <h3>Booked times</h3>
-          <Calendar
-            value={selectedDate}
-            onChange={handleDateChange}
-            onSelect={showAppointmentByDate}
-            renderCell={(date) => {
-              const dateString = date.toDateString();
-              const appointmentsOnDate = appointmentData.filter(
-                (appointment) =>
-                  appointment.staff === staffUid &&
-                  new Date(appointment.date_time).toDateString() === dateString
-              );
-              if (appointmentsOnDate.length > 0) {
-                return (
-                  <div
-                    style={{
-                      position: "relative",
-                      padding: "5px",
-                      background: "#e6e6e6",
-                      borderRadius: "5px",
-                    }}
-                  >
-                    {appointmentsOnDate.map((appointment, index) => {
-                      const appointmentTime = new Date(appointment.date_time);
-                      const nameCustomer = getCustomerNameById(
-                        appointment.customer
-                      );
-                      const timeString = appointmentTime.toLocaleTimeString(
-                        [],
-                        {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        }
-                      );
-                      return (
-                        <div
-                          key={index}
-                          style={{ margin: "5px 0", color: "#333" }}
-                        >
-                          {timeString} - {nameCustomer}
-                        </div>
-                      );
-                    })}
-                  </div>
-                );
-              } else {
-                return null;
-              }
-            }}
-          />
-          <div className="search-container">
-            <h3>Search Customer</h3>
-            <Input
-              placeholder="Enter customer name"
-              value={searchTerm}
-              onChange={(value) => setSearchTerm(value)}
-            />
-            <br />
-            <Button onClick={handleSearch} appearance="primary">
-              Search
-            </Button>
-            {searchResults.length > 0 && (
-              <div>
-                <h4>Matching Customers</h4>
-                <ul>
-                  {searchResults.map((customer) => (
-                    <p
-                      key={customer.uid}
-                      onClick={() => displayCustomerInfo(customer)}
-                    >
-                      {customer.name}
-                    </p>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
         </Panel>
       )}
     </div>

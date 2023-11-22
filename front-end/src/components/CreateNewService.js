@@ -24,6 +24,28 @@ const CreateNewService = () => {
       return;
     }
 
+    if (name.length > 100) {
+      window.alert("Service name must less than 100 character.");
+      return;
+    }
+
+    if (type.length > 100) {
+      window.alert("Service type must less than 100 character.");
+      return;
+    }
+
+    if (!Number.isInteger(Number(duration)) || Number(duration) <= 0) {
+      window.alert("Duration must be a valid integer.");
+      return;
+    }
+
+    if (!/^\d+(\.\d{1,2})?$/.test(price)) {
+      window.alert(
+        "Price must be a valid integer or float with up to two decimal places."
+      );
+      return;
+    }
+
     const shouldAddService = window.confirm(
       "Are you sure you want to add this service?"
     );

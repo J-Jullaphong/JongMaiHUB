@@ -16,6 +16,8 @@ import CreateNewService from "./components/CreateNewService";
 import CreateNewStaff from "./components/CreateNewStaff";
 import MyAppointmentScreen from "./components/MyAppointmentScreen";
 import CustomerManagement from "./components/CustomerManagement";
+import AppointmentStaff from "./components/AppointmentStaff";
+import AppointmentProvider from "./components/AppointmentProvider";
 
 const App = () => {
   const user = User.getInstance();
@@ -96,7 +98,7 @@ const App = () => {
             }
           />
           <Route
-            path="/customer-management"
+            path="/my-profile"
             element={<CustomerManagement user={user} />}
           />
           <Route
@@ -105,13 +107,7 @@ const App = () => {
           />
           <Route
             path="/staff-management/:providerId/:staffUid/"
-            element={
-              <StaffManagement
-                user={user}
-                staffData={staffData}
-                customerData={customerData}
-              />
-            }
+            element={<StaffManagement />}
           />
           <Route
             path="/service-management/:providerId/:serviceId/"
@@ -134,6 +130,27 @@ const App = () => {
                 user={user}
                 serviceData={serviceData}
                 providerData={providerData}
+                staffData={staffData}
+              />
+            }
+          />
+          <Route
+            path="/appointment-staff/:staffUid/"
+            element={
+              <AppointmentStaff
+                user={user}
+                serviceData={serviceData}
+                customerData={customerData}
+              />
+            }
+          />
+          <Route
+            path="/appointment-provider/:providerUid/"
+            element={
+              <AppointmentProvider
+                user={user}
+                serviceData={serviceData}
+                customerData={customerData}
                 staffData={staffData}
               />
             }

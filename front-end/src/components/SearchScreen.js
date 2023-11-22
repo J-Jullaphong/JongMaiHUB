@@ -78,10 +78,12 @@ const SearchScreen = ({ serviceData, providerData }) => {
         onClick={() => handleDetailClick(service)}
       >
         <img src={service.service_picture} alt={service.name} />
-        <div className="service-detail">
+        <div className="service-detail" title="details">
           <div style={{ display: "flex", alignItems: "center" }}></div>
           <div title="provider">
-            <h3>
+            <h3>{service.name}</h3>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <h5>{providerLists[service.service_provider][0]}</h5>
               <Avatar
                 className="Avatar"
                 circle
@@ -89,25 +91,15 @@ const SearchScreen = ({ serviceData, providerData }) => {
                 src={providerLists[service.service_provider][1]}
                 style={{
                   paddingLeft: "20px",
-                  paddingBottom: "20px",
                   marginRight: "1vw",
                 }}
                 size="md"
               />
-              {providerLists[service.service_provider][0]}
-            </h3>
-            <h5>{service.name}</h5>
+            </div>
           </div>
           <p>
             {service.type} | {service.duration} Minutes | {service.price} Baht
           </p>
-          <Button
-            className="details-button"
-            title="details"
-            onClick={() => handleDetailClick(service)}
-          >
-            Details
-          </Button>
         </div>
       </div>
     ));
@@ -129,7 +121,11 @@ const SearchScreen = ({ serviceData, providerData }) => {
             {displayServices}
             <div className="load-more">
               {searchResult.length > pageNumber * 5 && (
-                <Button appearance="ghost" onClick={handleLoadMoreClick}>
+                <Button
+                  className="service-view-button"
+                  appearance="ghost"
+                  onClick={handleLoadMoreClick}
+                >
                   Load More ({searchResult.length - pageNumber * 5} more
                   available)
                 </Button>

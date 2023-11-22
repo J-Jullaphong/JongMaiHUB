@@ -88,3 +88,12 @@ class DetailRating(generics.RetrieveUpdateDestroyAPIView):
     """DetailRating displays details of a Rating."""
     queryset = Rating.objects.all()
     serializer_class = RatingSerializer
+
+class ListAppointmentsByProvider(generics.ListAPIView):
+    serializer_class = AppointmentSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['staff__service_provider__uid']
+
+    def get_queryset(self):
+        provider_uid = self.kwargs['provider_uid']
+        return Appointment.objects.filter(staff__service_provider__uid=provider_uid)

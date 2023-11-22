@@ -25,17 +25,13 @@ const ProviderManagement = ({ user }) => {
   const dataFetcher = new DataFetcher();
 
   useEffect(() => {
-    try {
-      const fetchData = async () => {
-        const serviceData = await dataFetcher.getServiceByServiceProvider(
-          user.getUID()
-        );
-        const providerData = await dataFetcher.getServiceProviderData(
-          user.getUID()
-        );
-        const staffData = await dataFetcher.getStaffByServiceProvider(
-          user.getUID()
-        );
+    const fetchData = async () => {
+      try {
+        const [serviceData, providerData, staffData] = await Promise.all([
+          dataFetcher.getServiceByServiceProvider(user.getUID()),
+          dataFetcher.getServiceProviderData(user.getUID()),
+          dataFetcher.getStaffByServiceProvider(user.getUID()),
+        ]);
 
         setServiceData(serviceData);
         setProviderData(providerData);
@@ -55,12 +51,13 @@ const ProviderManagement = ({ user }) => {
           }
         }
         setLoadProvider(false);
-      };
-      fetchData();
-    } catch (error) {
-      console.error(error);
-      setLoading(false);
-    }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
   }, [user.isProvider, serviceData, providerData, staffData, loading]);
 
   const updateProviderInfo = () => {
@@ -75,6 +72,22 @@ const ProviderManagement = ({ user }) => {
       window.alert("Please fill in all input fields.");
       return;
     }
+
+    if (name.length > 100) {
+      window.alert("Provider name must less than 100 character.");
+      return;
+    }
+
+    if (location.length > 500) {
+      window.alert("Location must less than 500 character.");
+      return;
+    }
+
+    if (openingTime >= closingTime) {
+      window.alert("Opening time must be earlier than closing time.");
+      return;
+    }
+
     const shouldUpdate = window.confirm(
       "Are you sure you want to update provider information?"
     );
@@ -127,6 +140,10 @@ const ProviderManagement = ({ user }) => {
 
   const handleStaffSelection = (providerId, staffUid) => {
     navigate(`/staff-management/${providerId}/${staffUid}`);
+  };
+
+  const handleStaffAppointment = (staffUid) => {
+    navigate(`/appointment-staff/${staffUid}`);
   };
 
   const handleServiceSelection = (providerId, serviceId) => {
@@ -238,13 +255,22 @@ const ProviderManagement = ({ user }) => {
                 <Table.Cell dataKey="name" />
               </Table.Column>
               <Table.Column width={200} align="center">
-                <Table.HeaderCell>Specialty</Table.HeaderCell>
-                <Table.Cell dataKey="specialty" />
-              </Table.Column>
-              <Table.Column width={200} align="center">
                 <Table.HeaderCell>Service</Table.HeaderCell>
                 <Table.Cell>
                   {(rowData) => <p>{getServiceNameById(rowData.service)}</p>}
+                </Table.Cell>
+              </Table.Column>
+              <Table.Column width={200} align="center">
+                <Table.HeaderCell>View Appointment</Table.HeaderCell>
+                <Table.Cell>
+                  {(rowData) => (
+                    <Button
+                      className="provider-view-button"
+                      onClick={() => handleStaffAppointment(rowData.uid)}
+                    >
+                      View
+                    </Button>
+                  )}
                 </Table.Cell>
               </Table.Column>
               <Table.Column width={200} align="center">
