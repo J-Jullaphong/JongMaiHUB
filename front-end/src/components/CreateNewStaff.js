@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { Input, Button, Panel, InputPicker } from "rsuite";
+import { useParams, useNavigate } from "react-router-dom";
+import {
+  Input,
+  Button,
+  Panel,
+  InputPicker,
+  InputGroup
+} from "rsuite";
+import SearchIcon from "@rsuite/icons/Search";
 import DataSender from "./DataSender";
 import DataFetcher from "./DataFetcher";
 import "./styles/ProviderManagement.css";
-import { useParams, useNavigate } from "react-router-dom";
 
 const CreateNewStaff = ({ customerData }) => {
   const { providerId } = useParams();
-  const [uid, setUid] = useState("");
+  const [userTag, setUserTag] = useState("");
   const [specialty, setSpecialty] = useState("");
   const [background, setBackground] = useState("");
   const [startWorkTime, setStartWorkTime] = useState("");
@@ -16,6 +23,7 @@ const CreateNewStaff = ({ customerData }) => {
   const [service, setService] = useState("");
   const [selectStaff, setSelectStaff] = useState("");
   const [serviceData, setServiceData] = useState("");
+  const [loading, setLoading] = useState(true);
   const dataSender = new DataSender();
   const navigate = useNavigate();
   const dataFetcher = new DataFetcher();
@@ -30,22 +38,28 @@ const CreateNewStaff = ({ customerData }) => {
           label: item.name,
           value: item.id,
         }));
-        const transformedSelectStaff = customerData.map((item) => ({
-          label: item.name,
-          value: item.uid,
-        }));
         setServiceData(transformedServiceData);
-        setSelectStaff(transformedSelectStaff);
       } catch (error) {
         console.error(error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchData();
   }, [serviceData]);
 
-  const addStaffInfo = () => {
+  const checkStaffStatus = async (staffID) => {
+    try {
+      await dataFetcher.getStaffData(staffID);
+      return true;
+    } catch (AxiosError) {
+      return false;
+    }
+  };
+
+  const addStaffInfo = async () => {
     if (
-      !uid ||
+      !userTag ||
       !specialty ||
       !background ||
       !startWorkTime ||
@@ -72,13 +86,27 @@ const CreateNewStaff = ({ customerData }) => {
       return;
     }
 
+    const staffUid = queryUidCustomerByUserTag(userTag);
+    const staffName = queryNameCustomerByUserTag(userTag);
+
+    try {
+      const isStaffExist = await checkStaffStatus(staffUid);
+      if (isStaffExist) {
+        window.alert("Can't select this staff.");
+        return;
+      }
+    } catch (error) {
+      console.error(error);
+    }
+
     const shouldAddStaff = window.confirm(
       "Are you sure you want to add this staff member?"
     );
     if (shouldAddStaff) {
+
       const NewStaffData = {
-        uid: uid,
-        name: getNameByUid(uid),
+        uid: staffUid,
+        name: staffName,
         specialty: specialty,
         background: background,
         start_work_time: startWorkTime,
@@ -89,17 +117,34 @@ const CreateNewStaff = ({ customerData }) => {
       };
       window.alert("Successfully added staff.");
       dataSender.submitStaffData(NewStaffData).then(() => {
-        console.log("Staff information added.");
         navigate("/provider-management");
       });
     }
   };
 
-  const getNameByUid = (customerUid) => {
-    const customer = customerData.find(
-      (customer) => customer.uid === customerUid
+  const queryUidCustomerByUserTag = (userTag) => {
+    const foundCustomer = customerData.find(
+      (customer) => customer.uid.slice(-10) === userTag
     );
-    return customer ? customer.name : "";
+    return foundCustomer ? foundCustomer.uid : "Not found";
+  };
+
+  const queryNameCustomerByUserTag = (userTag) => {
+    const foundCustomer = customerData.find(
+      (customer) => customer.uid.slice(-10) === userTag
+    );
+    return foundCustomer ? foundCustomer.name : "Not found";
+  };
+
+  const handleEnterKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
+  };
+
+  const handleSearch = () => {
+    const result = queryNameCustomerByUserTag(userTag);
+    setSelectStaff(result);
   };
 
   const uploadImage = async (event) => {
@@ -117,82 +162,100 @@ const CreateNewStaff = ({ customerData }) => {
   return (
     <div className="provider-management">
       <h2 className="provider-title">Add New Staff</h2>
-      <Panel className="provider-information">
-        <div className="provider-content-container">
-          <div className="provider-picture-container">
-            <h5>Profile picture</h5>
-            <img
-              src={profilePicture}
-              alt="No profile picture"
-              className="provider-custom-picture"
-            />
+      {loading ? (
+        <h2 className="provider-loading">Loading...</h2>
+      ) : (
+        <>
+          <Panel className="provider-information">
+            <div className="provider-content-container">
+              <div className="provider-picture-container">
+                <h5>Profile picture</h5>
+                <img
+                  src={profilePicture}
+                  alt="No profile picture"
+                  className="provider-custom-picture"
+                />
+                <br />
+                <input type="file" accept="image/*" onChange={uploadImage} />
+              </div>
+              <div className="provider-input-container">
+                <div className="provider-input-field">
+                  <h5>User Tag</h5>
+                  <InputGroup>
+                    <Input
+                      placeholder="Search by last UID"
+                      value={userTag}
+                      onChange={(value) => setUserTag(value)}
+                      onKeyPress={handleEnterKeyPress}
+                    />
+                    <InputGroup.Button onClick={handleSearch}>
+                      <SearchIcon />
+                    </InputGroup.Button>
+                  </InputGroup>
+                  {selectStaff && (
+                    <Input
+                      readOnly
+                      style={{ width: 300 }}
+                      value={selectStaff}
+                    />
+                  )}
+                </div>
+                <div className="provider-input-field">
+                  <h5>Service</h5>
+                  <InputPicker
+                    className="provider-custom-input"
+                    data={serviceData}
+                    value={service}
+                    onChange={(value) => setService(value)}
+                  />
+                </div>
+                <div className="provider-input-field">
+                  <h5>Specialty</h5>
+                  <Input
+                    className="provider-custom-input"
+                    placeholder="Specialty"
+                    value={specialty}
+                    onChange={(value) => setSpecialty(value)}
+                  />
+                </div>
+                <div className="provider-input-field">
+                  <h5>Background</h5>
+                  <Input
+                    className="provider-custom-input"
+                    placeholder="Background"
+                    value={background}
+                    onChange={(value) => setBackground(value)}
+                  />
+                </div>
+                <div className="provider-input-field">
+                  <h5>Start work time</h5>
+                  <Input
+                    className="provider-custom-input"
+                    type="time"
+                    placeholder="Start work time"
+                    value={startWorkTime}
+                    onChange={(value) => setStartWorkTime(value)}
+                  />
+                </div>
+                <div className="provider-input-field">
+                  <h5>Get off work time</h5>
+                  <Input
+                    className="provider-custom-input"
+                    type="time"
+                    placeholder="Get off work time"
+                    value={getOffWorkTime}
+                    onChange={(value) => setGetOffWorkTime(value)}
+                  />
+                </div>
+              </div>
+            </div>
             <br />
-            <input type="file" accept="image/*" onChange={uploadImage} />
-          </div>
-          <div className="provider-input-container">
-            <div className="provider-input-field">
-              <h5>Name</h5>
-              <InputPicker
-                className="provider-custom-input"
-                data={selectStaff}
-                value={uid}
-                onChange={(value) => setUid(value)}
-              />
-            </div>
-            <div className="provider-input-field">
-              <h5>Service</h5>
-              <InputPicker
-                className="provider-custom-input"
-                data={serviceData}
-                value={service}
-                onChange={(value) => setService(value)}
-              />
-            </div>
-            <div className="provider-input-field">
-              <h5>Specialty</h5>
-              <Input
-                className="provider-custom-input"
-                placeholder="Specialty"
-                value={specialty}
-                onChange={(value) => setSpecialty(value)}
-              />
-            </div>
-            <div className="provider-input-field">
-              <h5>Background</h5>
-              <Input
-                className="provider-custom-input"
-                placeholder="Background"
-                value={background}
-                onChange={(value) => setBackground(value)}
-              />
-            </div>
-            <div className="provider-input-field">
-              <h5>Start work time</h5>
-              <Input
-                className="provider-custom-input"
-                type="time"
-                placeholder="Start work time"
-                value={startWorkTime}
-                onChange={(value) => setStartWorkTime(value)}
-              />
-            </div>
-            <div className="provider-input-field">
-              <h5>Get off work time</h5>
-              <Input
-                className="provider-custom-input"
-                type="time"
-                placeholder="Get off work time"
-                value={getOffWorkTime}
-                onChange={(value) => setGetOffWorkTime(value)}
-              />
-            </div>
-          </div>
-        </div>
-        <br />
-        <Button appearance="primary" onClick={addStaffInfo}>
-          Add new staff
-        </Button>
-      </Panel>
+            <Button appearance="primary" onClick={addStaffInfo}>
+              Add new staff
+            </Button>
+          </Panel>
+        </>
+      )}
     </div>
   );
 };
