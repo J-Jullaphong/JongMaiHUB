@@ -17,6 +17,7 @@ const StaffManagement = () => {
   const [service, setService] = useState([]);
   const [staffData, setStaffData] = useState([]);
   const [serviceData, setServiceData] = useState([]);
+  const [serviceAll, setServiceAll] = useState([]);
   const dataFetcher = new DataFetcher();
   const dataSender = new DataSender();
   const { staffUid, providerId } = useParams();
@@ -35,6 +36,7 @@ const StaffManagement = () => {
           }));
           setStaffData(staffData);
           setServiceData(transformedServiceData);
+          setServiceAll(serviceData);
           if (staffData) {
             setStaff(staffData);
             setName(staffData.name);
@@ -68,6 +70,7 @@ const StaffManagement = () => {
       window.alert("Please fill in all input fields.");
       return;
     }
+    
 
     if (name.length > 100) {
       window.alert("Staff name must less than 100 character.");
@@ -81,6 +84,23 @@ const StaffManagement = () => {
 
     if (background.length > 100) {
       window.alert("Staff background must less than 500 character.");
+      return;
+    }
+
+    const parseTime = (timeString) => {
+      const [hours, minutes] = timeString.split(":").map(Number);
+      return new Date(1970, 0, 1, hours, minutes);
+    };
+
+    const startWorkDate = parseTime(startWorkTime);
+    const getOffWorkDate = parseTime(getOffWorkTime);
+    const timeDifference = getOffWorkDate - startWorkDate;
+    const durationServiceMs = getDurationByServiceId(service) * 60 * 1000;
+
+    if (timeDifference < durationServiceMs) {
+      window.alert(
+        "Staff work duration must be at least equal to the service duration."
+      );
       return;
     }
 
@@ -121,6 +141,11 @@ const StaffManagement = () => {
         console.error("Error converting image to base64:", error);
       }
     }
+  };
+
+  const getDurationByServiceId = (serviceId) => {
+    const service = serviceAll.find((service) => service.id === serviceId);
+    return service ? service.duration : "Not found";
   };
 
   return (

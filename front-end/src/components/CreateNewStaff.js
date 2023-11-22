@@ -21,8 +21,9 @@ const CreateNewStaff = ({ customerData }) => {
   const [getOffWorkTime, setGetOffWorkTime] = useState("");
   const [profilePicture, setProfilePicture] = useState("");
   const [service, setService] = useState("");
-  const [selectStaff, setSelectStaff] = useState("");
-  const [serviceData, setServiceData] = useState("");
+  const [selectStaff, setSelectStaff] = useState([]);
+  const [serviceData, setServiceData] = useState([]);
+  const [serviceAll, setServiceAll] = useState([]);
   const [loading, setLoading] = useState(true);
   const dataSender = new DataSender();
   const navigate = useNavigate();
@@ -39,6 +40,7 @@ const CreateNewStaff = ({ customerData }) => {
           value: item.id,
         }));
         setServiceData(transformedServiceData);
+        setServiceAll(serviceData);
       } catch (error) {
         console.error(error);
       } finally {
@@ -71,6 +73,23 @@ const CreateNewStaff = ({ customerData }) => {
       return;
     }
 
+    const parseTime = (timeString) => {
+      const [hours, minutes] = timeString.split(":").map(Number);
+      return new Date(1970, 0, 1, hours, minutes);
+    };
+
+    const startWorkDate = parseTime(startWorkTime);
+    const getOffWorkDate = parseTime(getOffWorkTime);
+    const timeDifference = getOffWorkDate - startWorkDate;
+    const durationServiceMs = getDurationByServiceId(service) * 60 * 1000; 
+
+    if (timeDifference < durationServiceMs) {
+      window.alert(
+        "Staff work duration must be at least equal to the service duration."
+      );
+      return;
+    }
+
     if (specialty.length > 100) {
       window.alert("Staff specialty must less than 100 character.");
       return;
@@ -86,8 +105,8 @@ const CreateNewStaff = ({ customerData }) => {
       return;
     }
 
-    const staffUid = queryUidCustomerByUserTag(userTag);
-    const staffName = queryNameCustomerByUserTag(userTag);
+    const staffUid = getUidCustomerByUserTag(userTag);
+    const staffName = getNameCustomerByUserTag(userTag);
 
     try {
       const isStaffExist = await checkStaffStatus(staffUid);
@@ -122,14 +141,19 @@ const CreateNewStaff = ({ customerData }) => {
     }
   };
 
-  const queryUidCustomerByUserTag = (userTag) => {
+  const getDurationByServiceId = (serviceId) => {
+    const service = serviceAll.find((service) => service.id === serviceId);
+    return service ? service.duration : "Not found";
+  };
+
+  const getUidCustomerByUserTag = (userTag) => {
     const foundCustomer = customerData.find(
       (customer) => customer.uid.slice(-10) === userTag
     );
     return foundCustomer ? foundCustomer.uid : "Not found";
   };
 
-  const queryNameCustomerByUserTag = (userTag) => {
+  const getNameCustomerByUserTag = (userTag) => {
     const foundCustomer = customerData.find(
       (customer) => customer.uid.slice(-10) === userTag
     );
@@ -143,7 +167,7 @@ const CreateNewStaff = ({ customerData }) => {
   };
 
   const handleSearch = () => {
-    const result = queryNameCustomerByUserTag(userTag);
+    const result = getNameCustomerByUserTag(userTag);
     setSelectStaff(result);
   };
 

@@ -38,6 +38,11 @@ const CreateNewService = () => {
       window.alert("Duration must be a valid integer.");
       return;
     }
+    
+    if (duration > 720) {
+      window.alert("Duration is too long.");
+      return;
+    }
 
     if (!/^\d+(\.\d{1,2})?$/.test(price)) {
       window.alert(
