@@ -78,15 +78,13 @@ const SearchScreen = ({ serviceData, providerData }) => {
         onClick={() => handleDetailClick(service)}
       >
         <img src={service.service_picture} alt={service.name} />
-        <div className="service-detail">
+        <div className="service-detail" title="details">
           <div style={{ display: "flex", alignItems: "center" }}></div>
           <div title="provider">
-            <h3>
-            {service.name}
-            </h3>
-            <div style={{display: "flex", alignItems: "center", gap: "10px"}}>
-            <h5>{providerLists[service.service_provider][0]}</h5>
-            <Avatar
+            <h3>{service.name}</h3>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <h5>{providerLists[service.service_provider][0]}</h5>
+              <Avatar
                 className="Avatar"
                 circle
                 title={providerLists[service.service_provider][0]}
@@ -98,8 +96,6 @@ const SearchScreen = ({ serviceData, providerData }) => {
                 size="md"
               />
             </div>
-            
-            
           </div>
           <p>
             {service.type} | {service.duration} Minutes | {service.price} Baht
