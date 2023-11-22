@@ -81,10 +81,12 @@ const SearchScreen = ({ serviceData, providerData }) => {
         <div className="service-detail">
           <div style={{ display: "flex", alignItems: "center" }}></div>
           <div title="provider">
-            <h3>{service.name}</h3>
-            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              <h5>{providerLists[service.service_provider][0]}</h5>
-              <Avatar
+            <h3>
+            {service.name}
+            </h3>
+            <div style={{display: "flex", alignItems: "center", gap: "10px"}}>
+            <h5>{providerLists[service.service_provider][0]}</h5>
+            <Avatar
                 className="Avatar"
                 circle
                 title={providerLists[service.service_provider][0]}
@@ -96,17 +98,12 @@ const SearchScreen = ({ serviceData, providerData }) => {
                 size="md"
               />
             </div>
+            
+            
           </div>
           <p>
             {service.type} | {service.duration} Minutes | {service.price} Baht
           </p>
-          <Button
-            className="details-button"
-            title="details"
-            onClick={() => handleDetailClick(service)}
-          >
-            Details
-          </Button>
         </div>
       </div>
     ));
@@ -128,7 +125,11 @@ const SearchScreen = ({ serviceData, providerData }) => {
             {displayServices}
             <div className="load-more">
               {searchResult.length > pageNumber * 5 && (
-                <Button appearance="ghost" onClick={handleLoadMoreClick}>
+                <Button
+                  className="service-view-button"
+                  appearance="ghost"
+                  onClick={handleLoadMoreClick}
+                >
                   Load More ({searchResult.length - pageNumber * 5} more
                   available)
                 </Button>

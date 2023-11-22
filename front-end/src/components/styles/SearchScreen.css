@@ -26,6 +26,7 @@
     object-fit: cover;
     border-radius: 15px;
     margin-right: 20px;
+    object-fit: cover;
 }
 
 .service .detail {

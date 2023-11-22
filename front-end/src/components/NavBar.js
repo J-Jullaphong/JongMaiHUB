@@ -85,7 +85,7 @@ const NavBar = ({ user, isUserAuthenticated, serviceData }) => {
                     circle
                     src={user.getProfilePicture()}
                   />
-                  {user.getName()}
+                  <div style={{ paddingLeft: "10px" }}>{user.getName()}</div>
                 </div>
               }
             >
@@ -112,7 +112,7 @@ const NavBar = ({ user, isUserAuthenticated, serviceData }) => {
                     color: "#000000",
                   }}
                 >
-                  My appointment
+                  User Appointment
                 </a>
               </Nav.Item>
               {isProvider ? (

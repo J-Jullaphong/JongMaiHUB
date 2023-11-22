@@ -90,6 +90,7 @@
     max-width: 85%;
     height: 400px;
     width: auto;
+    object-fit: cover;
 }
 
 .provider-custom-input {

@@ -36,8 +36,13 @@ const CustomerManagement = ({ user }) => {
   }, [loading]);
 
   const updateCustomerInfo = () => {
-    if (!email || !phoneNumber) {
+    if (!name || !email || !phoneNumber) {
       window.alert("Please fill in all input fields.");
+      return;
+    }
+
+    if (name.length > 100) {
+      window.alert("User name must less than 100 character.");
       return;
     }
 
