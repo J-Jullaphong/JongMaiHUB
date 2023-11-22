@@ -57,6 +57,16 @@ const CreateNewStaff = ({ customerData }) => {
       return;
     }
 
+    if (specialty.length > 100) {
+      window.alert("Staff specialty must less than 100 character.");
+      return;
+    }
+
+    if (background.length > 100) {
+      window.alert("Staff background must less than 500 character.");
+      return;
+    }
+
     if (startWorkTime >= getOffWorkTime) {
       window.alert("Start work time must be earlier than get off work time.");
       return;

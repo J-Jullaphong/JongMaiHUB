@@ -14,9 +14,9 @@ const StaffManagement = () => {
   const [startWorkTime, setStartWorkTime] = useState("");
   const [getOffWorkTime, setGetOffWorkTime] = useState("");
   const [profilePicture, setProfilePicture] = useState("");
-  const [service, setService] = useState("");
-  const [staffData, setStaffData] = useState("");
-  const [serviceData, setServiceData] = useState("");
+  const [service, setService] = useState([]);
+  const [staffData, setStaffData] = useState([]);
+  const [serviceData, setServiceData] = useState([]);
   const dataFetcher = new DataFetcher();
   const dataSender = new DataSender();
   const { staffUid, providerId } = useParams();
@@ -66,6 +66,21 @@ const StaffManagement = () => {
       !service
     ) {
       window.alert("Please fill in all input fields.");
+      return;
+    }
+
+    if (name.length > 100) {
+      window.alert("Staff name must less than 100 character.");
+      return;
+    }
+
+    if (specialty.length > 100) {
+      window.alert("Staff specialty must less than 100 character.");
+      return;
+    }
+
+    if (background.length > 100) {
+      window.alert("Staff background must less than 500 character.");
       return;
     }
 

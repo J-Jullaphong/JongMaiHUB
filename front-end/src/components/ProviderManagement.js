@@ -73,6 +73,16 @@ const ProviderManagement = ({ user }) => {
       return;
     }
 
+    if (name.length > 100) {
+      window.alert("Provider name must less than 100 character.");
+      return;
+    }
+
+    if (location.length > 500) {
+      window.alert("Location must less than 500 character.");
+      return;
+    }
+
     if (openingTime >= closingTime) {
       window.alert("Opening time must be earlier than closing time.");
       return;

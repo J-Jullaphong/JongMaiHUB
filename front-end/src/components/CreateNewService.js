@@ -24,6 +24,16 @@ const CreateNewService = () => {
       return;
     }
 
+    if (name.length > 100) {
+      window.alert("Service name must less than 100 character.");
+      return;
+    }
+
+    if (type.length > 100) {
+      window.alert("Service type must less than 100 character.");
+      return;
+    }
+
     if (!Number.isInteger(Number(duration)) || Number(duration) <= 0) {
       window.alert("Duration must be a valid integer.");
       return;
