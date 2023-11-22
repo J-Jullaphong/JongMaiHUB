@@ -1,19 +1,40 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Panel, Modal } from "rsuite";
 import Reservation from "./Reservation";
+import DataFetcher from "./DataFetcher";
 import "./styles/ServiceDetail.css";
 
-const ServiceDetail = ({
-  user,
-  isUserAuthenticated,
-  serviceData,
-  providerData,
-  staffData,
-}) => {
+const ServiceDetail = ({ user, isUserAuthenticated }) => {
   const { providerUrl, serviceUrl } = useParams();
   const [open, setOpen] = useState(false);
   const [selectedStaff, setSelectedStaff] = useState("");
+  const [provider, setProvider] = useState(null);
+  const [service, setService] = useState(null);
+  const [staffs, setStaffs] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const dataFetcher = new DataFetcher();
+      try {
+        const [serviceData, providerData, staffData] = await Promise.all([
+          dataFetcher.getServiceData(serviceUrl.split("-")[0]),
+          dataFetcher.getServiceProviderData(providerUrl.split("-")[0]),
+          dataFetcher.getStaffData(),
+        ]);
+        setProvider(providerData);
+        setService(serviceData);
+        setStaffs(staffData.filter((staff) => staff.service === service.id));
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleOpen = (staff) => {
     setSelectedStaff(staff);
@@ -21,14 +42,9 @@ const ServiceDetail = ({
   };
   const handleClose = () => setOpen(false);
 
-  const provider = providerData.find(
-    (provider) => provider.uid === providerUrl.split("-")[0]
-  );
-  const service = serviceData.find(
-    (service) => service.id.toString() === serviceUrl.split("-")[0]
-  );
-
-  const staffs = staffData.filter((staff) => staff.service === service.id);
+  if (loading) {
+    return <h2 className="loading">Loading...</h2>;
+  }
 
   return (
     <div className="detail">
