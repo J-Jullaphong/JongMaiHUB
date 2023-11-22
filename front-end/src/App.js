@@ -98,7 +98,7 @@ const App = () => {
             }
           />
           <Route
-            path="/customer-management"
+            path="/my-profile"
             element={<CustomerManagement user={user} />}
           />
           <Route

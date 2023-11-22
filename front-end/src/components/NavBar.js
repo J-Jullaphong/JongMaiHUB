@@ -17,6 +17,7 @@ const NavBar = ({ user, isUserAuthenticated, serviceData }) => {
     new Set(serviceData.map((service) => service.type))
   );
   const [uid, setUid] = useState("");
+  const [userName, setUserName] = useState(user.getName());
   const [isProvider, setIsProvider] = useState(false);
   const [isStaff, setIsStaff] = useState(false);
 
@@ -28,9 +29,11 @@ const NavBar = ({ user, isUserAuthenticated, serviceData }) => {
       const IsProviderStatus = await user.isProvider;
       const IsStaffStatus = await user.isStaff;
       const UidStatus = await user.uid;
+      const username = await user.name;
       setIsProvider(IsProviderStatus);
       setIsStaff(IsStaffStatus);
       setUid(UidStatus);
+      setUserName(username);
     };
 
     user.addListener(handleUserChange);
@@ -92,14 +95,14 @@ const NavBar = ({ user, isUserAuthenticated, serviceData }) => {
               <Nav.Item>
                 <a
                   onClick={() => {
-                    navigate("/customer-management");
+                    navigate("/my-profile");
                   }}
                   style={{
                     textDecoration: "none",
                     color: "#000000",
                   }}
                 >
-                  User Management
+                  My Profile
                 </a>
               </Nav.Item>
               <Nav.Item>
@@ -112,7 +115,7 @@ const NavBar = ({ user, isUserAuthenticated, serviceData }) => {
                     color: "#000000",
                   }}
                 >
-                  User Appointment
+                  My Appointments
                 </a>
               </Nav.Item>
               {isProvider ? (
