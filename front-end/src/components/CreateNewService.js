@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { Input, Button, Panel, InputGroup } from "rsuite";
 import DataSender from "./DataSender";
 import "./styles/ProviderManagement.css";
-import { useParams, useNavigate } from "react-router-dom";
+import DataFetcher from "./DataFetcher";
 
 const CreateNewService = () => {
   const { providerId } = useParams();
@@ -11,12 +12,28 @@ const CreateNewService = () => {
   const [duration, setDuration] = useState("");
   const [price, setPrice] = useState("");
   const [servicePicture, setServicePicture] = useState("");
+  const [providerData, setProviderData] = useState([]);
   const dataSender = new DataSender();
+  const dataFetcher = new DataFetcher();
   const navigate = useNavigate();
   const styles = {
     width: 300,
     marginBottom: 10,
   };
+
+  useEffect(() => {
+    try {
+      const fetchData = async () => {
+        const providerData = await dataFetcher.getServiceProviderData(
+          providerId
+        );
+        setProviderData(providerData);
+      };
+      fetchData();
+    } catch (error) {
+      console.error(error);
+    }
+  }, [providerData]);
 
   const addServiceInfo = () => {
     if (!name || !type || !duration || !price || !servicePicture) {
@@ -38,7 +55,27 @@ const CreateNewService = () => {
       window.alert("Duration must be a valid integer.");
       return;
     }
-    
+
+    if (duration > 720) {
+      window.alert("Duration is too long.");
+      return;
+    }
+
+    const parseTime = (timeString) => {
+      const [hours, minutes] = timeString.split(":").map(Number);
+      return new Date(1970, 0, 1, hours, minutes);
+    };
+
+    const openTimeDate = parseTime(providerData.opening_time);
+    const closeTimeDate = parseTime(providerData.closing_time);
+    const timeDifference = closeTimeDate - openTimeDate;
+    const serviceDuration = duration * 60 * 1000;
+
+    if (serviceDuration > timeDifference) {
+      window.alert("Service duration exceeds working hours.");
+      return;
+    }
+
     if (duration > 720) {
       window.alert("Duration is too long.");
       return;

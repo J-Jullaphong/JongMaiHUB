@@ -88,6 +88,28 @@ const ProviderManagement = ({ user }) => {
       return;
     }
 
+    const parseTime = (timeString) => {
+      const [hours, minutes] = timeString.split(":").map(Number);
+      return new Date(1970, 0, 1, hours, minutes);
+    };
+
+    const getMaxServiceDuration = () => {
+      const maxDuration = Math.max(
+        ...serviceData.map((service) => service.duration)
+      );
+      return maxDuration;
+    };
+
+    const openTimeDate = parseTime(openingTime);
+    const closeTimeDate = parseTime(closingTime);
+    const timeDifference = closeTimeDate - openTimeDate;
+    const maxServiceDuration = getMaxServiceDuration() * 60 * 1000;
+
+    if (maxServiceDuration > timeDifference) {
+      window.alert("Maximum service duration exceeds working hours.");
+      return;
+    }
+
     const shouldUpdate = window.confirm(
       "Are you sure you want to update provider information?"
     );
