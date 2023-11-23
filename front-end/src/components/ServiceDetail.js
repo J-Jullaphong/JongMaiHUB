@@ -25,7 +25,7 @@ const ServiceDetail = ({ user, isUserAuthenticated }) => {
         ]);
         setProvider(providerData);
         setService(serviceData);
-        setStaffs(staffData.filter((staff) => staff.service === service.id));
+        setStaffs(staffData.filter((staff) => staff.service === serviceData.id));
         setLoading(false);
       } catch (error) {
         console.error(error);
