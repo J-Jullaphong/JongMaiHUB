@@ -14,6 +14,7 @@ const ServiceManagement = () => {
   const [price, setPrice] = useState("");
   const [servicePicture, setServicePicture] = useState("");
   const [serviceData, setServiceData] = useState([]);
+  const [providerData, setProviderData] = useState([]);
   const dataSender = new DataSender();
   const dataFetcher = new DataFetcher();
   const { serviceId } = useParams();
@@ -28,7 +29,10 @@ const ServiceManagement = () => {
         const fetchData = async () => {
           const serviceData = await dataFetcher.getServiceData(serviceId);
           setServiceData(serviceData);
-
+          const providerData = await dataFetcher.getServiceProviderData(
+            serviceData
+          .service_provider);
+          setProviderData(providerData);
           if (serviceData) {
             setService(serviceData);
             setName(serviceData.name);
@@ -70,6 +74,21 @@ const ServiceManagement = () => {
 
     if (duration > 720) {
       window.alert("Duration is too long.");
+      return;
+    }
+
+    const parseTime = (timeString) => {
+      const [hours, minutes] = timeString.split(":").map(Number);
+      return new Date(1970, 0, 1, hours, minutes);
+    };
+    
+    const openTimeDate = parseTime(providerData.opening_time);
+    const closeTimeDate = parseTime(providerData.closing_time);
+    const timeDifference = closeTimeDate - openTimeDate;
+    const serviceDuration = duration * 60 * 1000;
+
+    if (serviceDuration > timeDifference) {
+      window.alert("Service duration exceeds working hours.");
       return;
     }
 
