@@ -9,6 +9,10 @@ class DataFetcher extends Component {
   async fetchData(type, key = "", param = "") {
     let url = `${this.state.api}${type}/`;
 
+    const headers = {
+      headers: { Authorization: `Token ${process.env.REACT_APP_API_TOKEN}` },
+    };
+
     if (key) {
       url += `${key}/`;
     }
@@ -18,7 +22,7 @@ class DataFetcher extends Component {
     }
 
     return await axios
-      .get(url)
+      .get(url, headers)
       .then((response) => {
         return response.data;
       })
