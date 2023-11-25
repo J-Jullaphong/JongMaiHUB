@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.5.1",
     "child_process": "^1.0.2",
+    "crypto-js": "^4.2.0",
     "firebase": "^10.5.0",
     "firebase-admin": "^11.11.0",
     "fs": "^0.0.1-security",

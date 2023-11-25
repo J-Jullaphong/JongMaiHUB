@@ -63,13 +63,11 @@ const NavBar = ({ user, isUserAuthenticated, serviceData }) => {
         </Nav.Item>
         <Nav.Menu title="Categories">
           {uniqueServiceTypes.map((service) => (
-            <Nav.Item key={service}>
-              <a
-                onClick={() => navigate(`/search?type=${service}`)}
-                style={categoriesButtonStyle}
-              >
-                {service}
-              </a>
+            <Nav.Item
+              key={service}
+              onClick={() => navigate(`/search?type=${service}`)}
+            >
+              <a style={categoriesButtonStyle}>{service}</a>
             </Nav.Item>
           ))}
         </Nav.Menu>
@@ -92,11 +90,12 @@ const NavBar = ({ user, isUserAuthenticated, serviceData }) => {
                 </div>
               }
             >
-              <Nav.Item>
+              <Nav.Item
+                onClick={() => {
+                  navigate("/my-profile");
+                }}
+              >
                 <a
-                  onClick={() => {
-                    navigate("/my-profile");
-                  }}
                   style={{
                     textDecoration: "none",
                     color: "#000000",
@@ -105,11 +104,12 @@ const NavBar = ({ user, isUserAuthenticated, serviceData }) => {
                   My Profile
                 </a>
               </Nav.Item>
-              <Nav.Item>
+              <Nav.Item
+                onClick={() => {
+                  navigate("/my-appointment");
+                }}
+              >
                 <a
-                  onClick={() => {
-                    navigate("/my-appointment");
-                  }}
                   style={{
                     textDecoration: "none",
                     color: "#000000",
@@ -120,11 +120,12 @@ const NavBar = ({ user, isUserAuthenticated, serviceData }) => {
               </Nav.Item>
               {isProvider ? (
                 <>
-                  <Nav.Item>
+                  <Nav.Item
+                    onClick={() => {
+                      navigate("/provider-management");
+                    }}
+                  >
                     <a
-                      onClick={() => {
-                        navigate("/provider-management");
-                      }}
                       style={{
                         textDecoration: "none",
                         color: "#000000",
@@ -133,11 +134,12 @@ const NavBar = ({ user, isUserAuthenticated, serviceData }) => {
                       Provider Management
                     </a>
                   </Nav.Item>
-                  <Nav.Item>
+                  <Nav.Item
+                    onClick={() => {
+                      navigate(`/appointment-provider/${uid}`);
+                    }}
+                  >
                     <a
-                      onClick={() => {
-                        navigate(`/appointment-provider/${uid}`);
-                      }}
                       style={{
                         textDecoration: "none",
                         color: "#000000",
@@ -148,11 +150,12 @@ const NavBar = ({ user, isUserAuthenticated, serviceData }) => {
                   </Nav.Item>
                 </>
               ) : isStaff ? (
-                <Nav.Item>
+                <Nav.Item
+                  onClick={() => {
+                    navigate(`/appointment-staff/${uid}`);
+                  }}
+                >
                   <a
-                    onClick={() => {
-                      navigate(`/appointment-staff/${uid}`);
-                    }}
                     style={{
                       textDecoration: "none",
                       color: "#000000",
@@ -162,9 +165,8 @@ const NavBar = ({ user, isUserAuthenticated, serviceData }) => {
                   </a>
                 </Nav.Item>
               ) : null}
-              <Nav.Item>
+              <Nav.Item onClick={handleSignOut}>
                 <a
-                  onClick={handleSignOut}
                   style={{
                     textDecoration: "none",
                     color: "#F26030",

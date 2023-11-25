@@ -9,7 +9,7 @@ const SearchBar = () => {
 
   const handleSearch = () => {
     if (searchQuery !== "") {
-      navigate("/search?name=" + searchQuery);
+      navigate("/search?name=" + searchQuery.replaceAll("&", "%26"));
     }
   };
 
