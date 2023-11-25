@@ -46,6 +46,7 @@ const NavBar = ({ user, isUserAuthenticated, serviceData }) => {
   const handleSignOut = () => {
     firebase.auth().signOut();
     user.signOut();
+    navigate("/");
   };
 
   return (
