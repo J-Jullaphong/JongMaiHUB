@@ -20,7 +20,12 @@ const Authenticator = ({ user, onAuthenticationChange }) => {
     const authObserver = firebase.auth().onAuthStateChanged((authUser) => {
       if (authUser) {
         setIsAuthenticated(true);
-        setUserData(authUser.uid, authUser.displayName, authUser.photoURL);
+        setUserData(
+          authUser.uid,
+          authUser.displayName,
+          authUser.photoURL,
+          authUser.email
+        );
         onAuthenticationChange(true);
       } else if (user.getName() !== null) {
         setIsAuthenticated(true);
@@ -81,17 +86,20 @@ const Authenticator = ({ user, onAuthenticationChange }) => {
     fetchLineToken();
   }, []);
 
-  const setUserData = async (uid, userName, profilePic) => {
+  const setUserData = async (uid, userName, profilePic, email = null) => {
     const customerData = await dataFetcher.getCustomerData();
     const fetchedCustomer = customerData.find(
       (customer) => customer.uid === uid
     );
     if (!fetchedCustomer) {
-      const formData = { uid: uid, name: userName };
+      const formData = { uid: uid, name: userName, email: email };
       dataSender.submitCustomerData(formData);
       user.setName(userName);
     } else {
       user.setName(fetchedCustomer.name);
+      if (!fetchedCustomer.email) {
+        dataSender.updateCustomerData({ email: email }, uid);
+      }
     }
     user.setUID(uid);
     user.setProfilePicture(profilePic);
