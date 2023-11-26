@@ -33,8 +33,12 @@ class DataSender extends Component {
   }
 
   async updateData(type, formData, key = "") {
+    const headers = {
+      headers: { Authorization: `Token ${process.env.REACT_APP_API_TOKEN}` },
+    };
+
     return await axios
-      .patch(`${this.state.api}${type}/${key}/`, formData)
+      .patch(`${this.state.api}${type}/${key}/`, formData, headers)
       .catch((error) => {
         console.log(error);
         throw error;
