@@ -73,6 +73,17 @@ const NavBar = ({ user, isUserAuthenticated, serviceData }) => {
           ))}
         </Nav.Menu>
       </Nav>
+      <Nav>
+  {isAuthenticated && uid && uid.slice(-10) === "36wLNvAHf1" ? (
+    <Nav.Item onClick={() => navigate(`/create-provider`)}>
+      Create Provider
+    </Nav.Item>
+  ) : (
+    <Nav.Item onClick={() => navigate(`/about-us`)}>
+      About Us
+    </Nav.Item>
+  )}
+</Nav>
       <Nav pullRight>
         <Nav.Item title="searchbar">
           <SearchBar />
