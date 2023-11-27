@@ -15,7 +15,7 @@ const Appointment = ({
   const [appointments, setAppointments] = useState([]);
   const [selectedAppointment, setSelectedAppointment] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [filterType, setFilterType] = useState("all");
+  const [filterType, setFilterType] = useState("upcoming");
   const [tableWidth, setTableWidth] = useState(isProvider ? 1000 : 800);
   const { providerUid, staffUid } = useParams();
 
@@ -98,26 +98,34 @@ const Appointment = ({
         );
         break;
       case "thisWeek":
-        const nextWeek = new Date();
-        nextWeek.setDate(currentDate.getDate() + 7);
+        const currentDay = currentDate.getDay(); 
+        const daysUntilSaturday = currentDay; 
+        const daysUntilSunday = 6 - currentDay;
+        const startOfWeek = new Date();
+        startOfWeek.setDate(currentDate.getDate() - daysUntilSaturday);
+        console.log(startOfWeek);
+        const endOfWeek = new Date();
+        endOfWeek.setDate(currentDate.getDate() + daysUntilSunday)
+        console.log(endOfWeek);
         setSelectedAppointment(
           appointments.filter(
             (appointment) =>
-              new Date(appointment.date_time) >= currentDate &&
-              new Date(appointment.date_time) < nextWeek
+              new Date(appointment.date_time) >= startOfWeek &&
+              new Date(appointment.date_time) <= endOfWeek
           )
         );
+        console.log(Date(appointments[0]));
         break;
+
       case "thisMonth":
         const nextMonth = new Date(
           currentDate.getFullYear(),
           currentDate.getMonth() + 1,
-          0
+          1
         );
         setSelectedAppointment(
           appointments.filter(
             (appointment) =>
-              new Date(appointment.date_time) >= currentDate &&
               new Date(appointment.date_time) <= nextMonth
           )
         );
@@ -127,7 +135,6 @@ const Appointment = ({
         setSelectedAppointment(
           appointments.filter(
             (appointment) =>
-              new Date(appointment.date_time) >= currentDate &&
               new Date(appointment.date_time).toDateString() === dateString
           )
         );
@@ -144,32 +151,6 @@ const Appointment = ({
   return (
     <div className="appointments-container">
       <h2 className="appointment-title">Provider Appointments</h2>
-      <div className="filter-buttons">
-        <Button
-          onClick={() => handleFilterChange("all")}
-          appearance={filterType === "all" ? "primary" : "default"}
-        >
-          All
-        </Button>
-        <Button
-          onClick={() => handleFilterChange("today")}
-          appearance={filterType === "today" ? "primary" : "default"}
-        >
-          Today
-        </Button>
-        <Button
-          onClick={() => handleFilterChange("thisWeek")}
-          appearance={filterType === "thisWeek" ? "primary" : "default"}
-        >
-          This Week
-        </Button>
-        <Button
-          onClick={() => handleFilterChange("thisMonth")}
-          appearance={filterType === "thisMonth" ? "primary" : "default"}
-        >
-          This Month
-        </Button>
-      </div>
       {loading ? (
         <h2 className="loading">Loading...</h2>
       ) : (
@@ -186,18 +167,20 @@ const Appointment = ({
                 const dateString = date.toDateString();
                 const appointmentsOnDate = appointments.filter(
                   (appointment) =>
-                    new Date(appointment.date_time) >= currentDate &&
                     new Date(appointment.date_time).toDateString() ===
                       dateString
                 );
                 const numberOfAppointments = appointmentsOnDate.length;
+                const isPastDate = appointmentsOnDate.some(
+                  (appointment) => new Date(appointment.date_time) < currentDate
+                );
                 if (appointmentsOnDate.length > 0) {
                   return (
                     <div
                       style={{
                         position: "relative",
                         padding: "5px",
-                        background: "#e6e6e6",
+                        background: isPastDate ? "#e6e6e6" : "#FFB6C1",
                         borderRadius: "5px",
                       }}
                     >
@@ -217,7 +200,33 @@ const Appointment = ({
               }}
             />
           </div>
-
+          <br />
+          <div className="filter-buttons">
+            <Button
+              onClick={() => handleFilterChange("upcoming")}
+              appearance={filterType === "upcoming" ? "primary" : "default"}
+            >
+              Upcoming
+            </Button>
+            <Button
+              onClick={() => handleFilterChange("today")}
+              appearance={filterType === "today" ? "primary" : "default"}
+            >
+              Today
+            </Button>
+            <Button
+              onClick={() => handleFilterChange("thisWeek")}
+              appearance={filterType === "thisWeek" ? "primary" : "default"}
+            >
+              This Week
+            </Button>
+            <Button
+              onClick={() => handleFilterChange("thisMonth")}
+              appearance={filterType === "thisMonth" ? "primary" : "default"}
+            >
+              This Month
+            </Button>
+          </div>
           {selectedAppointment.length > 0 && (
             <div className="upcoming-container">
               <h5>Appointments</h5>
