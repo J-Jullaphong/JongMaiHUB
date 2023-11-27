@@ -18,6 +18,8 @@ import MyAppointmentScreen from "./components/MyAppointmentScreen";
 import CustomerManagement from "./components/CustomerManagement";
 import AppointmentStaff from "./components/AppointmentStaff";
 import AppointmentProvider from "./components/AppointmentProvider";
+import AboutUsScreen from "./components/AboutUsScreen";
+import CreateProviderScreen from "./components/CreateProviderScreen";
 
 const App = () => {
   const user = User.getInstance();
@@ -152,6 +154,20 @@ const App = () => {
                 serviceData={serviceData}
                 customerData={customerData}
                 staffData={staffData}
+              />
+            }
+          />
+          <Route
+            path="/about-us"
+            element={
+              <AboutUsScreen             
+              />
+            }
+          />
+          <Route
+            path="/create-provider"
+            element={
+              <CreateProviderScreen             
               />
             }
           />
