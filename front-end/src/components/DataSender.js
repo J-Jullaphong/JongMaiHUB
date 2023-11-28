@@ -46,8 +46,12 @@ class DataSender extends Component {
   }
 
   async deleteData(type, key) {
+    const headers = {
+      headers: { Authorization: `Token ${process.env.REACT_APP_API_TOKEN}` },
+    };
+
     return await axios
-      .delete(`${this.state.api}${type}/${key}/`)
+      .delete(`${this.state.api}${type}/${key}/`, headers)
       .catch((error) => {
         console.log(error);
         throw error;
