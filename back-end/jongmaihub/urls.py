@@ -1,20 +1,21 @@
 from django.urls import path
-from . import views
+from .views import *
+
 
 app_name = 'jongmaihub'
 
 urlpatterns = [
-    path('service-provider/', views.ListServiceProvider.as_view()),
-    path('service-provider/<str:pk>/', views.DetailServiceProvider.as_view()),
-    path('service/', views.ListService.as_view()),
-    path('service/<int:pk>/', views.DetailService.as_view()),
-    path('staff/', views.ListStaff.as_view()),
-    path('staff/<str:pk>/', views.DetailStaff.as_view()),
-    path('customer/', views.ListCustomer.as_view()),
-    path('customer/<str:pk>/', views.DetailCustomer.as_view()),
-    path('appointment/', views.ListAppointment.as_view()),
-    path('appointment/<int:pk>/', views.DetailAppointment.as_view()),
-    path('rating/', views.ListRating.as_view()),
-    path('rating/<int:pk>/', views.DetailRating.as_view()),
-    path('appointments-provider/<str:provider_uid>/', views.ListAppointmentsByProvider.as_view()),
+    path('service-provider/', ListServiceProvider.as_view()),
+    path('service-provider/<str:pk>/', DetailServiceProvider.as_view()),
+    path('service/', ListService.as_view()),
+    path('service/<int:pk>/', DetailService.as_view()),
+    path('staff/', ListStaff.as_view()),
+    path('staff/<str:pk>/', DetailStaff.as_view()),
+    path('customer/', ListCustomer.as_view()),
+    path('customer/<str:pk>/', DetailCustomer.as_view()),
+    path('appointment/', ListAppointment.as_view()),
+    path('appointment/<int:pk>/', DetailAppointment.as_view()),
+    path('rating/', ListRating.as_view()),
+    path('rating/<int:pk>/', DetailRating.as_view()),
+    path('appointments-provider/<str:provider_uid>/', ListAppointmentsByProvider.as_view()),
 ]
